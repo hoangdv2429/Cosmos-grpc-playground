@@ -68,7 +68,6 @@ import * as _121 from "./nft/v1beta1/genesis";
 import * as _122 from "./nft/v1beta1/nft";
 import * as _123 from "./nft/v1beta1/query";
 import * as _124 from "./nft/v1beta1/tx";
-import * as _125 from "./orm/module/v1alpha1/module";
 import * as _126 from "./orm/v1/orm";
 import * as _127 from "./orm/v1alpha1/schema";
 import * as _128 from "./params/v1beta1/params";
@@ -377,16 +376,6 @@ export namespace cosmos {
       ..._395,
       ..._413,
       ..._428
-    };
-  }
-  export namespace orm {
-    export namespace module {
-      export const v1alpha1 = { ..._125
-      };
-    }
-    export const v1 = { ..._126
-    };
-    export const v1alpha1 = { ..._127
     };
   }
   export namespace params {

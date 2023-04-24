@@ -5,10 +5,10 @@ import { cosmos } from './outputv2';
 
 const main = async () => {
     const client = await cosmos.ClientFactory.createRPCQueryClient({
-        rpcEndpoint: 'http://cosmos-grpc.polkachu.com:14990'
+        rpcEndpoint: 'https://wgrpc.secret.express'
     });
     const data = await client.cosmos.bank.v1beta1.allBalances({
-        address: 'cosmos19crd4fwzm9qtf5ln5l3e2vmquhevjwprk8tgxp'
+        address: 'secret1snwxzm37zm7p75dneyzxm5wr9c6se0zs6zupxc'
     });
     console.log(data);
 
