@@ -20,5 +20,7 @@ export * from "./ibc/bundle";
 export * from "./ibc/client";
 export * from "./osmosis/bundle";
 export * from "./osmosis/client";
+export * from "./secret/bundle";
+export * from "./secret/client";
 export * from "./tendermint/bundle";
 export * from "./grpc-web";

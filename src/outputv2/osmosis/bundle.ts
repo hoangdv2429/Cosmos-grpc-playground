@@ -49,71 +49,71 @@ import * as _301 from "./txfees/v1beta1/feetoken";
 import * as _302 from "./txfees/v1beta1/genesis";
 import * as _303 from "./txfees/v1beta1/gov";
 import * as _304 from "./txfees/v1beta1/query";
-import * as _484 from "./gamm/pool-models/balancer/tx/tx.amino";
-import * as _485 from "./gamm/pool-models/stableswap/tx.amino";
-import * as _486 from "./gamm/v1beta1/tx.amino";
-import * as _487 from "./incentives/tx.amino";
-import * as _488 from "./lockup/tx.amino";
-import * as _489 from "./superfluid/tx.amino";
-import * as _490 from "./tokenfactory/v1beta1/tx.amino";
-import * as _491 from "./gamm/pool-models/balancer/tx/tx.registry";
-import * as _492 from "./gamm/pool-models/stableswap/tx.registry";
-import * as _493 from "./gamm/v1beta1/tx.registry";
-import * as _494 from "./incentives/tx.registry";
-import * as _495 from "./lockup/tx.registry";
-import * as _496 from "./superfluid/tx.registry";
-import * as _497 from "./tokenfactory/v1beta1/tx.registry";
-import * as _498 from "./claim/v1beta1/query.lcd";
-import * as _499 from "./epochs/query.lcd";
-import * as _500 from "./gamm/v1beta1/query.lcd";
-import * as _501 from "./gamm/v2/query.lcd";
-import * as _502 from "./ibc-rate-limit/v1beta1/query.lcd";
-import * as _503 from "./incentives/query.lcd";
-import * as _504 from "./lockup/query.lcd";
-import * as _505 from "./mint/v1beta1/query.lcd";
-import * as _506 from "./pool-incentives/v1beta1/query.lcd";
-import * as _507 from "./superfluid/query.lcd";
-import * as _508 from "./tokenfactory/v1beta1/query.lcd";
-import * as _509 from "./twap/v1beta1/query.lcd";
-import * as _510 from "./txfees/v1beta1/query.lcd";
-import * as _511 from "./claim/v1beta1/query.rpc.Query";
-import * as _512 from "./epochs/query.rpc.Query";
-import * as _513 from "./gamm/v1beta1/query.rpc.Query";
-import * as _514 from "./gamm/v2/query.rpc.Query";
-import * as _515 from "./ibc-rate-limit/v1beta1/query.rpc.Query";
-import * as _516 from "./incentives/query.rpc.Query";
-import * as _517 from "./lockup/query.rpc.Query";
-import * as _518 from "./mint/v1beta1/query.rpc.Query";
-import * as _519 from "./pool-incentives/v1beta1/query.rpc.Query";
-import * as _520 from "./superfluid/query.rpc.Query";
-import * as _521 from "./tokenfactory/v1beta1/query.rpc.Query";
-import * as _522 from "./twap/v1beta1/query.rpc.Query";
-import * as _523 from "./txfees/v1beta1/query.rpc.Query";
-import * as _524 from "./gamm/pool-models/balancer/tx/tx.rpc.msg";
-import * as _525 from "./gamm/pool-models/stableswap/tx.rpc.msg";
-import * as _526 from "./gamm/v1beta1/tx.rpc.msg";
-import * as _527 from "./incentives/tx.rpc.msg";
-import * as _528 from "./lockup/tx.rpc.msg";
-import * as _529 from "./superfluid/tx.rpc.msg";
-import * as _530 from "./tokenfactory/v1beta1/tx.rpc.msg";
-import * as _546 from "./lcd";
-import * as _547 from "./rpc.query";
-import * as _548 from "./rpc.tx";
+import * as _495 from "./gamm/pool-models/balancer/tx/tx.amino";
+import * as _496 from "./gamm/pool-models/stableswap/tx.amino";
+import * as _497 from "./gamm/v1beta1/tx.amino";
+import * as _498 from "./incentives/tx.amino";
+import * as _499 from "./lockup/tx.amino";
+import * as _500 from "./superfluid/tx.amino";
+import * as _501 from "./tokenfactory/v1beta1/tx.amino";
+import * as _502 from "./gamm/pool-models/balancer/tx/tx.registry";
+import * as _503 from "./gamm/pool-models/stableswap/tx.registry";
+import * as _504 from "./gamm/v1beta1/tx.registry";
+import * as _505 from "./incentives/tx.registry";
+import * as _506 from "./lockup/tx.registry";
+import * as _507 from "./superfluid/tx.registry";
+import * as _508 from "./tokenfactory/v1beta1/tx.registry";
+import * as _509 from "./claim/v1beta1/query.lcd";
+import * as _510 from "./epochs/query.lcd";
+import * as _511 from "./gamm/v1beta1/query.lcd";
+import * as _512 from "./gamm/v2/query.lcd";
+import * as _513 from "./ibc-rate-limit/v1beta1/query.lcd";
+import * as _514 from "./incentives/query.lcd";
+import * as _515 from "./lockup/query.lcd";
+import * as _516 from "./mint/v1beta1/query.lcd";
+import * as _517 from "./pool-incentives/v1beta1/query.lcd";
+import * as _518 from "./superfluid/query.lcd";
+import * as _519 from "./tokenfactory/v1beta1/query.lcd";
+import * as _520 from "./twap/v1beta1/query.lcd";
+import * as _521 from "./txfees/v1beta1/query.lcd";
+import * as _522 from "./claim/v1beta1/query.rpc.Query";
+import * as _523 from "./epochs/query.rpc.Query";
+import * as _524 from "./gamm/v1beta1/query.rpc.Query";
+import * as _525 from "./gamm/v2/query.rpc.Query";
+import * as _526 from "./ibc-rate-limit/v1beta1/query.rpc.Query";
+import * as _527 from "./incentives/query.rpc.Query";
+import * as _528 from "./lockup/query.rpc.Query";
+import * as _529 from "./mint/v1beta1/query.rpc.Query";
+import * as _530 from "./pool-incentives/v1beta1/query.rpc.Query";
+import * as _531 from "./superfluid/query.rpc.Query";
+import * as _532 from "./tokenfactory/v1beta1/query.rpc.Query";
+import * as _533 from "./twap/v1beta1/query.rpc.Query";
+import * as _534 from "./txfees/v1beta1/query.rpc.Query";
+import * as _535 from "./gamm/pool-models/balancer/tx/tx.rpc.msg";
+import * as _536 from "./gamm/pool-models/stableswap/tx.rpc.msg";
+import * as _537 from "./gamm/v1beta1/tx.rpc.msg";
+import * as _538 from "./incentives/tx.rpc.msg";
+import * as _539 from "./lockup/tx.rpc.msg";
+import * as _540 from "./superfluid/tx.rpc.msg";
+import * as _541 from "./tokenfactory/v1beta1/tx.rpc.msg";
+import * as _569 from "./lcd";
+import * as _570 from "./rpc.query";
+import * as _571 from "./rpc.tx";
 export namespace osmosis {
   export namespace claim {
     export const v1beta1 = { ..._254,
       ..._255,
       ..._256,
       ..._257,
-      ..._498,
-      ..._511
+      ..._509,
+      ..._522
     };
   }
   export namespace epochs {
     export const v1beta1 = { ..._258,
       ..._259,
-      ..._499,
-      ..._512
+      ..._510,
+      ..._523
     };
   }
   export namespace gamm {
@@ -121,39 +121,39 @@ export namespace osmosis {
       ..._261,
       ..._262,
       ..._263,
-      ..._486,
-      ..._493,
-      ..._500,
-      ..._513,
-      ..._526
+      ..._497,
+      ..._504,
+      ..._511,
+      ..._524,
+      ..._537
     };
     export namespace poolmodels {
       export namespace balancer {
         export const v1beta1 = { ..._264,
-          ..._484,
-          ..._491,
-          ..._524
+          ..._495,
+          ..._502,
+          ..._535
         };
       }
       export namespace stableswap {
         export const v1beta1 = { ..._265,
           ..._266,
-          ..._485,
-          ..._492,
-          ..._525
+          ..._496,
+          ..._503,
+          ..._536
         };
       }
     }
     export const v2 = { ..._267,
-      ..._501,
-      ..._514
+      ..._512,
+      ..._525
     };
   }
   export namespace ibcratelimit {
     export const v1beta1 = { ..._268,
       ..._269,
-      ..._502,
-      ..._515
+      ..._513,
+      ..._526
     };
   }
   export const incentives = { ..._270,
@@ -161,29 +161,29 @@ export namespace osmosis {
     ..._272,
     ..._273,
     ..._274,
-    ..._487,
-    ..._494,
-    ..._503,
-    ..._516,
-    ..._527
+    ..._498,
+    ..._505,
+    ..._514,
+    ..._527,
+    ..._538
   };
   export const lockup = { ..._275,
     ..._276,
     ..._277,
     ..._278,
     ..._279,
-    ..._488,
-    ..._495,
-    ..._504,
-    ..._517,
-    ..._528
+    ..._499,
+    ..._506,
+    ..._515,
+    ..._528,
+    ..._539
   };
   export namespace mint {
     export const v1beta1 = { ..._280,
       ..._281,
       ..._282,
-      ..._505,
-      ..._518
+      ..._516,
+      ..._529
     };
   }
   export namespace poolincentives {
@@ -191,8 +191,8 @@ export namespace osmosis {
       ..._284,
       ..._285,
       ..._286,
-      ..._506,
-      ..._519
+      ..._517,
+      ..._530
     };
   }
   export namespace store {
@@ -204,11 +204,11 @@ export namespace osmosis {
     ..._290,
     ..._291,
     ..._292,
-    ..._489,
-    ..._496,
+    ..._500,
     ..._507,
-    ..._520,
-    ..._529
+    ..._518,
+    ..._531,
+    ..._540
   };
   export namespace tokenfactory {
     export const v1beta1 = { ..._293,
@@ -216,19 +216,19 @@ export namespace osmosis {
       ..._295,
       ..._296,
       ..._297,
-      ..._490,
-      ..._497,
+      ..._501,
       ..._508,
-      ..._521,
-      ..._530
+      ..._519,
+      ..._532,
+      ..._541
     };
   }
   export namespace twap {
     export const v1beta1 = { ..._298,
       ..._299,
       ..._300,
-      ..._509,
-      ..._522
+      ..._520,
+      ..._533
     };
   }
   export namespace txfees {
@@ -236,12 +236,12 @@ export namespace osmosis {
       ..._302,
       ..._303,
       ..._304,
-      ..._510,
-      ..._523
+      ..._521,
+      ..._534
     };
   }
-  export const ClientFactory = { ..._546,
-    ..._547,
-    ..._548
+  export const ClientFactory = { ..._569,
+    ..._570,
+    ..._571
   };
 }
