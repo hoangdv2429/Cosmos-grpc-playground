@@ -6,14 +6,31 @@ export const createRPCQueryClient = async ({
 }: {
   rpcEndpoint: string;
 }) => {
+  let grpcWeb: GrpcWebImpl;
+  if (typeof document !== "undefined") {
+    // browser
+    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
+      transport: grpc.CrossBrowserHttpTransport({ withCredentials: false }),
+      // debug: true,
+    });
+  } else if (
+    typeof navigator !== "undefined" &&
+    navigator.product === "ReactNative"
+  ) {
+    // react-native
+    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
+      transport: NodeHttpTransport(),
+      // debug: true,
+    });
+  } else {
+    // node.js
+    console.log('node.js')
+    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
+      transport: NodeHttpTransport(),
+      // debug: true,
+    });
+  }
 
-  let grpcWeb: GrpcWebImpl
-  grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-    transport: NodeHttpTransport(),
-    // debug: true,
-  })
-  // const tmClient = await Tendermint34Client.connect(rpcEndpoint);
-  // const client = new QueryClient(tmClient);
   return {
     cosmos: {
       app: {
