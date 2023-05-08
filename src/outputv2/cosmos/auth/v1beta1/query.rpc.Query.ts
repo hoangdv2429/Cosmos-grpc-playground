@@ -45,9 +45,7 @@ export class QueryClientImpl implements Query {
     this.addressStringToBytes = this.addressStringToBytes.bind(this);
   }
 
-  accounts(request: DeepPartial<QueryAccountsRequest> = {
-    pagination: undefined
-  }, metadata?: grpc.Metadata): Promise<QueryAccountsResponse> {
+  accounts(request: DeepPartial<QueryAccountsRequest>, metadata?: grpc.Metadata): Promise<QueryAccountsResponse> {
     return this.rpc.unary(QueryAccountsDesc, QueryAccountsRequest.fromPartial(request), metadata);
   }
 

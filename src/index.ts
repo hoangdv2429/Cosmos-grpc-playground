@@ -2,8 +2,7 @@ export * from './codegen_tm';
 import { chains } from 'chain-registry';
 // import { osmosis } from './codegen_tm';
 import { getOfflineSignerAmino as getOfflineSigner } from 'cosmjs-utils';
-import { cosmos, secret } from './outputv2';
-import { SigningStargateClient } from '@cosmjs/stargate';
+import { cosmos, osmosis, secret } from './outputv2';
 import { StdFee, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { fromBase64, toBase64 } from '@cosmjs/encoding';
 import { Long } from './outputv2/helpers';
@@ -316,98 +315,96 @@ async function signAmino(
 const main = async () => {
     
     //query client
-    const client = await secret.ClientFactory.createRPCQueryClient({
-        rpcEndpoint: 'https://grpc.testnet.secretsaturn.net'
+    const client = await osmosis.ClientFactory.createRPCQueryClient({
+        // rpcEndpoint: 'https://grpc.testnet.secretsaturn.net'
+        rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
+        // rpcEndpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        // rpcEndpoint: 'http://localhost:1317'
     });
     // get signer data
-    const account = await client.cosmos.auth.v1beta1.account({
-        address: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk',
-      });
-    const baseAccount =
-      account.account as import("./outputv2/cosmos/auth/v1beta1/auth").BaseAccount;
-    const signerData = {
-      accountNumber: Number(baseAccount.accountNumber),
-      sequence: Number(baseAccount.sequence),
-      chainId: 'pulsar-2',
-    };
+    // const account = await client.cosmos.auth.v1beta1.account({
+    //     // address: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk',
+        // address: 'juno1vjrx0lks65yefnsz4xk92vugda2z25esjfhlxa'
+    //     // address: 'osmo19crd4fwzm9qtf5ln5l3e2vmquhevjwpr7uccsn'
+    //     // address: 'cosmos1xpvhjypxz2p8t3zgwngq7k623r6allrp9xm2zw'
+    //   });
+    
+    // console.log(account)
+    // const baseAccount =
+    //   account.account as import("./outputv2/cosmos/auth/v1beta1/auth").BaseAccount;
+    // const signerData = {
+    //   accountNumber: Number(baseAccount.accountNumber),
+    //   sequence: Number(baseAccount.sequence),
+    //   chainId: 'pulsar-2',
+    //   // chainId: 'osmosis-1'
+    // };
 
     const data = await client.cosmos.bank.v1beta1.allBalances({
-        address: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
+        // address: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
+        address: 'juno1xa382g55fvyyp3rmdsk548qpdzmh6p37rmaa5t'
     });
-    // console.log('Before: ', data);
+    console.log('Before: ', data);
 
-    const mnemonic =
-    'chef pigeon panic shadow tool picnic soda axis display element gadget finger';
-    const chain = chains.find(({ chain_name }) => chain_name === 'secretnetwork');
-    // console.log('chain: ', chain);
+    // const mnemonic =
+    // 'chef pigeon panic shadow tool picnic soda axis display element gadget finger';
+    // const chain = chains.find(({ chain_name }) => chain_name === 'secretnetwork');
+    // // console.log('chain: ', chain);
     
-    // get AminoSigner and then cast it into offlineWallet to broadcast later
-    const signer = await getOfflineSigner({
-        mnemonic,
-        chain
-    });
+    // // get AminoSigner and then cast it into offlineWallet to broadcast later
+    // const signer = await getOfflineSigner({
+    //     mnemonic,
+    //     chain
+    // });
 
-    // console.log('offline signer: ', await signer.getAccounts());
+    // // console.log('offline signer: ', await signer.getAccounts());
     
-    //sign not working on offlineSigner
-    // const offlineSigner = await SigningStargateClient.offline(signer);
+    // //sign not working on offlineSigner
+    // // const offlineSigner = await SigningStargateClient.offline(signer);
 
-    // NOT WORKING because StargateClient doesn't work with Grpc-web endpoint
-    // const tx_client = await getSigningSecretClient({
-    //     rpcEndpoint: 'https://grpc.testnet.secretsaturn.net',
-    //     signer
-    // })
-
-    const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-    const msg = send({
-        amount: [
-        {
-            denom: 'uscrt',
-            amount: '1000'
-        }
-        ],
-        toAddress: 'secret1e8sw7zztd2nzgtxp6mc3fz4z8va2e4lewxspwg',
-        fromAddress: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
-    });
-
-    const fee = {
-        amount: [
-            {
-                denom: 'uscrt',
-                amount: '20000'
-            }
-            ],
-            gas: '80000'
-    }
-    const account_data = await signer.getAccounts();
-    console.log(account_data[0].address);
-    
-    const signed_tx = await signAmino(signer, account_data[0], msg as any, fee, 'so tired', signerData);
-    console.log(signed_tx);
-    
-
-
-    // console.log(signed_tx);
-    
-
-    // const res = await txClient.cosmos.bank.v1beta1.send(
+    // const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+    // const msg = send({
+    //     amount: [
     //     {
-    //         amount: [
-    //             {
-    //                 denom: 'uscrt',
-    //                 amount: '1000'
-    //             }
-    //             ],
-    //             toAddress: 'secret1e8sw7zztd2nzgtxp6mc3fz4z8va2e4lewxspwg',
-    //             fromAddress: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
+    //         denom: 'uscrt',
+    //         amount: '1000'
     //     }
-    // )
+    //     ],
+    //     toAddress: 'secret1e8sw7zztd2nzgtxp6mc3fz4z8va2e4lewxspwg',
+    //     fromAddress: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
+    // });
 
-    // const res = await client.cosmos.tx.v1beta1.broadcastTx(
-    //     signed_tx
-    // )
+    // const fee = {
+    //     amount: [
+    //         {
+    //             denom: 'uscrt',
+    //             amount: '20000'
+    //         }
+    //         ],
+    //         gas: '80000'
+    // }
+    // const account_data = await signer.getAccounts();
     
-    // console.log(res);
+    // // still cannnot sign
+    // // const signed_tx = await signAmino(signer, account_data[0], msg as any, fee, 'so tired', signerData);
+    // // console.log(signed_tx);
+    
+    // // const res = await txClient.cosmos.bank.v1beta1.send(
+    // //     {
+    // //         amount: [
+    // //             {
+    // //                 denom: 'uscrt',
+    // //                 amount: '1000'
+    // //             }
+    // //             ],
+    // //             toAddress: 'secret1e8sw7zztd2nzgtxp6mc3fz4z8va2e4lewxspwg',
+    // //             fromAddress: 'secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk'
+    // //     }
+    // // )
+
+    // // const res = await client.cosmos.tx.v1beta1.broadcastTx(  
+    // // )
+    
+    // // console.log(res);
     
 
 }

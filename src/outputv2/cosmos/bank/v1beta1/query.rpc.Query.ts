@@ -134,9 +134,9 @@ export const QueryAllBalancesDesc: UnaryMethodDefinitionish = {
   responseStream: false,
   requestType: ({
     serializeBinary() {
+      console.log(QueryAllBalancesRequest.encode(this).finish());
       return QueryAllBalancesRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
