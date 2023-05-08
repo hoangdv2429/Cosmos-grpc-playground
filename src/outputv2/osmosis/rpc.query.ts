@@ -2,103 +2,11 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
 import { GrpcWebImpl } from '../../outputv2/ibc/core/channel/v1/tx.rpc.msg';
 
-export type Querier = {
-    cosmos: {
-      app: {
-        v1alpha1: import("../cosmos/app/v1alpha1/query.rpc.Query").Query
-      },
-      auth: {
-        v1beta1: import("../cosmos/auth/v1beta1/query.rpc.Query").Query
-      },
-      authz: {
-        v1beta1: import("../cosmos/authz/v1beta1/query.rpc.Query").Query
-      },
-      bank: {
-        v1beta1: import("../cosmos/bank/v1beta1/query.rpc.Query").Query
-      },
-      base: {
-        tendermint: {
-          v1beta1: import("../cosmos/base/tendermint/v1beta1/query.rpc.Service").Service
-        }
-      },
-      distribution: {
-        v1beta1: import("../cosmos/distribution/v1beta1/query.rpc.Query").Query
-      },
-      evidence: {
-        v1beta1: import("../cosmos/evidence/v1beta1/query.rpc.Query").Query
-      },
-      feegrant: {
-        v1beta1: import("../cosmos/feegrant/v1beta1/query.rpc.Query").Query
-      },
-      gov: {
-        v1: import("../cosmos/gov/v1/query.rpc.Query").Query,
-        v1beta1: import("../cosmos/gov/v1beta1/query.rpc.Query").Query
-      },
-      group: {
-        v1: import("../cosmos/group/v1/query.rpc.Query").Query
-      },
-      mint: {
-        v1beta1: import("../cosmos/mint/v1beta1/query.rpc.Query").Query
-      },
-      nft: {
-        v1beta1: import("../cosmos/nft/v1beta1/query.rpc.Query").Query
-      },
-      params: {
-        v1beta1: import("../cosmos/params/v1beta1/query.rpc.Query").Query
-      },
-      slashing: {
-        v1beta1: import("../cosmos/slashing/v1beta1/query.rpc.Query").Query
-      },
-      staking: {
-        v1beta1: import("../cosmos/staking/v1beta1/query.rpc.Query").Query
-      },
-      tx: {
-        v1beta1: import("../cosmos/tx/v1beta1/service.rpc.Service").Service
-      },
-      upgrade: {
-        v1beta1: import("../cosmos/upgrade/v1beta1/query.rpc.Query").Query
-      }
-    },
-    osmosis: {
-      claim: {
-        v1beta1: import("./claim/v1beta1/query.rpc.Query").Query
-      },
-      epochs: {
-        v1beta1: import("./epochs/query.rpc.Query").Query
-      },
-      gamm: {
-        v1beta1: import("./gamm/v1beta1/query.rpc.Query").Query,
-        v2: import("./gamm/v2/query.rpc.Query").Query
-      },
-      ibcratelimit: {
-        v1beta1: import("./ibc-rate-limit/v1beta1/query.rpc.Query").Query
-      },
-      incentives: import("./incentives/query.rpc.Query").Query,
-      lockup: import("./lockup/query.rpc.Query").Query,
-      mint: {
-        v1beta1: import("./mint/v1beta1/query.rpc.Query").Query
-      },
-      poolincentives: {
-        v1beta1: import("./pool-incentives/v1beta1/query.rpc.Query").Query
-      },
-      superfluid: import("./superfluid/query.rpc.Query").Query,
-      tokenfactory: {
-        v1beta1: import("./tokenfactory/v1beta1/query.rpc.Query").Query
-      },
-      twap: {
-        v1beta1: import("./twap/v1beta1/query.rpc.Query").Query
-      },
-      txfees: {
-        v1beta1: import("./txfees/v1beta1/query.rpc.Query").Query
-      }
-    }
-  };
-
 export const createRPCQueryClient = async ({
   rpcEndpoint
 }: {
   rpcEndpoint: string;
-}): Promise<Querier> => {
+}) => {
 
   rpcEndpoint = rpcEndpoint.replace(/\/*$/, "");
   console.log(rpcEndpoint);
