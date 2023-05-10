@@ -1,6 +1,5 @@
 import { grpc } from "@improbable-eng/grpc-web";
-import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
-import { GrpcWebImpl } from '../../outputv2/ibc/core/channel/v1/tx.rpc.msg';
+import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport"; //lat nua add cai nay vao util
 
 export const createRPCQueryClient = async ({
   rpcEndpoint
@@ -9,10 +8,8 @@ export const createRPCQueryClient = async ({
 }) => {
 
   rpcEndpoint = rpcEndpoint.replace(/\/*$/, "");
-  console.log(rpcEndpoint);
-  
-
-  let grpcWeb: GrpcWebImpl;
+  const { GrpcWebImpl } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
+  let grpcWeb;
 
   if (typeof document !== "undefined") {
     // browser
