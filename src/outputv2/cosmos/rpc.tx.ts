@@ -1,5 +1,4 @@
 import { grpc } from "@improbable-eng/grpc-web";
-import { ServiceClientImpl } from "./tx/v1beta1/service.rpc.Service";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
 import { GrpcWebImpl } from "./app/v1alpha1/query.rpc.Query";
 export const createRPCMsgClient = async ({

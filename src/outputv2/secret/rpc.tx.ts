@@ -31,8 +31,6 @@ export const createRPCMsgClient = async ({
     });
   }
 
-  const txService = new ServiceClientImpl(grpcWeb);
-
   return {
   cosmos: {
     authz: {
