@@ -8,9 +8,10 @@ import { fromBase64, toBase64 } from '@cosmjs/encoding';
 import { Long } from './outputv2/helpers';
 import { Coin } from '@cosmjs/stargate';
 import { AminoMsg } from '@cosmjs/amino';
-import { getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
+import { akash, getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
 import { TxRaw } from './outputv2/cosmos/tx/v1beta1/tx';
 import { BroadcastMode } from './codegen_tm/cosmos/tx/v1beta1/service';
+import { useRpcEndpoint } from './outputv2/react-query';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -21,12 +22,20 @@ const main = async () => {
     const client = await osmosis.ClientFactory.createRPCQueryClient({
         // rpcEndpoint: 'https://grpc.testnet.secretsaturn.net'
         // rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
+        // ✨  Done in 28.57s.
+        // ✨  Done in 36.97s
         rpcEndpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        // ✨  Done in 52.69s.
+        // ✨  Done in 43.94s.
+        // rpcEndpoint: 'https://osmosis-rpc.polkachu.com'
     });
 
     //connect and get node_info
-    const nodeInfo = await client.cosmos.base.tendermint.v1beta1.getNodeInfo();
-    console.log(nodeInfo);
+    // for (let index = 0; index < 50; index++) {
+        const nodeInfo = await client.cosmos.base.tendermint.v1beta1.getNodeInfo();
+        console.log(nodeInfo);
+        // console.log(index);
+    // }
 
     // get signer data
     const account = await client.cosmos.auth.v1beta1.account({
@@ -95,8 +104,8 @@ const main = async () => {
             gas: '86364'
     }
 
-    // const account_data = await signer.getAccounts();
-    // console.log(account_data);
+    const account_data = await signer.getAccounts();
+    console.log(account_data);
     
     // uncomment the following snippet to send transaction
     // const signed_tx = await signClient.sign('osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99', [msg], fee, 'grpc webbbbbb', signerData);
