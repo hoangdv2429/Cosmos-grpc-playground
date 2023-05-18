@@ -1,6 +1,6 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
-import { GrpcWebImpl } from '../../outputv2/ibc/core/channel/v1/tx.rpc.msg';
+import { GrpcWebImpl } from '../ibc/core/channel/v1/tx.rpc.msg';
 
 export const createRPCQueryClient = async ({
   rpcEndpoint

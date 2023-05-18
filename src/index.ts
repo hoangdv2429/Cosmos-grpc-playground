@@ -2,16 +2,16 @@ export * from './codegen_tm';
 import { chains } from 'chain-registry';
 // import { osmosis } from './codegen_tm';
 import { getOfflineSignerProto as getOfflineSigner } from 'cosmjs-utils';
-import { cosmos, osmosis, secret } from './outputv2';
+import { cosmos, osmosis, secret } from './codegen_grpc_web';
 import { StdFee, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { fromBase64, toBase64 } from '@cosmjs/encoding';
-import { Long } from './outputv2/helpers';
+import { Long } from './codegen_grpc_web/helpers';
 import { Coin } from '@cosmjs/stargate';
 import { AminoMsg } from '@cosmjs/amino';
 import { akash, getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
-import { TxRaw } from './outputv2/cosmos/tx/v1beta1/tx';
+import { TxRaw } from './codegen_grpc_web/cosmos/tx/v1beta1/tx';
 import { BroadcastMode } from './codegen_tm/cosmos/tx/v1beta1/service';
-import { useRpcEndpoint } from './outputv2/react-query';
+import { useRpcEndpoint } from './codegen_grpc_web/react-query';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -47,7 +47,7 @@ const main = async () => {
     console.log(account)
 
     const baseAccount =
-      account.account as import("./outputv2/cosmos/auth/v1beta1/auth").BaseAccount;
+      account.account as import("./codegen_grpc_web/cosmos/auth/v1beta1/auth").BaseAccount;
     const signerData = {
       accountNumber: Number(baseAccount.accountNumber),
       sequence: Number(baseAccount.sequence),
