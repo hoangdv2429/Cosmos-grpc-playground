@@ -1,17 +1,11 @@
 export * from './codegen_tm';
 import { chains } from 'chain-registry';
-// import { osmosis } from './codegen_tm';
 import { getOfflineSignerProto as getOfflineSigner } from 'cosmjs-utils';
-import { cosmos, osmosis, secret } from './codegen_grpc_web';
-import { StdFee, StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { cosmos, osmosis } from './codegen_grpc_gateway';
 import { fromBase64, toBase64 } from '@cosmjs/encoding';
-import { Long } from './codegen_grpc_web/helpers';
-import { Coin } from '@cosmjs/stargate';
-import { AminoMsg } from '@cosmjs/amino';
 import { akash, getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
 import { TxRaw } from './codegen_grpc_web/cosmos/tx/v1beta1/tx';
 import { BroadcastMode } from './codegen_tm/cosmos/tx/v1beta1/service';
-import { useRpcEndpoint } from './codegen_grpc_web/react-query';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -24,18 +18,18 @@ const main = async () => {
         // rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
         // ✨  Done in 28.57s.
         // ✨  Done in 36.97s
-        rpcEndpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        // rpcEndpoint: 'https://osmosis-grpc-web.polkachu.com/'
         // ✨  Done in 52.69s.
         // ✨  Done in 43.94s.
         // rpcEndpoint: 'https://osmosis-rpc.polkachu.com'
+        url: 'https://lcd.osmosis.zone/'
     });
 
-    //connect and get node_info
-    // for (let index = 0; index < 50; index++) {
-        const nodeInfo = await client.cosmos.base.tendermint.v1beta1.getNodeInfo();
-        console.log(nodeInfo);
-        // console.log(index);
-    // }
+    //get grpc-gateway Query class
+    const Query = await client.cosmos.auth.v1beta1.account({address: 'osmo19crd4fwzm9qtf5ln5l3e2vmquhevjwpr7uccsn'});
+    console.log(Query);
+    
+    return;
 
     // get signer data
     const account = await client.cosmos.auth.v1beta1.account({
@@ -107,10 +101,12 @@ const main = async () => {
     const account_data = await signer.getAccounts();
     console.log(account_data);
     
+    
+    const signed_tx = await signClient.sign('osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99', [msg], fee, 'grpc webbbbbb', signerData);
+    console.log(signed_tx);
+    const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
+
     // uncomment the following snippet to send transaction
-    // const signed_tx = await signClient.sign('osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99', [msg], fee, 'grpc webbbbbb', signerData);
-    // console.log(signed_tx);
-    // const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
     // const res = await client.cosmos.tx.v1beta1.broadcastTx(  
     //   {
     //     txBytes: txRawBytes,

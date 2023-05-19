@@ -94,6 +94,7 @@
     "@osmonauts/lcd": "^0.10.0",
     "chain-registry": "^1.13.0",
     "cosmjs-utils": "^0.1.0",
+    "fm": "^0.8.0",
     "protobufjs": "^6.11.3"
   }
 }
