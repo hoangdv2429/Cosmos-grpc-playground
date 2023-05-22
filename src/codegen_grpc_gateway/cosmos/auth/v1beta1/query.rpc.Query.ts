@@ -3,13 +3,6 @@ import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf
 import { Params, ParamsSDKType, BaseAccount, BaseAccountSDKType, ModuleAccount, ModuleAccountSDKType } from "./auth";
 import * as fm from "../../../grpc-gateway";
 import { QueryAccountsRequest, QueryAccountsRequestSDKType, QueryAccountsResponse, QueryAccountsResponseSDKType, QueryAccountRequest, QueryAccountRequestSDKType, QueryAccountResponse, QueryAccountResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryModuleAccountsRequest, QueryModuleAccountsRequestSDKType, QueryModuleAccountsResponse, QueryModuleAccountsResponseSDKType, Bech32PrefixRequest, Bech32PrefixRequestSDKType, Bech32PrefixResponse, Bech32PrefixResponseSDKType, AddressBytesToStringRequest, AddressBytesToStringRequestSDKType, AddressBytesToStringResponse, AddressBytesToStringResponseSDKType, AddressStringToBytesRequest, AddressStringToBytesRequestSDKType, AddressStringToBytesResponse, AddressStringToBytesResponseSDKType } from "./query";
-import { BaseVestingAccount } from "../../vesting/v1beta1/vesting";
-export type Account = {
-  "@type":
-    | "/cosmos.auth.v1beta1.BaseAccount"
-    | "/cosmos.auth.v1beta1.ModuleAccount"
-    | "/cosmos.vesting.v1beta1.BaseVestingAccount";
-} & (BaseAccount | ModuleAccount | BaseVestingAccount);
 export class Query {
   /**
    * Accounts returns all the existing accounts
@@ -79,45 +72,62 @@ export class Query {
     });
   }
 }
-
-export class AuthQuerier {
-  private readonly url : string
+export class Querier {
+  private readonly url: string;
   constructor(url: string) {
     this.url = url;
   }
-
-  async accounts(
-    req: QueryAccountsRequest,
-    headers?: HeadersInit,
-  ): Promise<{
-    accounts?: Account[];
-    pagination?: PageResponse;
-  }> {
-    //@ts-ignore
+  /**
+   * Accounts returns all the existing accounts
+   * 
+   * Since: cosmos-sdk 0.43
+   */
+  async Accounts(req: QueryAccountsRequest, headers?: HeadersInit): Promise<QueryAccountsResponse> {
     return Query.Accounts(req, {
       headers,
-      pathPrefix: this.url,
+      pathPrefix: this.url
     });
   }
-
-  async account(
-    req: QueryAccountRequest,
-    headers?: HeadersInit,
-  ): Promise<{ account?: Account }> {
-    //@ts-ignore
+  /** Account returns account details based on address. */
+  async Account(req: QueryAccountRequest, headers?: HeadersInit): Promise<QueryAccountResponse> {
     return Query.Account(req, {
       headers,
-      pathPrefix: this.url,
+      pathPrefix: this.url
     });
   }
-
-  async params(
-    req: QueryParamsRequest,
-    headers?: HeadersInit,
-  ): Promise<QueryParamsResponse> {
+  /** Params queries all parameters. */
+  async Params(req: QueryParamsRequest, headers?: HeadersInit): Promise<QueryParamsResponse> {
     return Query.Params(req, {
       headers,
-      pathPrefix: this.url,
+      pathPrefix: this.url
+    });
+  }
+  /** ModuleAccounts returns all the existing module accounts. */
+  async ModuleAccounts(req: QueryModuleAccountsRequest, headers?: HeadersInit): Promise<QueryModuleAccountsResponse> {
+    return Query.ModuleAccounts(req, {
+      headers,
+      pathPrefix: this.url
+    });
+  }
+  /** Bech32 queries bech32Prefix */
+  async Bech32Prefix(req: Bech32PrefixRequest, headers?: HeadersInit): Promise<Bech32PrefixResponse> {
+    return Query.Bech32Prefix(req, {
+      headers,
+      pathPrefix: this.url
+    });
+  }
+  /** AddressBytesToString converts Account Address bytes to string */
+  async AddressBytesToString(req: AddressBytesToStringRequest, headers?: HeadersInit): Promise<AddressBytesToStringResponse> {
+    return Query.AddressBytesToString(req, {
+      headers,
+      pathPrefix: this.url
+    });
+  }
+  /** AddressStringToBytes converts Address string to bytes */
+  async AddressStringToBytes(req: AddressStringToBytesRequest, headers?: HeadersInit): Promise<AddressStringToBytesResponse> {
+    return Query.AddressStringToBytes(req, {
+      headers,
+      pathPrefix: this.url
     });
   }
 }

@@ -13,6 +13,13 @@
 // Base64 encoding table
 const b64 = new Array(64);
 
+// Base64 decoding table
+const s64 = new Array(123);
+
+// 65..90, 97..122, 48..57, 43, 47
+for (let i = 0; i < 64;)
+    s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
+
 export interface InitReq extends RequestInit {
   pathPrefix?: string
 }
@@ -77,7 +84,10 @@ export function fetchReq<I, O>(path: string, init?: InitReq): Promise<O> {
   const url = pathPrefix ? `${pathPrefix}${path}` : path
 
   return fetch(url, req).then(r => r.json().then((body: O) => {
-    if (!r.ok) { throw body; }
+    if (!r.ok) { 
+      console.log(">>>>", body);
+      
+      throw body; }
     return body;
   })) as Promise<O>
 }
