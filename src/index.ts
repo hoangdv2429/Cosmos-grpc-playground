@@ -33,19 +33,21 @@ const main = async () => {
     const account = await client.cosmos.auth.v1beta1.Account({
         address: address_
       });
-    console.log(account)
+    console.log(account);
 
-    const baseAccount =
-      account.account as import("./codegen_grpc_gateway/cosmos/auth/v1beta1/auth").BaseAccount;
+    const baseAccount = account.account 
+    //   as import("./codegen_grpc_gateway/cosmos/auth/v1beta1/auth").BaseAccount;
     
     const signerData = {
-      accountNumber: Number('843193'),
+      accountNumber: Number(baseAccount.account_number),
       sequence: Number(baseAccount.sequence),
     //   chainId: 'pulsar-2',
       chainId: 'osmosis-1'
     };
-    console.log(signerData);
-    
+    if (!signerData.accountNumber || !signerData.sequence) {
+        console.log('error getting signer data!!');
+        return;    
+    }
 
     const data = await client.cosmos.bank.v1beta1.AllBalances({
         address: address_  
@@ -99,14 +101,14 @@ const main = async () => {
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
 
     // uncomment the following snippet to send transaction
-    const res = await client.cosmos.tx.v1beta1.BroadcastTx(  
-      {
-        txBytes: txRawBytes,
-        mode: BroadcastMode.BROADCAST_MODE_BLOCK
-      }
-    )
+    // const res = await client.cosmos.tx.v1beta1.BroadcastTx(  
+    //   {
+    //     txBytes: txRawBytes,
+    //     mode: BroadcastMode.BROADCAST_MODE_BLOCK
+    //   }
+    // )
     
-    console.log(res);
+    // console.log(res);
 
 }
 
