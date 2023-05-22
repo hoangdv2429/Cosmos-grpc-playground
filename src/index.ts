@@ -37,14 +37,15 @@ const main = async () => {
 
     const baseAccount =
       account.account as import("./codegen_grpc_gateway/cosmos/auth/v1beta1/auth").BaseAccount;
-    console.log("base account: ", account);
     
     const signerData = {
-      accountNumber: Number(baseAccount.accountNumber),
+      accountNumber: Number('843193'),
       sequence: Number(baseAccount.sequence),
     //   chainId: 'pulsar-2',
       chainId: 'osmosis-1'
     };
+    console.log(signerData);
+    
 
     const data = await client.cosmos.bank.v1beta1.AllBalances({
         address: address_  
@@ -54,7 +55,6 @@ const main = async () => {
     const mnemonic =
     'chef pigeon panic shadow tool picnic soda axis display element gadget finger';
     const chain = chains.find(({ chain_name }) => chain_name === 'osmosis');
-    console.log('chain: ', chain);
     
     // get proto offline signer
     const signer = await getOfflineSigner({
@@ -74,7 +74,7 @@ const main = async () => {
         amount: [
         {
             denom: 'uosmo',
-            amount: '100'
+            amount: '1000'
         }
         ],
         toAddress: address_,
@@ -94,8 +94,7 @@ const main = async () => {
     const account_data = await signer.getAccounts();
     console.log(account_data);
     
-    
-    const signed_tx = await signClient.sign(address_, [msg], fee, 'grpc webbbbbb', signerData);
+    const signed_tx = await signClient.sign(address_, [msg], fee, 'grpc gateway', signerData);
     console.log(signed_tx);
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
 
