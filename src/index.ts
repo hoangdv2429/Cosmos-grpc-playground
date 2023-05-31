@@ -6,11 +6,18 @@ import { fromBase64, toBase64 } from '@cosmjs/encoding';
 import { akash, getSigningCosmosClient, getSigningOsmosisClient } from './codegen_grpc_gateway';
 import { TxRaw } from './codegen_grpc_gateway/cosmos/tx/v1beta1/tx';
 import { BroadcastMode } from './codegen_grpc_gateway/cosmos/tx/v1beta1/service';
+import OsmosisWebSocket from './codegen_grpc_gateway/ws';
 
 //transaction transition is sign => encode => broadcast 
 
 
 const main = async () => {
+  const params = ["tm.event='NewBlock'"]
+  const method = "subscribe"
+  new OsmosisWebSocket('wss://rpc.osmosis.zone/websocket', method, params, 1 );
+
+  return;
+  
 
     // const address_ = "secret1wwp2e8hn70kqkkqcf2r4z2km7tse6nwdg96qlk"
     const address_ = "osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99"
@@ -30,7 +37,7 @@ const main = async () => {
     });
 
     // get signer data
-    const account = await client.cosmos.auth.v1beta1.Account({
+    const account = await client.cosmos.auth.v1beta1.account({
         address: address_
       });
     console.log(account);
@@ -49,7 +56,7 @@ const main = async () => {
         return;    
     }
 
-    const data = await client.cosmos.bank.v1beta1.AllBalances({
+    const data = await client.cosmos.bank.v1beta1.allBalances({
         address: address_  
     });
     console.log('Before: ', data);
@@ -101,14 +108,14 @@ const main = async () => {
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
 
     // uncomment the following snippet to send transaction
-    // const res = await client.cosmos.tx.v1beta1.BroadcastTx(  
-    //   {
-    //     txBytes: txRawBytes,
-    //     mode: BroadcastMode.BROADCAST_MODE_BLOCK
-    //   }
-    // )
+    const res = await client.cosmos.tx.v1beta1.broadcastTx(  
+      {
+        txBytes: txRawBytes,
+        mode: BroadcastMode.BROADCAST_MODE_BLOCK
+      }
+    )
     
-    // console.log(res);
+    console.log(res);
 
 }
 
