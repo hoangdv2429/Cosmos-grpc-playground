@@ -1,44 +1,34 @@
 import { grpc } from "@improbable-eng/grpc-web";
-import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport"; //lat nua add cai nay vao util
-
-export const createRPCQueryClient = async ({
-  rpcEndpoint
+import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
+export const createGrpcWebClient = async ({
+  endpoint
 }: {
-  rpcEndpoint: string;
+  endpoint: string;
 }) => {
-
-  rpcEndpoint = rpcEndpoint.replace(/\/*$/, "");
-  const { GrpcWebImpl } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
+  endpoint = endpoint.replace(/\/*$/, "");
+  const {
+    GrpcWebImpl
+  } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
   let grpcWeb;
-
   if (typeof document !== "undefined") {
-    // browser
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: grpc.CrossBrowserHttpTransport({ withCredentials: false }),
-      // debug: true,
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: grpc.CrossBrowserHttpTransport({
+        withCredentials: false
+      })
     });
-  } else if (
-    typeof navigator !== "undefined" &&
-    navigator.product === "ReactNative"
-  ) {
-    // react-native
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: NodeHttpTransport(),
-      // debug: true,
+  } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: NodeHttpTransport()
     });
   } else {
-    // node.js
-    console.log('node.js');
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: NodeHttpTransport(),
-      // debug: true,
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: NodeHttpTransport()
     });
   }
-
   return {
     cosmos: {
       app: {
-        v1alpha1: new(await import("../cosmos/app/v1alpha1/query.rpc.Query")).QueryClientImpl(grpcWeb)
+        v1alpha1: new (await import("../cosmos/app/v1alpha1/query.rpc.Query")).QueryClientImpl(grpcWeb)
       },
       auth: {
         v1beta1: new (await import("../cosmos/auth/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)

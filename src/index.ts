@@ -2,16 +2,10 @@ export * from './codegen_tm';
 import { chains } from 'chain-registry';
 // import { osmosis } from './codegen_tm';
 import { getOfflineSignerProto as getOfflineSigner } from 'cosmjs-utils';
-import { cosmos, osmosis, secret } from './codegen_grpc_web';
+import { cosmos, osmosis } from './codegen_grpc_web';
 import { StdFee, StdSignDoc, StdSignature } from '@cosmjs/amino';
-import { fromBase64, toBase64 } from '@cosmjs/encoding';
-import { Long } from './codegen_grpc_web/helpers';
-import { Coin } from '@cosmjs/stargate';
-import { AminoMsg } from '@cosmjs/amino';
-import { akash, getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
-import { TxRaw } from './codegen_grpc_web/cosmos/tx/v1beta1/tx';
+import { getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
 import { BroadcastMode } from './codegen_tm/cosmos/tx/v1beta1/service';
-import { useRpcEndpoint } from './codegen_grpc_web/react-query';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -19,12 +13,12 @@ import { useRpcEndpoint } from './codegen_grpc_web/react-query';
 const main = async () => {
     
     //create gRPC-web client
-    const client = await osmosis.ClientFactory.createRPCQueryClient({
+    const client = await osmosis.ClientFactory.createGrpcWebClient({
         // rpcEndpoint: 'https://grpc.testnet.secretsaturn.net'
         // rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
         // ✨  Done in 28.57s.
         // ✨  Done in 36.97s
-        rpcEndpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        endpoint: 'https://osmosis-grpc-web.polkachu.com/'
         // ✨  Done in 52.69s.
         // ✨  Done in 43.94s.
         // rpcEndpoint: 'https://osmosis-rpc.polkachu.com'

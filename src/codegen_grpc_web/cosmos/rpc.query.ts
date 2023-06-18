@@ -1,36 +1,30 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
-import { GrpcWebImpl } from "./app/v1alpha1/query.rpc.Query";
-export const createRPCQueryClient = async ({
-  rpcEndpoint
+export const createGrpcWebClient = async ({
+  endpoint
 }: {
-  rpcEndpoint: string;
+  endpoint: string;
 }) => {
-  let grpcWeb: GrpcWebImpl;
+  endpoint = endpoint.replace(/\/*$/, "");
+  const {
+    GrpcWebImpl
+  } = await import("./app/v1alpha1/query.rpc.Query");
+  let grpcWeb;
   if (typeof document !== "undefined") {
-    // browser
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: grpc.CrossBrowserHttpTransport({ withCredentials: false }),
-      // debug: true,
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: grpc.CrossBrowserHttpTransport({
+        withCredentials: false
+      })
     });
-  } else if (
-    typeof navigator !== "undefined" &&
-    navigator.product === "ReactNative"
-  ) {
-    // react-native
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: NodeHttpTransport(),
-      // debug: true,
+  } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: NodeHttpTransport()
     });
   } else {
-    // node.js
-    console.log('node.js')
-    grpcWeb = new GrpcWebImpl(rpcEndpoint, {
-      transport: NodeHttpTransport(),
-      // debug: true,
+    grpcWeb = new GrpcWebImpl(endpoint, {
+      transport: NodeHttpTransport()
     });
   }
-
   return {
     cosmos: {
       app: {
