@@ -4,8 +4,6 @@ export const createGrpcGateWayClient = async ({
   endpoint: string;
 }) => {
   endpoint = endpoint.replace(/\/*$/g, "");
-  console.log(endpoint);
-  
   return {
     cosmos: {
       app: {

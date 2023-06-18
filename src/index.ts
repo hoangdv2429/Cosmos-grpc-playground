@@ -30,7 +30,7 @@ const main = async () => {
     });
 
     // get signer data
-    const account = await client.cosmos.auth.v1beta1.Account({
+    const account = await client.cosmos.auth.v1beta1.account({
         address: address_
       });
     console.log(account);
@@ -49,7 +49,7 @@ const main = async () => {
         return;    
     }
 
-    const data = await client.cosmos.bank.v1beta1.AllBalances({
+    const data = await client.cosmos.bank.v1beta1.allBalances({
         address: address_  
     });
     console.log('Before: ', data);
@@ -101,7 +101,7 @@ const main = async () => {
     const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
 
     // uncomment the following snippet to send transaction
-    // const res = await client.cosmos.tx.v1beta1.BroadcastTx(  
+    // const res = await client.cosmos.tx.v1beta1.broadcastTx(  
     //   {
     //     txBytes: txRawBytes,
     //     mode: BroadcastMode.BROADCAST_MODE_BLOCK
