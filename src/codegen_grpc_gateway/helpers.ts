@@ -199,6 +199,8 @@ interface Timestamp {
 }
 
 export function toTimestamp(date: Date): Timestamp {
+    console.log(date);
+    
     const seconds = numberToLong(date.getTime() / 1_000);
     const nanos = date.getTime() % 1000 * 1000000;
     return {
