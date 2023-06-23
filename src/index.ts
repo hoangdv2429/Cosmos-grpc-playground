@@ -1,15 +1,10 @@
-export * from './codegen_tm';
 import { chains } from 'chain-registry';
 import { getOfflineSignerProto as getOfflineSigner } from 'cosmjs-utils';
 import { cosmos, osmosis } from './codegen_grpc_gateway';
 import { getSigningCosmosClient, getSigningOsmosisClient } from './codegen_grpc_gateway';
 import { TxRaw } from './codegen_grpc_gateway/cosmos/tx/v1beta1/tx';
 import { BroadcastMode } from './codegen_grpc_gateway/cosmos/tx/v1beta1/service';
-import { MsgDelegate } from './codegen_grpc_gateway/cosmos/staking/v1beta1/tx';
-import { MsgGrant } from './codegen_grpc_gateway/cosmos/authz/v1beta1/tx';
 import { AuthorizationType, StakeAuthorization } from './codegen_grpc_gateway/cosmos/staking/v1beta1/authz';
-import { Timestamp } from './codegen_grpc_gateway/google/protobuf/timestamp';
-import long from 'long';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -121,16 +116,6 @@ const main = async () => {
       granter: address___,
       grantee: 'osmo19crd4fwzm9qtf5ln5l3e2vmquhevjwpr7uccsn',
       grant: {
-        // authorization: {
-        //   typeUrl: "/cosmos.staking.v1beta1.StakeAuthorization",
-        //   value: Uint8Array.from(StakeAuthorization.encode(StakeAuthorization.fromPartial({
-        //     maxTokens: {
-        //       denom: 'uosmo',
-        //       amount: '100000000'
-        //     },
-        //     authorizationType: AuthorizationType.AUTHORIZATION_TYPE_DELEGATE
-        //   })).finish())
-        // },
         authorization: StakeAuthorization.toProtoMsg({
           maxTokens: {
                   denom: 'uosmo',
