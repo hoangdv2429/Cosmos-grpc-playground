@@ -1,7 +1,6 @@
 import { Grant, GrantSDKType } from "./authz";
 import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import * as fm from "../../../grpc-gateway";
-import * as _m0 from "protobufjs/minimal";
 import { MsgGrant, MsgGrantSDKType, MsgGrantResponse, MsgGrantResponseSDKType, MsgExec, MsgExecSDKType, MsgExecResponse, MsgExecResponseSDKType, MsgRevoke, MsgRevokeSDKType, MsgRevokeResponse, MsgRevokeResponseSDKType } from "./tx";
 export class Msg {
   /**
@@ -39,45 +38,5 @@ export class Msg {
       method: "POST",
       body: JSON.stringify(request, fm.replacer)
     });
-  }
-}
-interface Rpc {
-  request(
-    service: string,
-    method: string,
-    data: Uint8Array,
-  ): Promise<Uint8Array>;
-}
-
-export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
-    this.rpc = rpc;
-    this.Grant = this.Grant.bind(this);
-    this.Exec = this.Exec.bind(this);
-    this.Revoke = this.Revoke.bind(this);
-  }
-  async Grant(request: MsgGrant): Promise<MsgGrantResponse> {
-    const data = MsgGrant.encode(request).finish();
-    const txBytes = await this.rpc.request("cosmos.authz.v1beta1.Msg", "Grant", data);
-    return MsgGrantResponse.decode(new _m0.Reader(txBytes));
-  }
-
-  Exec(request: MsgExec): Promise<MsgExecResponse> {
-    const data = MsgExec.encode(request).finish();
-    const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Exec", data);
-    return promise.then((data) => MsgExecResponse.decode(new _m0.Reader(data)));
-  }
-
-  Revoke(request: MsgRevoke): Promise<MsgRevokeResponse> {
-    const data = MsgRevoke.encode(request).finish();
-    const promise = this.rpc.request(
-      "cosmos.authz.v1beta1.Msg",
-      "Revoke",
-      data,
-    );
-    return promise.then((data) =>
-      MsgRevokeResponse.decode(new _m0.Reader(data)),
-    );
   }
 }

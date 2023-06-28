@@ -496,7 +496,7 @@ export interface GroupPolicyInfo {
    */
   version: Long;
   /** decision_policy specifies the group policy's decision policy. */
-  decisionPolicy: (ThresholdDecisionPolicy & PercentageDecisionPolicy & Any) | undefined;
+  decisionPolicy: ThresholdDecisionPolicy | PercentageDecisionPolicy | Any | undefined;
   /** created_at is a timestamp specifying when a group policy was created. */
   createdAt: Date;
 }
@@ -990,7 +990,7 @@ export const Members = {
 function createBaseThresholdDecisionPolicy(): ThresholdDecisionPolicy {
   return {
     threshold: "",
-    windows: undefined
+    windows: DecisionPolicyWindows.fromPartial({})
   };
 }
 export const ThresholdDecisionPolicy = {
@@ -1092,7 +1092,7 @@ export const ThresholdDecisionPolicy = {
 function createBasePercentageDecisionPolicy(): PercentageDecisionPolicy {
   return {
     percentage: "",
-    windows: undefined
+    windows: DecisionPolicyWindows.fromPartial({})
   };
 }
 export const PercentageDecisionPolicy = {
@@ -1454,7 +1454,7 @@ export const GroupInfo = {
 function createBaseGroupMember(): GroupMember {
   return {
     groupId: Long.UZERO,
-    member: undefined
+    member: Member.fromPartial({})
   };
 }
 export const GroupMember = {
@@ -1736,7 +1736,7 @@ function createBaseProposal(): Proposal {
     groupPolicyVersion: Long.UZERO,
     status: 0,
     result: 0,
-    finalTallyResult: undefined,
+    finalTallyResult: TallyResult.fromPartial({}),
     votingPeriodEnd: undefined,
     executorResult: 0,
     messages: []

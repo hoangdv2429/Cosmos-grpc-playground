@@ -49,3 +49,6 @@ yarn.lock
 
 # others
 .DS_Store
+
+# env
+.env
