@@ -1,4 +1,4 @@
-import { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract, MsgMigrateContract, MsgUpdateAdmin, MsgClearAdmin } from "./tx";
+import { MsgStoreCode, MsgInstantiateContract, MsgInstantiateContract2, MsgExecuteContract, MsgMigrateContract, MsgUpdateAdmin, MsgClearAdmin } from "./tx";
 export const AminoConverter = {
   "/cosmwasm.wasm.v1.MsgStoreCode": {
     aminoType: "wasm/MsgStoreCode",
@@ -9,6 +9,11 @@ export const AminoConverter = {
     aminoType: "wasm/MsgInstantiateContract",
     toAmino: MsgInstantiateContract.toAmino,
     fromAmino: MsgInstantiateContract.fromAmino
+  },
+  "/cosmwasm.wasm.v1.MsgInstantiateContract2": {
+    aminoType: "wasm/MsgInstantiateContract2",
+    toAmino: MsgInstantiateContract2.toAmino,
+    fromAmino: MsgInstantiateContract2.fromAmino
   },
   "/cosmwasm.wasm.v1.MsgExecuteContract": {
     aminoType: "wasm/MsgExecuteContract",

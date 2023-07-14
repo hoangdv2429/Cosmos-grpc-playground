@@ -6,6 +6,7 @@ import { cosmos, osmosis } from './codegen_grpc_web';
 import { StdFee, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { getSigningCosmosClient, getSigningOsmosisClient } from './codegen_tm';
 import { BroadcastMode } from './codegen_tm/cosmos/tx/v1beta1/service';
+import { TxRaw } from './codegen_grpc_web/cosmos/tx/v1beta1/tx';
 
 //transaction transition is sign => encode => broadcast 
 
@@ -18,7 +19,8 @@ const main = async () => {
         // rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
         // ✨  Done in 28.57s.
         // ✨  Done in 36.97s
-        endpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        // endpoint: 'https://osmosis-grpc-web.polkachu.com/'
+        endpoint: 'http://grpc-web.testnet.osmosis.zone:9091'
         // ✨  Done in 52.69s.
         // ✨  Done in 43.94s.
         // rpcEndpoint: 'https://osmosis-rpc.polkachu.com'
@@ -46,7 +48,8 @@ const main = async () => {
       accountNumber: Number(baseAccount.accountNumber),
       sequence: Number(baseAccount.sequence),
       // chainId: 'pulsar-2',
-      chainId: 'osmosis-1'
+      // chainId: 'osmosis-1'
+      chainId: 'osmo-test-5'
     };
 
     const data = await client.cosmos.bank.v1beta1.allBalances({
@@ -99,20 +102,20 @@ const main = async () => {
     }
 
     const account_data = await signer.getAccounts();
-    console.log(account_data);
     
     // uncomment the following snippet to send transaction
-    // const signed_tx = await signClient.sign('osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99', [msg], fee, 'grpc webbbbbb', signerData);
-    // console.log(signed_tx);
-    // const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
-    // const res = await client.cosmos.tx.v1beta1.broadcastTx(  
-    //   {
-    //     txBytes: txRawBytes,
-    //     mode: 1
-    //   }
-    // )
+    const signed_tx = await signClient.sign('osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99', [msg], fee, 'grpc webbbbbb', signerData);
+    console.log(signed_tx);
+    const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
+    const res = await client.cosmos.tx.v1beta1.broadcastTx(  
+      {
+        txBytes: txRawBytes,
+        mode: BroadcastMode.BROADCAST_MODE_BLOCK
+      }
+    )
     
-    // console.log(res);
+    // console.log(JSON.stringify(res.txResponse.height, null, 2));
+    console.log(res);
 
 }
 

@@ -7,7 +7,7 @@ export const AminoConverter = {
     fromAmino: MsgCreateStableswapPool.fromAmino
   },
   "/osmosis.gamm.poolmodels.stableswap.v1beta1.MsgStableSwapAdjustScalingFactors": {
-    aminoType: "osmosis/gamm/stable-swap-adjust-scaling-factors",
+    aminoType: "osmosis/gamm/stableswap-adjust-scaling-factors",
     toAmino: MsgStableSwapAdjustScalingFactors.toAmino,
     fromAmino: MsgStableSwapAdjustScalingFactors.fromAmino
   }

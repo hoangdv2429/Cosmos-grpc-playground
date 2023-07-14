@@ -14,6 +14,7 @@ export const MessageComposer = {
         value: MsgSend.encode(value).finish()
       };
     }
+
   },
   withTypeUrl: {
     send(value: MsgSend) {
@@ -22,6 +23,7 @@ export const MessageComposer = {
         value
       };
     }
+
   },
   toJSON: {
     send(value: MsgSend) {
@@ -30,6 +32,7 @@ export const MessageComposer = {
         value: MsgSend.toJSON(value)
       };
     }
+
   },
   fromJSON: {
     send(value: any) {
@@ -38,6 +41,7 @@ export const MessageComposer = {
         value: MsgSend.fromJSON(value)
       };
     }
+
   },
   fromPartial: {
     send(value: MsgSend) {
@@ -46,5 +50,6 @@ export const MessageComposer = {
         value: MsgSend.fromPartial(value)
       };
     }
+
   }
 };

@@ -4,6 +4,7 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
 import { MsgGrant, MsgGrantResponse, MsgExec, MsgExecResponse, MsgRevoke, MsgRevokeResponse } from "./tx";
 /** Msg defines the authz Msg service. */
+
 export interface Msg {
   /**
    * Grant grants the provided authorization to the grantee on the granter's
@@ -17,30 +18,37 @@ export interface Msg {
    * authorizations granted to the grantee. Each message should have only
    * one signer corresponding to the granter of the authorization.
    */
+
   exec(request: DeepPartial<MsgExec>, metadata?: grpc.Metadata): Promise<MsgExecResponse>;
   /**
    * Revoke revokes any authorization corresponding to the provided method name on the
    * granter's account that has been granted to the grantee.
    */
+
   revoke(request: DeepPartial<MsgRevoke>, metadata?: grpc.Metadata): Promise<MsgRevokeResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
+
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.grant = this.grant.bind(this);
     this.exec = this.exec.bind(this);
     this.revoke = this.revoke.bind(this);
   }
+
   grant(request: DeepPartial<MsgGrant>, metadata?: grpc.Metadata): Promise<MsgGrantResponse> {
     return this.rpc.unary(MsgGrantDesc, MsgGrant.fromPartial(request), metadata);
   }
+
   exec(request: DeepPartial<MsgExec>, metadata?: grpc.Metadata): Promise<MsgExecResponse> {
     return this.rpc.unary(MsgExecDesc, MsgExec.fromPartial(request), metadata);
   }
+
   revoke(request: DeepPartial<MsgRevoke>, metadata?: grpc.Metadata): Promise<MsgRevokeResponse> {
     return this.rpc.unary(MsgRevokeDesc, MsgRevoke.fromPartial(request), metadata);
   }
+
 }
 export const MsgDesc = {
   serviceName: "cosmos.authz.v1beta1.Msg"
@@ -54,16 +62,19 @@ export const MsgGrantDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgGrant.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgGrantResponse.decode(data),
+      return { ...MsgGrantResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgExecDesc: UnaryMethodDefinitionish = {
@@ -75,16 +86,19 @@ export const MsgExecDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgExec.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgExecResponse.decode(data),
+      return { ...MsgExecResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgRevokeDesc: UnaryMethodDefinitionish = {
@@ -96,16 +110,19 @@ export const MsgRevokeDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgRevoke.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgRevokeResponse.decode(data),
+      return { ...MsgRevokeResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export interface Rpc {
@@ -118,6 +135,7 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
+
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -126,13 +144,12 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
+
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = {
-      ..._request,
+    const request = { ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
-      ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -155,4 +172,5 @@ export class GrpcWebImpl {
       });
     });
   }
+
 }

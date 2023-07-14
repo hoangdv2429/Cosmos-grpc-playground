@@ -4,29 +4,35 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
 import { MsgCreateValidator, MsgCreateValidatorResponse, MsgEditValidator, MsgEditValidatorResponse, MsgDelegate, MsgDelegateResponse, MsgBeginRedelegate, MsgBeginRedelegateResponse, MsgUndelegate, MsgUndelegateResponse } from "./tx";
 /** Msg defines the staking Msg service. */
+
 export interface Msg {
   /** CreateValidator defines a method for creating a new validator. */
   createValidator(request: DeepPartial<MsgCreateValidator>, metadata?: grpc.Metadata): Promise<MsgCreateValidatorResponse>;
   /** EditValidator defines a method for editing an existing validator. */
+
   editValidator(request: DeepPartial<MsgEditValidator>, metadata?: grpc.Metadata): Promise<MsgEditValidatorResponse>;
   /**
    * Delegate defines a method for performing a delegation of coins
    * from a delegator to a validator.
    */
+
   delegate(request: DeepPartial<MsgDelegate>, metadata?: grpc.Metadata): Promise<MsgDelegateResponse>;
   /**
    * BeginRedelegate defines a method for performing a redelegation
    * of coins from a delegator and source validator to a destination validator.
    */
+
   beginRedelegate(request: DeepPartial<MsgBeginRedelegate>, metadata?: grpc.Metadata): Promise<MsgBeginRedelegateResponse>;
   /**
    * Undelegate defines a method for performing an undelegation from a
    * delegate and a validator.
    */
+
   undelegate(request: DeepPartial<MsgUndelegate>, metadata?: grpc.Metadata): Promise<MsgUndelegateResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
+
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.createValidator = this.createValidator.bind(this);
@@ -35,21 +41,27 @@ export class MsgClientImpl implements Msg {
     this.beginRedelegate = this.beginRedelegate.bind(this);
     this.undelegate = this.undelegate.bind(this);
   }
+
   createValidator(request: DeepPartial<MsgCreateValidator>, metadata?: grpc.Metadata): Promise<MsgCreateValidatorResponse> {
     return this.rpc.unary(MsgCreateValidatorDesc, MsgCreateValidator.fromPartial(request), metadata);
   }
+
   editValidator(request: DeepPartial<MsgEditValidator>, metadata?: grpc.Metadata): Promise<MsgEditValidatorResponse> {
     return this.rpc.unary(MsgEditValidatorDesc, MsgEditValidator.fromPartial(request), metadata);
   }
+
   delegate(request: DeepPartial<MsgDelegate>, metadata?: grpc.Metadata): Promise<MsgDelegateResponse> {
     return this.rpc.unary(MsgDelegateDesc, MsgDelegate.fromPartial(request), metadata);
   }
+
   beginRedelegate(request: DeepPartial<MsgBeginRedelegate>, metadata?: grpc.Metadata): Promise<MsgBeginRedelegateResponse> {
     return this.rpc.unary(MsgBeginRedelegateDesc, MsgBeginRedelegate.fromPartial(request), metadata);
   }
+
   undelegate(request: DeepPartial<MsgUndelegate>, metadata?: grpc.Metadata): Promise<MsgUndelegateResponse> {
     return this.rpc.unary(MsgUndelegateDesc, MsgUndelegate.fromPartial(request), metadata);
   }
+
 }
 export const MsgDesc = {
   serviceName: "cosmos.staking.v1beta1.Msg"
@@ -63,16 +75,19 @@ export const MsgCreateValidatorDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCreateValidator.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgCreateValidatorResponse.decode(data),
+      return { ...MsgCreateValidatorResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgEditValidatorDesc: UnaryMethodDefinitionish = {
@@ -84,16 +99,19 @@ export const MsgEditValidatorDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgEditValidator.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgEditValidatorResponse.decode(data),
+      return { ...MsgEditValidatorResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgDelegateDesc: UnaryMethodDefinitionish = {
@@ -105,16 +123,19 @@ export const MsgDelegateDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgDelegate.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgDelegateResponse.decode(data),
+      return { ...MsgDelegateResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgBeginRedelegateDesc: UnaryMethodDefinitionish = {
@@ -126,16 +147,19 @@ export const MsgBeginRedelegateDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgBeginRedelegate.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgBeginRedelegateResponse.decode(data),
+      return { ...MsgBeginRedelegateResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgUndelegateDesc: UnaryMethodDefinitionish = {
@@ -147,16 +171,19 @@ export const MsgUndelegateDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgUndelegate.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgUndelegateResponse.decode(data),
+      return { ...MsgUndelegateResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export interface Rpc {
@@ -169,6 +196,7 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
+
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -177,13 +205,12 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
+
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = {
-      ..._request,
+    const request = { ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
-      ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -206,4 +233,5 @@ export class GrpcWebImpl {
       });
     });
   }
+
 }

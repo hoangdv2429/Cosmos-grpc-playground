@@ -10,6 +10,7 @@ export const createRPCMsgClient = async ({
     GrpcWebImpl
   } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
   let grpcWeb;
+
   if (typeof document !== "undefined") {
     grpcWeb = new GrpcWebImpl(endpoint, {
       transport: grpc.CrossBrowserHttpTransport({
@@ -25,6 +26,7 @@ export const createRPCMsgClient = async ({
       transport: NodeHttpTransport()
     });
   }
+
   return {
     cosmos: {
       authz: {
@@ -82,9 +84,18 @@ export const createRPCMsgClient = async ({
       },
       incentives: new (await import("./incentives/tx.rpc.msg")).MsgClientImpl(grpcWeb),
       lockup: new (await import("./lockup/tx.rpc.msg")).MsgClientImpl(grpcWeb),
+      protorev: {
+        v1beta1: new (await import("./protorev/v1beta1/tx.rpc.msg")).MsgClientImpl(grpcWeb)
+      },
       superfluid: new (await import("./superfluid/tx.rpc.msg")).MsgClientImpl(grpcWeb),
+      swaprouter: {
+        v1beta1: new (await import("./swaprouter/v1beta1/tx.rpc.msg")).MsgClientImpl(grpcWeb)
+      },
       tokenfactory: {
         v1beta1: new (await import("./tokenfactory/v1beta1/tx.rpc.msg")).MsgClientImpl(grpcWeb)
+      },
+      valsetpref: {
+        v1beta1: new (await import("./valset-pref/v1beta1/tx.rpc.msg")).MsgClientImpl(grpcWeb)
       }
     }
   };

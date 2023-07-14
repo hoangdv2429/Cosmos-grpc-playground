@@ -14,6 +14,7 @@ export const MessageComposer = {
         value: MsgUnjail.encode(value).finish()
       };
     }
+
   },
   withTypeUrl: {
     unjail(value: MsgUnjail) {
@@ -22,6 +23,7 @@ export const MessageComposer = {
         value
       };
     }
+
   },
   toJSON: {
     unjail(value: MsgUnjail) {
@@ -30,6 +32,7 @@ export const MessageComposer = {
         value: MsgUnjail.toJSON(value)
       };
     }
+
   },
   fromJSON: {
     unjail(value: any) {
@@ -38,6 +41,7 @@ export const MessageComposer = {
         value: MsgUnjail.fromJSON(value)
       };
     }
+
   },
   fromPartial: {
     unjail(value: MsgUnjail) {
@@ -46,5 +50,6 @@ export const MessageComposer = {
         value: MsgUnjail.fromPartial(value)
       };
     }
+
   }
 };

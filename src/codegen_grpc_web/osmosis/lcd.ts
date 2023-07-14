@@ -96,8 +96,8 @@ export const createLCDClient = async ({
       }
     },
     osmosis: {
-      claim: {
-        v1beta1: new (await import("./claim/v1beta1/query.lcd")).LCDQueryClient({
+      downtimedetector: {
+        v1beta1: new (await import("./downtime-detector/v1beta1/query.lcd")).LCDQueryClient({
           requestClient
         })
       },
@@ -135,9 +135,19 @@ export const createLCDClient = async ({
           requestClient
         })
       },
+      protorev: {
+        v1beta1: new (await import("./protorev/v1beta1/query.lcd")).LCDQueryClient({
+          requestClient
+        })
+      },
       superfluid: new (await import("./superfluid/query.lcd")).LCDQueryClient({
         requestClient
       }),
+      swaprouter: {
+        v1beta1: new (await import("./swaprouter/v1beta1/query.lcd")).LCDQueryClient({
+          requestClient
+        })
+      },
       tokenfactory: {
         v1beta1: new (await import("./tokenfactory/v1beta1/query.lcd")).LCDQueryClient({
           requestClient
@@ -150,6 +160,11 @@ export const createLCDClient = async ({
       },
       txfees: {
         v1beta1: new (await import("./txfees/v1beta1/query.lcd")).LCDQueryClient({
+          requestClient
+        })
+      },
+      valsetpref: {
+        v1beta1: new (await import("./valset-pref/v1beta1/query.lcd")).LCDQueryClient({
           requestClient
         })
       }

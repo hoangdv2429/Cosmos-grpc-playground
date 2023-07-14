@@ -4,22 +4,27 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
 import { MsgSubmitProposal, MsgSubmitProposalResponse, MsgVote, MsgVoteResponse, MsgVoteWeighted, MsgVoteWeightedResponse, MsgDeposit, MsgDepositResponse } from "./tx";
 /** Msg defines the bank Msg service. */
+
 export interface Msg {
   /** SubmitProposal defines a method to create new proposal given a content. */
   submitProposal(request: DeepPartial<MsgSubmitProposal>, metadata?: grpc.Metadata): Promise<MsgSubmitProposalResponse>;
   /** Vote defines a method to add a vote on a specific proposal. */
+
   vote(request: DeepPartial<MsgVote>, metadata?: grpc.Metadata): Promise<MsgVoteResponse>;
   /**
    * VoteWeighted defines a method to add a weighted vote on a specific proposal.
    * 
    * Since: cosmos-sdk 0.43
    */
+
   voteWeighted(request: DeepPartial<MsgVoteWeighted>, metadata?: grpc.Metadata): Promise<MsgVoteWeightedResponse>;
   /** Deposit defines a method to add deposit on a specific proposal. */
+
   deposit(request: DeepPartial<MsgDeposit>, metadata?: grpc.Metadata): Promise<MsgDepositResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
+
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.submitProposal = this.submitProposal.bind(this);
@@ -27,18 +32,23 @@ export class MsgClientImpl implements Msg {
     this.voteWeighted = this.voteWeighted.bind(this);
     this.deposit = this.deposit.bind(this);
   }
+
   submitProposal(request: DeepPartial<MsgSubmitProposal>, metadata?: grpc.Metadata): Promise<MsgSubmitProposalResponse> {
     return this.rpc.unary(MsgSubmitProposalDesc, MsgSubmitProposal.fromPartial(request), metadata);
   }
+
   vote(request: DeepPartial<MsgVote>, metadata?: grpc.Metadata): Promise<MsgVoteResponse> {
     return this.rpc.unary(MsgVoteDesc, MsgVote.fromPartial(request), metadata);
   }
+
   voteWeighted(request: DeepPartial<MsgVoteWeighted>, metadata?: grpc.Metadata): Promise<MsgVoteWeightedResponse> {
     return this.rpc.unary(MsgVoteWeightedDesc, MsgVoteWeighted.fromPartial(request), metadata);
   }
+
   deposit(request: DeepPartial<MsgDeposit>, metadata?: grpc.Metadata): Promise<MsgDepositResponse> {
     return this.rpc.unary(MsgDepositDesc, MsgDeposit.fromPartial(request), metadata);
   }
+
 }
 export const MsgDesc = {
   serviceName: "cosmos.gov.v1beta1.Msg"
@@ -52,16 +62,19 @@ export const MsgSubmitProposalDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgSubmitProposal.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgSubmitProposalResponse.decode(data),
+      return { ...MsgSubmitProposalResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgVoteDesc: UnaryMethodDefinitionish = {
@@ -73,16 +86,19 @@ export const MsgVoteDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgVote.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgVoteResponse.decode(data),
+      return { ...MsgVoteResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgVoteWeightedDesc: UnaryMethodDefinitionish = {
@@ -94,16 +110,19 @@ export const MsgVoteWeightedDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgVoteWeighted.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgVoteWeightedResponse.decode(data),
+      return { ...MsgVoteWeightedResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgDepositDesc: UnaryMethodDefinitionish = {
@@ -115,16 +134,19 @@ export const MsgDepositDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgDeposit.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgDepositResponse.decode(data),
+      return { ...MsgDepositResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export interface Rpc {
@@ -137,6 +159,7 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
+
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -145,13 +168,12 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
+
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = {
-      ..._request,
+    const request = { ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
-      ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -174,4 +196,5 @@ export class GrpcWebImpl {
       });
     });
   }
+
 }

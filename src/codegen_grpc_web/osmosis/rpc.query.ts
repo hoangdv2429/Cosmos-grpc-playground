@@ -10,6 +10,7 @@ export const createGrpcWebClient = async ({
     GrpcWebImpl
   } = await import("../cosmos/app/v1alpha1/query.rpc.Query");
   let grpcWeb;
+
   if (typeof document !== "undefined") {
     grpcWeb = new GrpcWebImpl(endpoint, {
       transport: grpc.CrossBrowserHttpTransport({
@@ -25,6 +26,7 @@ export const createGrpcWebClient = async ({
       transport: NodeHttpTransport()
     });
   }
+
   return {
     cosmos: {
       app: {
@@ -83,8 +85,8 @@ export const createGrpcWebClient = async ({
       }
     },
     osmosis: {
-      claim: {
-        v1beta1: new (await import("./claim/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
+      downtimedetector: {
+        v1beta1: new (await import("./downtime-detector/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
       },
       epochs: {
         v1beta1: new (await import("./epochs/query.rpc.Query")).QueryClientImpl(grpcWeb)
@@ -104,7 +106,13 @@ export const createGrpcWebClient = async ({
       poolincentives: {
         v1beta1: new (await import("./pool-incentives/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
       },
+      protorev: {
+        v1beta1: new (await import("./protorev/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
+      },
       superfluid: new (await import("./superfluid/query.rpc.Query")).QueryClientImpl(grpcWeb),
+      swaprouter: {
+        v1beta1: new (await import("./swaprouter/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
+      },
       tokenfactory: {
         v1beta1: new (await import("./tokenfactory/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
       },
@@ -113,6 +121,9 @@ export const createGrpcWebClient = async ({
       },
       txfees: {
         v1beta1: new (await import("./txfees/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
+      },
+      valsetpref: {
+        v1beta1: new (await import("./valset-pref/v1beta1/query.rpc.Query")).QueryClientImpl(grpcWeb)
       }
     }
   };

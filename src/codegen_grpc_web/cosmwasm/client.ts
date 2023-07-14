@@ -3,8 +3,7 @@ import { defaultRegistryTypes, AminoTypes, SigningStargateClient } from "@cosmjs
 import { HttpEndpoint } from "@cosmjs/tendermint-rpc";
 import * as cosmwasmWasmV1TxRegistry from "./wasm/v1/tx.registry";
 import * as cosmwasmWasmV1TxAmino from "./wasm/v1/tx.amino";
-export const cosmwasmAminoConverters = {
-  ...cosmwasmWasmV1TxAmino.AminoConverter
+export const cosmwasmAminoConverters = { ...cosmwasmWasmV1TxAmino.AminoConverter
 };
 export const cosmwasmProtoRegistry: ReadonlyArray<[string, GeneratedType]> = [...cosmwasmWasmV1TxRegistry.registry];
 export const getSigningCosmwasmClientOptions = ({
@@ -16,8 +15,7 @@ export const getSigningCosmwasmClientOptions = ({
   aminoTypes: AminoTypes;
 } => {
   const registry = new Registry([...defaultTypes, ...cosmwasmProtoRegistry]);
-  const aminoTypes = new AminoTypes({
-    ...cosmwasmAminoConverters
+  const aminoTypes = new AminoTypes({ ...cosmwasmAminoConverters
   });
   return {
     registry,
@@ -40,7 +38,7 @@ export const getSigningCosmwasmClient = async ({
     defaultTypes
   });
   const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, signer, {
-    registry,
+    registry: (registry as any),
     aminoTypes
   });
   return client;

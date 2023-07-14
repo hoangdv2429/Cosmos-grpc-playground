@@ -5,20 +5,26 @@ import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
 /** Msg defines the market Msg service */
+
 export interface Msg {
   /** CreateBid defines a method to create a bid given proper inputs. */
   createBid(request: DeepPartial<MsgCreateBid>, metadata?: grpc.Metadata): Promise<MsgCreateBidResponse>;
   /** CloseBid defines a method to close a bid given proper inputs. */
+
   closeBid(request: DeepPartial<MsgCloseBid>, metadata?: grpc.Metadata): Promise<MsgCloseBidResponse>;
   /** WithdrawLease withdraws accrued funds from the lease payment */
+
   withdrawLease(request: DeepPartial<MsgWithdrawLease>, metadata?: grpc.Metadata): Promise<MsgWithdrawLeaseResponse>;
   /** CreateLease creates a new lease */
+
   createLease(request: DeepPartial<MsgCreateLease>, metadata?: grpc.Metadata): Promise<MsgCreateLeaseResponse>;
   /** CloseLease defines a method to close an order given proper inputs. */
+
   closeLease(request: DeepPartial<MsgCloseLease>, metadata?: grpc.Metadata): Promise<MsgCloseLeaseResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
+
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.createBid = this.createBid.bind(this);
@@ -27,21 +33,27 @@ export class MsgClientImpl implements Msg {
     this.createLease = this.createLease.bind(this);
     this.closeLease = this.closeLease.bind(this);
   }
+
   createBid(request: DeepPartial<MsgCreateBid>, metadata?: grpc.Metadata): Promise<MsgCreateBidResponse> {
     return this.rpc.unary(MsgCreateBidDesc, MsgCreateBid.fromPartial(request), metadata);
   }
+
   closeBid(request: DeepPartial<MsgCloseBid>, metadata?: grpc.Metadata): Promise<MsgCloseBidResponse> {
     return this.rpc.unary(MsgCloseBidDesc, MsgCloseBid.fromPartial(request), metadata);
   }
+
   withdrawLease(request: DeepPartial<MsgWithdrawLease>, metadata?: grpc.Metadata): Promise<MsgWithdrawLeaseResponse> {
     return this.rpc.unary(MsgWithdrawLeaseDesc, MsgWithdrawLease.fromPartial(request), metadata);
   }
+
   createLease(request: DeepPartial<MsgCreateLease>, metadata?: grpc.Metadata): Promise<MsgCreateLeaseResponse> {
     return this.rpc.unary(MsgCreateLeaseDesc, MsgCreateLease.fromPartial(request), metadata);
   }
+
   closeLease(request: DeepPartial<MsgCloseLease>, metadata?: grpc.Metadata): Promise<MsgCloseLeaseResponse> {
     return this.rpc.unary(MsgCloseLeaseDesc, MsgCloseLease.fromPartial(request), metadata);
   }
+
 }
 export const MsgDesc = {
   serviceName: "akash.market.v1beta2.Msg"
@@ -55,16 +67,19 @@ export const MsgCreateBidDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCreateBid.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgCreateBidResponse.decode(data),
+      return { ...MsgCreateBidResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgCloseBidDesc: UnaryMethodDefinitionish = {
@@ -76,16 +91,19 @@ export const MsgCloseBidDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCloseBid.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgCloseBidResponse.decode(data),
+      return { ...MsgCloseBidResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgWithdrawLeaseDesc: UnaryMethodDefinitionish = {
@@ -97,16 +115,19 @@ export const MsgWithdrawLeaseDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgWithdrawLease.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgWithdrawLeaseResponse.decode(data),
+      return { ...MsgWithdrawLeaseResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgCreateLeaseDesc: UnaryMethodDefinitionish = {
@@ -118,16 +139,19 @@ export const MsgCreateLeaseDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCreateLease.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgCreateLeaseResponse.decode(data),
+      return { ...MsgCreateLeaseResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export const MsgCloseLeaseDesc: UnaryMethodDefinitionish = {
@@ -139,16 +163,19 @@ export const MsgCloseLeaseDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCloseLease.encode(this).finish();
     }
+
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return {
-        ...MsgCloseLeaseResponse.decode(data),
+      return { ...MsgCloseLeaseResponse.decode(data),
+
         toObject() {
           return this;
         }
+
       };
     }
+
   } as any)
 };
 export interface Rpc {
@@ -161,6 +188,7 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
+
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -169,13 +197,12 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
+
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = {
-      ..._request,
+    const request = { ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
-      ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -198,4 +225,5 @@ export class GrpcWebImpl {
       });
     });
   }
+
 }
