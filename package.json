@@ -88,7 +88,7 @@
     "@babel/runtime": "^7.19.4",
     "@cosmjs/amino": "0.29.4",
     "@cosmjs/proto-signing": "0.29.4",
-    "@cosmjs/stargate": "0.29.4",
+    "@cosmjs/stargate": "^0.31.0",
     "@cosmjs/tendermint-rpc": "^0.29.4",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
     "@osmonauts/lcd": "^0.10.0",

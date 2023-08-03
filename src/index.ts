@@ -19,6 +19,8 @@ import {
   MsgSubmitProposal,
 } from "./codegen_grpc_gateway/cosmos/group/v1/tx";
 
+import { StargateClient } from "@cosmjs/stargate";
+
 //transaction transition is sign => encode => broadcast
 
 const main = async () => {
@@ -299,6 +301,13 @@ const main = async () => {
   //     )
 
   //     console.log(res);
+
+  const tmclient = await StargateClient.connect(
+    "https://rpc.osmotest5.osmosis.zone"
+  );
+  console.time("tm_query");
+  console.log("With client, chain id:", await tmclient.getAccount(_address));
+  console.timeEnd("tm_query");
 };
 
 main().then(() => {
