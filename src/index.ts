@@ -134,12 +134,12 @@ const main = async () => {
   const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
 
   // uncomment the following snippet to send transaction
-  console.time("broadcastTx");
-  const res = await client.cosmos.tx.v1beta1.broadcastTx({
-    txBytes: txRawBytes,
-    mode: BroadcastMode.BROADCAST_MODE_BLOCK,
-  });
-  console.timeEnd("broadcastTx");
+  // console.time("broadcastTx");
+  // const res = await client.cosmos.tx.v1beta1.broadcastTx({
+  //   txBytes: txRawBytes,
+  //   mode: BroadcastMode.BROADCAST_MODE_BLOCK,
+  // });
+  // console.timeEnd("broadcastTx");
 
   // console.log(res);
 
@@ -308,6 +308,13 @@ const main = async () => {
   console.time("tm_query");
   console.log("With client, chain id:", await tmclient.getAccount(_address));
   console.timeEnd("tm_query");
+
+  console.time("tm_broadcastTx");
+  const res = await tmclient.broadcastTx(
+    txRawBytes
+ )
+  // console.log("With client, broadcast:", );
+  console.timeEnd("tm_broadcastTx");
 };
 
 main().then(() => {
