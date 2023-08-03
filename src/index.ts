@@ -27,11 +27,8 @@ const main = async () => {
     });
 
     //connect and get node_info
-    // for (let index = 0; index < 50; index++) {
-        const nodeInfo = await client.cosmos.base.tendermint.v1beta1.getNodeInfo();
-        console.log(nodeInfo);
-        // console.log(index);
-    // }
+    const nodeInfo = await client.cosmos.base.tendermint.v1beta1.getNodeInfo();
+    console.log(nodeInfo);
 
     // get signer data
     const account = await client.cosmos.auth.v1beta1.account({
@@ -40,7 +37,7 @@ const main = async () => {
         address: 'osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99'
         // address: 'cosmos1xpvhjypxz2p8t3zgwngq7k623r6allrp9xm2zw'
       });
-    console.log(account)
+    // console.log(account)
 
     const baseAccount =
       account.account as import("./codegen_grpc_web/cosmos/auth/v1beta1/auth").BaseAccount;
@@ -57,7 +54,6 @@ const main = async () => {
         // address: 'juno1xa382g55fvyyp3rmdsk548qpdzmh6p37rmaa5t'
         address: 'osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99'
     });
-    console.log('Before: ', data);
 
     const mnemonic =
     'chef pigeon panic shadow tool picnic soda axis display element gadget finger';
@@ -114,7 +110,7 @@ const main = async () => {
       }
     )
     
-    // console.log(JSON.stringify(res.txResponse.height, null, 2));
+    console.log(JSON.stringify(res.txResponse.height, null, 2));
     console.log(res);
 
 }
