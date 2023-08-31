@@ -1,5 +1,7 @@
+import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
+import { Height, HeightSDKType } from "../../../core/client/v1/client";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgTransfer } from "./tx";
+import { MsgTransfer, MsgTransferSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/ibc.applications.transfer.v1.MsgTransfer", MsgTransfer]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,7 +16,6 @@ export const MessageComposer = {
         value: MsgTransfer.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     transfer(value: MsgTransfer) {
@@ -23,7 +24,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   toJSON: {
     transfer(value: MsgTransfer) {
@@ -32,7 +32,6 @@ export const MessageComposer = {
         value: MsgTransfer.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     transfer(value: any) {
@@ -41,7 +40,6 @@ export const MessageComposer = {
         value: MsgTransfer.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     transfer(value: MsgTransfer) {
@@ -50,6 +48,5 @@ export const MessageComposer = {
         value: MsgTransfer.fromPartial(value)
       };
     }
-
   }
 };

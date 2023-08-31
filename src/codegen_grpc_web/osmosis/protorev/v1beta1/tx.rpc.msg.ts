@@ -1,8 +1,10 @@
+import { TokenPairArbRoutes, TokenPairArbRoutesSDKType } from "./protorev";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgSetHotRoutes, MsgSetHotRoutesResponse, MsgSetDeveloperAccount, MsgSetDeveloperAccountResponse } from "./tx";
+import { MsgSetHotRoutes, MsgSetHotRoutesSDKType, MsgSetHotRoutesResponse, MsgSetHotRoutesResponseSDKType, MsgSetDeveloperAccount, MsgSetDeveloperAccountSDKType, MsgSetDeveloperAccountResponse, MsgSetDeveloperAccountResponseSDKType } from "./tx";
 export interface Msg {
   /**
    * SetHotRoutes sets the hot routes that will be explored when creating
@@ -13,26 +15,21 @@ export interface Msg {
    * SetDeveloperAccount sets the account that can withdraw a portion of the
    * profits from the protorev module. This will be Skip's address.
    */
-
   setDeveloperAccount(request: DeepPartial<MsgSetDeveloperAccount>, metadata?: grpc.Metadata): Promise<MsgSetDeveloperAccountResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.setHotRoutes = this.setHotRoutes.bind(this);
     this.setDeveloperAccount = this.setDeveloperAccount.bind(this);
   }
-
   setHotRoutes(request: DeepPartial<MsgSetHotRoutes>, metadata?: grpc.Metadata): Promise<MsgSetHotRoutesResponse> {
     return this.rpc.unary(MsgSetHotRoutesDesc, MsgSetHotRoutes.fromPartial(request), metadata);
   }
-
   setDeveloperAccount(request: DeepPartial<MsgSetDeveloperAccount>, metadata?: grpc.Metadata): Promise<MsgSetDeveloperAccountResponse> {
     return this.rpc.unary(MsgSetDeveloperAccountDesc, MsgSetDeveloperAccount.fromPartial(request), metadata);
   }
-
 }
 export const MsgDesc = {
   serviceName: "osmosis.protorev.v1beta1.Msg"
@@ -46,19 +43,16 @@ export const MsgSetHotRoutesDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgSetHotRoutes.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgSetHotRoutesResponse.decode(data),
-
+      return {
+        ...MsgSetHotRoutesResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const MsgSetDeveloperAccountDesc: UnaryMethodDefinitionish = {
@@ -70,19 +64,16 @@ export const MsgSetDeveloperAccountDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgSetDeveloperAccount.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgSetDeveloperAccountResponse.decode(data),
-
+      return {
+        ...MsgSetDeveloperAccountResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -95,7 +86,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -104,12 +94,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -132,5 +123,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

@@ -1,5 +1,6 @@
+import { Attribute, AttributeSDKType } from "../../base/v1beta1/attribute";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgSignProviderAttributes, MsgDeleteProviderAttributes } from "./audit";
+import { MsgSignProviderAttributes, MsgSignProviderAttributesSDKType, MsgDeleteProviderAttributes, MsgDeleteProviderAttributesSDKType } from "./audit";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/akash.audit.v1beta1.MsgSignProviderAttributes", MsgSignProviderAttributes], ["/akash.audit.v1beta1.MsgDeleteProviderAttributes", MsgDeleteProviderAttributes]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,14 +15,12 @@ export const MessageComposer = {
         value: MsgSignProviderAttributes.encode(value).finish()
       };
     },
-
     deleteProviderAttributes(value: MsgDeleteProviderAttributes) {
       return {
         typeUrl: "/akash.audit.v1beta1.MsgDeleteProviderAttributes",
         value: MsgDeleteProviderAttributes.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     signProviderAttributes(value: MsgSignProviderAttributes) {
@@ -30,14 +29,12 @@ export const MessageComposer = {
         value
       };
     },
-
     deleteProviderAttributes(value: MsgDeleteProviderAttributes) {
       return {
         typeUrl: "/akash.audit.v1beta1.MsgDeleteProviderAttributes",
         value
       };
     }
-
   },
   toJSON: {
     signProviderAttributes(value: MsgSignProviderAttributes) {
@@ -46,14 +43,12 @@ export const MessageComposer = {
         value: MsgSignProviderAttributes.toJSON(value)
       };
     },
-
     deleteProviderAttributes(value: MsgDeleteProviderAttributes) {
       return {
         typeUrl: "/akash.audit.v1beta1.MsgDeleteProviderAttributes",
         value: MsgDeleteProviderAttributes.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     signProviderAttributes(value: any) {
@@ -62,14 +57,12 @@ export const MessageComposer = {
         value: MsgSignProviderAttributes.fromJSON(value)
       };
     },
-
     deleteProviderAttributes(value: any) {
       return {
         typeUrl: "/akash.audit.v1beta1.MsgDeleteProviderAttributes",
         value: MsgDeleteProviderAttributes.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     signProviderAttributes(value: MsgSignProviderAttributes) {
@@ -78,13 +71,11 @@ export const MessageComposer = {
         value: MsgSignProviderAttributes.fromPartial(value)
       };
     },
-
     deleteProviderAttributes(value: MsgDeleteProviderAttributes) {
       return {
         typeUrl: "/akash.audit.v1beta1.MsgDeleteProviderAttributes",
         value: MsgDeleteProviderAttributes.fromPartial(value)
       };
     }
-
   }
 };

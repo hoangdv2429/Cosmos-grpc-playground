@@ -1,8 +1,9 @@
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QuerySpotPriceRequest, QuerySpotPriceResponse } from "./query";
+import { QuerySpotPriceRequest, QuerySpotPriceRequestSDKType, QuerySpotPriceResponse, QuerySpotPriceResponseSDKType } from "./query";
 export interface Query {
   /**
    * SpotPrice defines a gRPC query handler that returns the spot price given
@@ -12,16 +13,13 @@ export interface Query {
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.spotPrice = this.spotPrice.bind(this);
   }
-
   spotPrice(request: DeepPartial<QuerySpotPriceRequest>, metadata?: grpc.Metadata): Promise<QuerySpotPriceResponse> {
     return this.rpc.unary(QuerySpotPriceDesc, QuerySpotPriceRequest.fromPartial(request), metadata);
   }
-
 }
 export const QueryDesc = {
   serviceName: "osmosis.gamm.v2.Query"
@@ -35,19 +33,16 @@ export const QuerySpotPriceDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QuerySpotPriceRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QuerySpotPriceResponse.decode(data),
-
+      return {
+        ...QuerySpotPriceResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -60,7 +55,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -69,12 +63,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -97,5 +92,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

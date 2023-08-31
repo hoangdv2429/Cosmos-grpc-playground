@@ -1,29 +1,29 @@
+import { QueryCondition, QueryConditionSDKType } from "../lockup/lock";
+import { Coin, CoinSDKType } from "../../cosmos/base/v1beta1/coin";
+import { Timestamp, TimestampSDKType } from "../../google/protobuf/timestamp";
 import { UnaryMethodDefinitionish } from "../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgCreateGauge, MsgCreateGaugeResponse, MsgAddToGauge, MsgAddToGaugeResponse } from "./tx";
+import { MsgCreateGauge, MsgCreateGaugeSDKType, MsgCreateGaugeResponse, MsgCreateGaugeResponseSDKType, MsgAddToGauge, MsgAddToGaugeSDKType, MsgAddToGaugeResponse, MsgAddToGaugeResponseSDKType } from "./tx";
 export interface Msg {
   createGauge(request: DeepPartial<MsgCreateGauge>, metadata?: grpc.Metadata): Promise<MsgCreateGaugeResponse>;
   addToGauge(request: DeepPartial<MsgAddToGauge>, metadata?: grpc.Metadata): Promise<MsgAddToGaugeResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.createGauge = this.createGauge.bind(this);
     this.addToGauge = this.addToGauge.bind(this);
   }
-
   createGauge(request: DeepPartial<MsgCreateGauge>, metadata?: grpc.Metadata): Promise<MsgCreateGaugeResponse> {
     return this.rpc.unary(MsgCreateGaugeDesc, MsgCreateGauge.fromPartial(request), metadata);
   }
-
   addToGauge(request: DeepPartial<MsgAddToGauge>, metadata?: grpc.Metadata): Promise<MsgAddToGaugeResponse> {
     return this.rpc.unary(MsgAddToGaugeDesc, MsgAddToGauge.fromPartial(request), metadata);
   }
-
 }
 export const MsgDesc = {
   serviceName: "osmosis.incentives.Msg"
@@ -37,19 +37,16 @@ export const MsgCreateGaugeDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCreateGauge.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgCreateGaugeResponse.decode(data),
-
+      return {
+        ...MsgCreateGaugeResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const MsgAddToGaugeDesc: UnaryMethodDefinitionish = {
@@ -61,19 +58,16 @@ export const MsgAddToGaugeDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgAddToGauge.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgAddToGaugeResponse.decode(data),
-
+      return {
+        ...MsgAddToGaugeResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -86,7 +80,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -95,12 +88,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -123,5 +117,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

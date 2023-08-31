@@ -1,8 +1,8 @@
-import { LCDClient } from "@osmonauts/lcd";
-import { UserValidatorPreferencesRequest, UserValidatorPreferencesResponseSDKType } from "./query";
+import { ValidatorPreference, ValidatorPreferenceSDKType } from "./state";
+import { LCDClient } from "@cosmology/lcd";
+import { UserValidatorPreferencesRequest, UserValidatorPreferencesRequestSDKType, UserValidatorPreferencesResponse, UserValidatorPreferencesResponseSDKType } from "./query";
 export class LCDQueryClient {
   req: LCDClient;
-
   constructor({
     requestClient
   }: {
@@ -12,11 +12,8 @@ export class LCDQueryClient {
     this.userValidatorPreferences = this.userValidatorPreferences.bind(this);
   }
   /* Returns the list of ValidatorPreferences for the user. */
-
-
   async userValidatorPreferences(params: UserValidatorPreferencesRequest): Promise<UserValidatorPreferencesResponseSDKType> {
     const endpoint = `osmosis/valset-pref/v1beta1/${params.address}`;
     return await this.req.get<UserValidatorPreferencesResponseSDKType>(endpoint);
   }
-
 }

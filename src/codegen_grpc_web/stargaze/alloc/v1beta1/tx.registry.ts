@@ -1,5 +1,6 @@
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgCreateVestingAccount } from "./tx";
+import { MsgCreateVestingAccount, MsgCreateVestingAccountSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/publicawesome.stargaze.alloc.v1beta1.MsgCreateVestingAccount", MsgCreateVestingAccount]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,7 +15,6 @@ export const MessageComposer = {
         value: MsgCreateVestingAccount.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     createVestingAccount(value: MsgCreateVestingAccount) {
@@ -23,7 +23,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   toJSON: {
     createVestingAccount(value: MsgCreateVestingAccount) {
@@ -32,7 +31,6 @@ export const MessageComposer = {
         value: MsgCreateVestingAccount.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     createVestingAccount(value: any) {
@@ -41,7 +39,6 @@ export const MessageComposer = {
         value: MsgCreateVestingAccount.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     createVestingAccount(value: MsgCreateVestingAccount) {
@@ -50,6 +47,5 @@ export const MessageComposer = {
         value: MsgCreateVestingAccount.fromPartial(value)
       };
     }
-
   }
 };

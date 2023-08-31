@@ -1,5 +1,5 @@
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgSend } from "./tx";
+import { MsgSend, MsgSendSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/cosmos.nft.v1beta1.MsgSend", MsgSend]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,7 +14,6 @@ export const MessageComposer = {
         value: MsgSend.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     send(value: MsgSend) {
@@ -23,7 +22,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   toJSON: {
     send(value: MsgSend) {
@@ -32,7 +30,6 @@ export const MessageComposer = {
         value: MsgSend.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     send(value: any) {
@@ -41,7 +38,6 @@ export const MessageComposer = {
         value: MsgSend.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     send(value: MsgSend) {
@@ -50,6 +46,5 @@ export const MessageComposer = {
         value: MsgSend.fromPartial(value)
       };
     }
-
   }
 };

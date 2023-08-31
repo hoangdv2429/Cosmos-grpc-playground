@@ -1,5 +1,5 @@
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
-import { BinaryReader, BinaryWriter } from "../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "publicawesome.stargaze.claim.v1beta1";
 export enum Action {
@@ -17,23 +17,18 @@ export function actionFromJSON(object: any): Action {
     case 0:
     case "ActionInitialClaim":
       return Action.ActionInitialClaim;
-
     case 1:
     case "ActionBidNFT":
       return Action.ActionBidNFT;
-
     case 2:
     case "ActionMintNFT":
       return Action.ActionMintNFT;
-
     case 3:
     case "ActionVote":
       return Action.ActionVote;
-
     case 4:
     case "ActionDelegateStake":
       return Action.ActionDelegateStake;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -44,19 +39,14 @@ export function actionToJSON(object: Action): string {
   switch (object) {
     case Action.ActionInitialClaim:
       return "ActionInitialClaim";
-
     case Action.ActionBidNFT:
       return "ActionBidNFT";
-
     case Action.ActionMintNFT:
       return "ActionMintNFT";
-
     case Action.ActionVote:
       return "ActionVote";
-
     case Action.ActionDelegateStake:
       return "ActionDelegateStake";
-
     case Action.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -66,13 +56,11 @@ export interface ClaimRecord {
   /** address of claim user */
   address: string;
   /** total initial claimable amount for the user */
-
   initialClaimableAmount: Coin[];
   /**
    * true if action is completed
    * index of bool in array refers to action enum #
    */
-
   actionCompleted: boolean[];
 }
 export interface ClaimRecordProtoMsg {
@@ -83,13 +71,11 @@ export interface ClaimRecordAmino {
   /** address of claim user */
   address: string;
   /** total initial claimable amount for the user */
-
   initial_claimable_amount: CoinAmino[];
   /**
    * true if action is completed
    * index of bool in array refers to action enum #
    */
-
   action_completed: boolean[];
 }
 export interface ClaimRecordAminoMsg {
@@ -101,7 +87,6 @@ export interface ClaimRecordSDKType {
   initial_claimable_amount: CoinSDKType[];
   action_completed: boolean[];
 }
-
 function createBaseClaimRecord(): ClaimRecord {
   return {
     address: "",
@@ -109,68 +94,52 @@ function createBaseClaimRecord(): ClaimRecord {
     actionCompleted: []
   };
 }
-
 export const ClaimRecord = {
   typeUrl: "/publicawesome.stargaze.claim.v1beta1.ClaimRecord",
-
-  encode(message: ClaimRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ClaimRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
-
     for (const v of message.initialClaimableAmount) {
       Coin.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-
     writer.uint32(34).fork();
-
     for (const v of message.actionCompleted) {
       writer.bool(v);
     }
-
     writer.ldelim();
     return writer;
   },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ClaimRecord {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ClaimRecord {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClaimRecord();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.address = reader.string();
           break;
-
         case 2:
           message.initialClaimableAmount.push(Coin.decode(reader, reader.uint32()));
           break;
-
         case 4:
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
-
             while (reader.pos < end2) {
               message.actionCompleted.push(reader.bool());
             }
           } else {
             message.actionCompleted.push(reader.bool());
           }
-
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromJSON(object: any): ClaimRecord {
     return {
       address: isSet(object.address) ? String(object.address) : "",
@@ -178,26 +147,21 @@ export const ClaimRecord = {
       actionCompleted: Array.isArray(object?.actionCompleted) ? object.actionCompleted.map((e: any) => Boolean(e)) : []
     };
   },
-
   toJSON(message: ClaimRecord): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-
     if (message.initialClaimableAmount) {
       obj.initialClaimableAmount = message.initialClaimableAmount.map(e => e ? Coin.toJSON(e) : undefined);
     } else {
       obj.initialClaimableAmount = [];
     }
-
     if (message.actionCompleted) {
       obj.actionCompleted = message.actionCompleted.map(e => e);
     } else {
       obj.actionCompleted = [];
     }
-
     return obj;
   },
-
   fromPartial(object: DeepPartial<ClaimRecord>): ClaimRecord {
     const message = createBaseClaimRecord();
     message.address = object.address ?? "";
@@ -205,7 +169,6 @@ export const ClaimRecord = {
     message.actionCompleted = object.actionCompleted?.map(e => e) || [];
     return message;
   },
-
   fromSDK(object: ClaimRecordSDKType): ClaimRecord {
     return {
       address: object?.address,
@@ -213,26 +176,21 @@ export const ClaimRecord = {
       actionCompleted: Array.isArray(object?.action_completed) ? object.action_completed.map((e: any) => e) : []
     };
   },
-
   toSDK(message: ClaimRecord): ClaimRecordSDKType {
     const obj: any = {};
     obj.address = message.address;
-
     if (message.initialClaimableAmount) {
       obj.initial_claimable_amount = message.initialClaimableAmount.map(e => e ? Coin.toSDK(e) : undefined);
     } else {
       obj.initial_claimable_amount = [];
     }
-
     if (message.actionCompleted) {
       obj.action_completed = message.actionCompleted.map(e => e);
     } else {
       obj.action_completed = [];
     }
-
     return obj;
   },
-
   fromAmino(object: ClaimRecordAmino): ClaimRecord {
     return {
       address: object.address,
@@ -240,43 +198,34 @@ export const ClaimRecord = {
       actionCompleted: Array.isArray(object?.action_completed) ? object.action_completed.map((e: any) => e) : []
     };
   },
-
   toAmino(message: ClaimRecord): ClaimRecordAmino {
     const obj: any = {};
     obj.address = message.address;
-
     if (message.initialClaimableAmount) {
       obj.initial_claimable_amount = message.initialClaimableAmount.map(e => e ? Coin.toAmino(e) : undefined);
     } else {
       obj.initial_claimable_amount = [];
     }
-
     if (message.actionCompleted) {
       obj.action_completed = message.actionCompleted.map(e => e);
     } else {
       obj.action_completed = [];
     }
-
     return obj;
   },
-
   fromAminoMsg(object: ClaimRecordAminoMsg): ClaimRecord {
     return ClaimRecord.fromAmino(object.value);
   },
-
   fromProtoMsg(message: ClaimRecordProtoMsg): ClaimRecord {
     return ClaimRecord.decode(message.value);
   },
-
   toProto(message: ClaimRecord): Uint8Array {
     return ClaimRecord.encode(message).finish();
   },
-
   toProtoMsg(message: ClaimRecord): ClaimRecordProtoMsg {
     return {
       typeUrl: "/publicawesome.stargaze.claim.v1beta1.ClaimRecord",
       value: ClaimRecord.encode(message).finish()
     };
   }
-
 };

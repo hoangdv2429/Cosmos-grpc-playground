@@ -23,7 +23,8 @@ import * as _516 from "./rpc.tx";
 export namespace publicawesome {
   export namespace stargaze {
     export namespace alloc {
-      export const v1beta1 = { ..._255,
+      export const v1beta1 = {
+        ..._255,
         ..._256,
         ..._257,
         ..._258,
@@ -35,7 +36,8 @@ export namespace publicawesome {
       };
     }
     export namespace claim {
-      export const v1beta1 = { ..._259,
+      export const v1beta1 = {
+        ..._259,
         ..._260,
         ..._261,
         ..._262,
@@ -48,7 +50,8 @@ export namespace publicawesome {
       };
     }
   }
-  export const ClientFactory = { ..._514,
+  export const ClientFactory = {
+    ..._514,
     ..._515,
     ..._516
   };

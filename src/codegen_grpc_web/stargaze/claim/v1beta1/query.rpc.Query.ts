@@ -1,10 +1,13 @@
+import { Action, ActionSDKType, ClaimRecord, ClaimRecordSDKType } from "./claim_record";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { Params, ParamsSDKType } from "./params";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QueryModuleAccountBalanceRequest, QueryModuleAccountBalanceResponse, QueryParamsRequest, QueryParamsResponse, QueryClaimRecordRequest, QueryClaimRecordResponse, QueryClaimableForActionRequest, QueryClaimableForActionResponse, QueryTotalClaimableRequest, QueryTotalClaimableResponse } from "./query";
+import { QueryModuleAccountBalanceRequest, QueryModuleAccountBalanceRequestSDKType, QueryModuleAccountBalanceResponse, QueryModuleAccountBalanceResponseSDKType, QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType, QueryClaimRecordRequest, QueryClaimRecordRequestSDKType, QueryClaimRecordResponse, QueryClaimRecordResponseSDKType, QueryClaimableForActionRequest, QueryClaimableForActionRequestSDKType, QueryClaimableForActionResponse, QueryClaimableForActionResponseSDKType, QueryTotalClaimableRequest, QueryTotalClaimableRequestSDKType, QueryTotalClaimableResponse, QueryTotalClaimableResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
-
 export interface Query {
   /** this line is used by starport scaffolding # 2 */
   moduleAccountBalance(request?: DeepPartial<QueryModuleAccountBalanceRequest>, metadata?: grpc.Metadata): Promise<QueryModuleAccountBalanceResponse>;
@@ -15,7 +18,6 @@ export interface Query {
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.moduleAccountBalance = this.moduleAccountBalance.bind(this);
@@ -24,27 +26,21 @@ export class QueryClientImpl implements Query {
     this.claimableForAction = this.claimableForAction.bind(this);
     this.totalClaimable = this.totalClaimable.bind(this);
   }
-
   moduleAccountBalance(request: DeepPartial<QueryModuleAccountBalanceRequest> = {}, metadata?: grpc.Metadata): Promise<QueryModuleAccountBalanceResponse> {
     return this.rpc.unary(QueryModuleAccountBalanceDesc, QueryModuleAccountBalanceRequest.fromPartial(request), metadata);
   }
-
   params(request: DeepPartial<QueryParamsRequest> = {}, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
     return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
   }
-
   claimRecord(request: DeepPartial<QueryClaimRecordRequest>, metadata?: grpc.Metadata): Promise<QueryClaimRecordResponse> {
     return this.rpc.unary(QueryClaimRecordDesc, QueryClaimRecordRequest.fromPartial(request), metadata);
   }
-
   claimableForAction(request: DeepPartial<QueryClaimableForActionRequest>, metadata?: grpc.Metadata): Promise<QueryClaimableForActionResponse> {
     return this.rpc.unary(QueryClaimableForActionDesc, QueryClaimableForActionRequest.fromPartial(request), metadata);
   }
-
   totalClaimable(request: DeepPartial<QueryTotalClaimableRequest>, metadata?: grpc.Metadata): Promise<QueryTotalClaimableResponse> {
     return this.rpc.unary(QueryTotalClaimableDesc, QueryTotalClaimableRequest.fromPartial(request), metadata);
   }
-
 }
 export const QueryDesc = {
   serviceName: "publicawesome.stargaze.claim.v1beta1.Query"
@@ -58,19 +54,16 @@ export const QueryModuleAccountBalanceDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryModuleAccountBalanceRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryModuleAccountBalanceResponse.decode(data),
-
+      return {
+        ...QueryModuleAccountBalanceResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryParamsDesc: UnaryMethodDefinitionish = {
@@ -82,19 +75,16 @@ export const QueryParamsDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryParamsRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryParamsResponse.decode(data),
-
+      return {
+        ...QueryParamsResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryClaimRecordDesc: UnaryMethodDefinitionish = {
@@ -106,19 +96,16 @@ export const QueryClaimRecordDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryClaimRecordRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryClaimRecordResponse.decode(data),
-
+      return {
+        ...QueryClaimRecordResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryClaimableForActionDesc: UnaryMethodDefinitionish = {
@@ -130,19 +117,16 @@ export const QueryClaimableForActionDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryClaimableForActionRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryClaimableForActionResponse.decode(data),
-
+      return {
+        ...QueryClaimableForActionResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryTotalClaimableDesc: UnaryMethodDefinitionish = {
@@ -154,19 +138,16 @@ export const QueryTotalClaimableDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryTotalClaimableRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryTotalClaimableResponse.decode(data),
-
+      return {
+        ...QueryTotalClaimableResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -179,7 +160,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -188,12 +168,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -216,5 +197,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

@@ -1,5 +1,5 @@
-import { BinaryReader, BinaryWriter } from "../../binary";
-import { isSet, DeepPartial, fromJsonTimestamp, fromTimestamp } from "../../helpers";
+import { Long, isSet, DeepPartial, fromJsonTimestamp, fromTimestamp } from "../../helpers";
+import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "google.protobuf";
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -85,21 +85,19 @@ export const protobufPackage = "google.protobuf";
  * http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime%2D%2D
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
-
 export interface Timestamp {
   /**
    * Represents seconds of UTC time since Unix epoch
    * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
    * 9999-12-31T23:59:59Z inclusive.
    */
-  seconds: bigint;
+  seconds: Long;
   /**
    * Non-negative fractions of a second at nanosecond resolution. Negative
    * second values with fractions must still have non-negative nanos values
    * that count forward in time. Must be from 0 to 999,999,999
    * inclusive.
    */
-
   nanos: number;
 }
 export interface TimestampProtoMsg {
@@ -190,7 +188,6 @@ export interface TimestampProtoMsg {
  * http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime%2D%2D
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
-
 export type TimestampAmino = string;
 export interface TimestampAminoMsg {
   type: "/google.protobuf.Timestamp";
@@ -280,120 +277,96 @@ export interface TimestampAminoMsg {
  * http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime%2D%2D
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
-
 export interface TimestampSDKType {
-  seconds: bigint;
+  seconds: Long;
   nanos: number;
 }
-
 function createBaseTimestamp(): Timestamp {
   return {
-    seconds: BigInt(0),
+    seconds: Long.ZERO,
     nanos: 0
   };
 }
-
 export const Timestamp = {
   typeUrl: "/google.protobuf.Timestamp",
-
-  encode(message: Timestamp, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.seconds !== BigInt(0)) {
+  encode(message: Timestamp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.seconds.isZero()) {
       writer.uint32(8).int64(message.seconds);
     }
-
     if (message.nanos !== 0) {
       writer.uint32(16).int32(message.nanos);
     }
-
     return writer;
   },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): Timestamp {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): Timestamp {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTimestamp();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
-          message.seconds = reader.int64();
+          message.seconds = (reader.int64() as Long);
           break;
-
         case 2:
           message.nanos = reader.int32();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromJSON(object: any): Timestamp {
     return {
-      seconds: isSet(object.seconds) ? BigInt(object.seconds.toString()) : BigInt(0),
+      seconds: isSet(object.seconds) ? Long.fromValue(object.seconds) : Long.ZERO,
       nanos: isSet(object.nanos) ? Number(object.nanos) : 0
     };
   },
-
   toJSON(message: Timestamp): unknown {
     const obj: any = {};
-    message.seconds !== undefined && (obj.seconds = (message.seconds || BigInt(0)).toString());
+    message.seconds !== undefined && (obj.seconds = (message.seconds || Long.ZERO).toString());
     message.nanos !== undefined && (obj.nanos = Math.round(message.nanos));
     return obj;
   },
-
   fromPartial(object: DeepPartial<Timestamp>): Timestamp {
     const message = createBaseTimestamp();
-    message.seconds = object.seconds !== undefined && object.seconds !== null ? BigInt(object.seconds.toString()) : BigInt(0);
+    message.seconds = object.seconds !== undefined && object.seconds !== null ? Long.fromValue(object.seconds) : Long.ZERO;
     message.nanos = object.nanos ?? 0;
     return message;
   },
-
   fromSDK(object: TimestampSDKType): Timestamp {
     return {
       seconds: object?.seconds,
       nanos: object?.nanos
     };
   },
-
   toSDK(message: Timestamp): TimestampSDKType {
     const obj: any = {};
     obj.seconds = message.seconds;
     obj.nanos = message.nanos;
     return obj;
   },
-
   fromAmino(object: TimestampAmino): Timestamp {
     return fromJsonTimestamp(object);
   },
-
   toAmino(message: Timestamp): TimestampAmino {
     return fromTimestamp(message).toString();
   },
-
   fromAminoMsg(object: TimestampAminoMsg): Timestamp {
     return Timestamp.fromAmino(object.value);
   },
-
   fromProtoMsg(message: TimestampProtoMsg): Timestamp {
     return Timestamp.decode(message.value);
   },
-
   toProto(message: Timestamp): Uint8Array {
     return Timestamp.encode(message).finish();
   },
-
   toProtoMsg(message: Timestamp): TimestampProtoMsg {
     return {
       typeUrl: "/google.protobuf.Timestamp",
       value: Timestamp.encode(message).finish()
     };
   }
-
 };

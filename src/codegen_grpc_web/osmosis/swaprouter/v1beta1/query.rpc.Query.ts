@@ -1,21 +1,21 @@
+import { SwapAmountInRoute, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteSDKType } from "./swap_route";
+import { Params, ParamsSDKType } from "./genesis";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { ParamsRequest, ParamsResponse, EstimateSwapExactAmountInRequest, EstimateSwapExactAmountInResponse, EstimateSwapExactAmountOutRequest, EstimateSwapExactAmountOutResponse, NumPoolsRequest, NumPoolsResponse } from "./query";
+import { ParamsRequest, ParamsRequestSDKType, ParamsResponse, ParamsResponseSDKType, EstimateSwapExactAmountInRequest, EstimateSwapExactAmountInRequestSDKType, EstimateSwapExactAmountInResponse, EstimateSwapExactAmountInResponseSDKType, EstimateSwapExactAmountOutRequest, EstimateSwapExactAmountOutRequestSDKType, EstimateSwapExactAmountOutResponse, EstimateSwapExactAmountOutResponseSDKType, NumPoolsRequest, NumPoolsRequestSDKType, NumPoolsResponse, NumPoolsResponseSDKType } from "./query";
 export interface Query {
   params(request?: DeepPartial<ParamsRequest>, metadata?: grpc.Metadata): Promise<ParamsResponse>;
   /** Estimates swap amount out given in. */
-
   estimateSwapExactAmountIn(request: DeepPartial<EstimateSwapExactAmountInRequest>, metadata?: grpc.Metadata): Promise<EstimateSwapExactAmountInResponse>;
   /** Estimates swap amount in given out. */
-
   estimateSwapExactAmountOut(request: DeepPartial<EstimateSwapExactAmountOutRequest>, metadata?: grpc.Metadata): Promise<EstimateSwapExactAmountOutResponse>;
   numPools(request?: DeepPartial<NumPoolsRequest>, metadata?: grpc.Metadata): Promise<NumPoolsResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.params = this.params.bind(this);
@@ -23,23 +23,18 @@ export class QueryClientImpl implements Query {
     this.estimateSwapExactAmountOut = this.estimateSwapExactAmountOut.bind(this);
     this.numPools = this.numPools.bind(this);
   }
-
   params(request: DeepPartial<ParamsRequest> = {}, metadata?: grpc.Metadata): Promise<ParamsResponse> {
     return this.rpc.unary(QueryParamsDesc, ParamsRequest.fromPartial(request), metadata);
   }
-
   estimateSwapExactAmountIn(request: DeepPartial<EstimateSwapExactAmountInRequest>, metadata?: grpc.Metadata): Promise<EstimateSwapExactAmountInResponse> {
     return this.rpc.unary(QueryEstimateSwapExactAmountInDesc, EstimateSwapExactAmountInRequest.fromPartial(request), metadata);
   }
-
   estimateSwapExactAmountOut(request: DeepPartial<EstimateSwapExactAmountOutRequest>, metadata?: grpc.Metadata): Promise<EstimateSwapExactAmountOutResponse> {
     return this.rpc.unary(QueryEstimateSwapExactAmountOutDesc, EstimateSwapExactAmountOutRequest.fromPartial(request), metadata);
   }
-
   numPools(request: DeepPartial<NumPoolsRequest> = {}, metadata?: grpc.Metadata): Promise<NumPoolsResponse> {
     return this.rpc.unary(QueryNumPoolsDesc, NumPoolsRequest.fromPartial(request), metadata);
   }
-
 }
 export const QueryDesc = {
   serviceName: "osmosis.swaprouter.v1beta1.Query"
@@ -53,19 +48,16 @@ export const QueryParamsDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return ParamsRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...ParamsResponse.decode(data),
-
+      return {
+        ...ParamsResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryEstimateSwapExactAmountInDesc: UnaryMethodDefinitionish = {
@@ -77,19 +69,16 @@ export const QueryEstimateSwapExactAmountInDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return EstimateSwapExactAmountInRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...EstimateSwapExactAmountInResponse.decode(data),
-
+      return {
+        ...EstimateSwapExactAmountInResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryEstimateSwapExactAmountOutDesc: UnaryMethodDefinitionish = {
@@ -101,19 +90,16 @@ export const QueryEstimateSwapExactAmountOutDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return EstimateSwapExactAmountOutRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...EstimateSwapExactAmountOutResponse.decode(data),
-
+      return {
+        ...EstimateSwapExactAmountOutResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryNumPoolsDesc: UnaryMethodDefinitionish = {
@@ -125,19 +111,16 @@ export const QueryNumPoolsDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return NumPoolsRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...NumPoolsResponse.decode(data),
-
+      return {
+        ...NumPoolsResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -150,7 +133,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -159,12 +141,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -187,5 +170,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

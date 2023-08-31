@@ -1,5 +1,7 @@
+import { Action, ActionSDKType } from "./claim_record";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgInitialClaim, MsgClaimFor } from "./tx";
+import { MsgInitialClaim, MsgInitialClaimSDKType, MsgClaimFor, MsgClaimForSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/publicawesome.stargaze.claim.v1beta1.MsgInitialClaim", MsgInitialClaim], ["/publicawesome.stargaze.claim.v1beta1.MsgClaimFor", MsgClaimFor]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,14 +16,12 @@ export const MessageComposer = {
         value: MsgInitialClaim.encode(value).finish()
       };
     },
-
     claimFor(value: MsgClaimFor) {
       return {
         typeUrl: "/publicawesome.stargaze.claim.v1beta1.MsgClaimFor",
         value: MsgClaimFor.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     initialClaim(value: MsgInitialClaim) {
@@ -30,14 +30,12 @@ export const MessageComposer = {
         value
       };
     },
-
     claimFor(value: MsgClaimFor) {
       return {
         typeUrl: "/publicawesome.stargaze.claim.v1beta1.MsgClaimFor",
         value
       };
     }
-
   },
   toJSON: {
     initialClaim(value: MsgInitialClaim) {
@@ -46,14 +44,12 @@ export const MessageComposer = {
         value: MsgInitialClaim.toJSON(value)
       };
     },
-
     claimFor(value: MsgClaimFor) {
       return {
         typeUrl: "/publicawesome.stargaze.claim.v1beta1.MsgClaimFor",
         value: MsgClaimFor.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     initialClaim(value: any) {
@@ -62,14 +58,12 @@ export const MessageComposer = {
         value: MsgInitialClaim.fromJSON(value)
       };
     },
-
     claimFor(value: any) {
       return {
         typeUrl: "/publicawesome.stargaze.claim.v1beta1.MsgClaimFor",
         value: MsgClaimFor.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     initialClaim(value: MsgInitialClaim) {
@@ -78,13 +72,11 @@ export const MessageComposer = {
         value: MsgInitialClaim.fromPartial(value)
       };
     },
-
     claimFor(value: MsgClaimFor) {
       return {
         typeUrl: "/publicawesome.stargaze.claim.v1beta1.MsgClaimFor",
         value: MsgClaimFor.fromPartial(value)
       };
     }
-
   }
 };

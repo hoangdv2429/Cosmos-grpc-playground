@@ -7,14 +7,16 @@ import * as _517 from "./lcd";
 import * as _518 from "./rpc.query";
 export namespace stargaze {
   export namespace mint {
-    export const v1beta1 = { ..._264,
+    export const v1beta1 = {
+      ..._264,
       ..._265,
       ..._266,
       ..._495,
       ..._496
     };
   }
-  export const ClientFactory = { ..._517,
+  export const ClientFactory = {
+    ..._517,
     ..._518
   };
 }

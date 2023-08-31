@@ -1,34 +1,30 @@
+import { EpochInfo, EpochInfoSDKType } from "./genesis";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../grpc-web";
 import { DeepPartial } from "../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { QueryEpochsInfoRequest, QueryEpochsInfoResponse, QueryCurrentEpochRequest, QueryCurrentEpochResponse } from "./query";
+import { QueryEpochsInfoRequest, QueryEpochsInfoRequestSDKType, QueryEpochsInfoResponse, QueryEpochsInfoResponseSDKType, QueryCurrentEpochRequest, QueryCurrentEpochRequestSDKType, QueryCurrentEpochResponse, QueryCurrentEpochResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
-
 export interface Query {
   /** EpochInfos provide running epochInfos */
   epochInfos(request?: DeepPartial<QueryEpochsInfoRequest>, metadata?: grpc.Metadata): Promise<QueryEpochsInfoResponse>;
   /** CurrentEpoch provide current epoch of specified identifier */
-
   currentEpoch(request: DeepPartial<QueryCurrentEpochRequest>, metadata?: grpc.Metadata): Promise<QueryCurrentEpochResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.epochInfos = this.epochInfos.bind(this);
     this.currentEpoch = this.currentEpoch.bind(this);
   }
-
   epochInfos(request: DeepPartial<QueryEpochsInfoRequest> = {}, metadata?: grpc.Metadata): Promise<QueryEpochsInfoResponse> {
     return this.rpc.unary(QueryEpochInfosDesc, QueryEpochsInfoRequest.fromPartial(request), metadata);
   }
-
   currentEpoch(request: DeepPartial<QueryCurrentEpochRequest>, metadata?: grpc.Metadata): Promise<QueryCurrentEpochResponse> {
     return this.rpc.unary(QueryCurrentEpochDesc, QueryCurrentEpochRequest.fromPartial(request), metadata);
   }
-
 }
 export const QueryDesc = {
   serviceName: "osmosis.epochs.v1beta1.Query"
@@ -42,19 +38,16 @@ export const QueryEpochInfosDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryEpochsInfoRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryEpochsInfoResponse.decode(data),
-
+      return {
+        ...QueryEpochsInfoResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export const QueryCurrentEpochDesc: UnaryMethodDefinitionish = {
@@ -66,19 +59,16 @@ export const QueryCurrentEpochDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return QueryCurrentEpochRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...QueryCurrentEpochResponse.decode(data),
-
+      return {
+        ...QueryCurrentEpochResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -91,7 +81,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -100,12 +89,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -128,5 +118,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

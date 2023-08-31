@@ -1,10 +1,11 @@
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgCreateVestingAccount, MsgCreateVestingAccountResponse } from "./tx";
+import { MsgCreateVestingAccount, MsgCreateVestingAccountSDKType, MsgCreateVestingAccountResponse, MsgCreateVestingAccountResponseSDKType } from "./tx";
 /** Msg defines the alloc Msg service. */
-
 export interface Msg {
   /**
    * CreateVestingAccount defines a method that enables creating a vesting
@@ -14,16 +15,13 @@ export interface Msg {
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.createVestingAccount = this.createVestingAccount.bind(this);
   }
-
   createVestingAccount(request: DeepPartial<MsgCreateVestingAccount>, metadata?: grpc.Metadata): Promise<MsgCreateVestingAccountResponse> {
     return this.rpc.unary(MsgCreateVestingAccountDesc, MsgCreateVestingAccount.fromPartial(request), metadata);
   }
-
 }
 export const MsgDesc = {
   serviceName: "publicawesome.stargaze.alloc.v1beta1.Msg"
@@ -37,19 +35,16 @@ export const MsgCreateVestingAccountDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgCreateVestingAccount.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgCreateVestingAccountResponse.decode(data),
-
+      return {
+        ...MsgCreateVestingAccountResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -62,7 +57,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -71,12 +65,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -99,5 +94,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

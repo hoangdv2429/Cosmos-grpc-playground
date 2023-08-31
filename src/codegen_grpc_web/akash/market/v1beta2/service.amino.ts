@@ -1,6 +1,7 @@
-/* eslint-disable */
-import { MsgCreateBid, MsgCloseBid } from "./bid";
-import { MsgWithdrawLease, MsgCreateLease, MsgCloseLease } from "./lease";
+import { OrderID, OrderIDSDKType } from "./order";
+import { DecCoin, DecCoinSDKType, Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { BidID, BidIDSDKType, MsgCreateBid, MsgCreateBidSDKType, MsgCloseBid, MsgCloseBidSDKType } from "./bid";
+import { LeaseID, LeaseIDSDKType, MsgWithdrawLease, MsgWithdrawLeaseSDKType, MsgCreateLease, MsgCreateLeaseSDKType, MsgCloseLease, MsgCloseLeaseSDKType } from "./lease";
 export const AminoConverter = {
   "/akash.market.v1beta2.MsgCreateBid": {
     aminoType: "/akash.market.v1beta2.MsgCreateBid",

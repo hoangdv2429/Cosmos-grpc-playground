@@ -103,15 +103,15 @@ const main = async () => {
   );
   // console.log(signed_tx);
   const txRawBytes = Uint8Array.from(TxRaw.encode(signed_tx).finish());
-  console.time("broadcastTx")
+  console.time("broadcastTx");
   const res = await client.cosmos.tx.v1beta1.broadcastTx({
     txBytes: txRawBytes,
     mode: BroadcastMode.BROADCAST_MODE_BLOCK,
   });
-  console.timeEnd("broadcastTx")
+  console.timeEnd("broadcastTx");
 
   // console.log(JSON.stringify(res.txResponse.height, null, 2));
-  // console.log(res);
+  console.log(res);
 };
 
 main().then(() => {

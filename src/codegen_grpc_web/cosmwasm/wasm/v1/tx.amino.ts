@@ -1,4 +1,6 @@
-import { MsgStoreCode, MsgInstantiateContract, MsgInstantiateContract2, MsgExecuteContract, MsgMigrateContract, MsgUpdateAdmin, MsgClearAdmin } from "./tx";
+import { AccessConfig, AccessConfigSDKType } from "./types";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { MsgStoreCode, MsgStoreCodeSDKType, MsgInstantiateContract, MsgInstantiateContractSDKType, MsgInstantiateContract2, MsgInstantiateContract2SDKType, MsgExecuteContract, MsgExecuteContractSDKType, MsgMigrateContract, MsgMigrateContractSDKType, MsgUpdateAdmin, MsgUpdateAdminSDKType, MsgClearAdmin, MsgClearAdminSDKType } from "./tx";
 export const AminoConverter = {
   "/cosmwasm.wasm.v1.MsgStoreCode": {
     aminoType: "wasm/MsgStoreCode",

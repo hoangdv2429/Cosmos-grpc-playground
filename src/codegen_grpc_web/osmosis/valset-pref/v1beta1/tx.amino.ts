@@ -1,5 +1,6 @@
-//@ts-nocheck
-import { MsgSetValidatorSetPreference, MsgDelegateToValidatorSet, MsgUndelegateFromValidatorSet, MsgRedelegateValidatorSet, MsgWithdrawDelegationRewards } from "./tx";
+import { ValidatorPreference, ValidatorPreferenceSDKType } from "./state";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { MsgSetValidatorSetPreference, MsgSetValidatorSetPreferenceSDKType, MsgDelegateToValidatorSet, MsgDelegateToValidatorSetSDKType, MsgUndelegateFromValidatorSet, MsgUndelegateFromValidatorSetSDKType, MsgRedelegateValidatorSet, MsgRedelegateValidatorSetSDKType, MsgWithdrawDelegationRewards, MsgWithdrawDelegationRewardsSDKType } from "./tx";
 export const AminoConverter = {
   "/osmosis.valsetpref.v1beta1.MsgSetValidatorSetPreference": {
     aminoType: "osmosis/valset-pref/MsgSetValidatorSetPreference",

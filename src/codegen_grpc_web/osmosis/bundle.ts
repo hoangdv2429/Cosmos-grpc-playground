@@ -129,7 +129,8 @@ import * as _512 from "./rpc.query";
 import * as _513 from "./rpc.tx";
 export namespace osmosis {
   export namespace downtimedetector {
-    export const v1beta1 = { ..._191,
+    export const v1beta1 = {
+      ..._191,
       ..._192,
       ..._193,
       ..._443,
@@ -137,14 +138,16 @@ export namespace osmosis {
     };
   }
   export namespace epochs {
-    export const v1beta1 = { ..._194,
+    export const v1beta1 = {
+      ..._194,
       ..._195,
       ..._444,
       ..._460
     };
   }
   export namespace gamm {
-    export const v1beta1 = { ..._196,
+    export const v1beta1 = {
+      ..._196,
       ..._197,
       ..._198,
       ..._199,
@@ -156,14 +159,16 @@ export namespace osmosis {
     };
     export namespace poolmodels {
       export namespace balancer {
-        export const v1beta1 = { ..._200,
+        export const v1beta1 = {
+          ..._200,
           ..._423,
           ..._433,
           ..._475
         };
       }
       export namespace stableswap {
-        export const v1beta1 = { ..._201,
+        export const v1beta1 = {
+          ..._201,
           ..._202,
           ..._424,
           ..._434,
@@ -171,19 +176,22 @@ export namespace osmosis {
         };
       }
     }
-    export const v2 = { ..._203,
+    export const v2 = {
+      ..._203,
       ..._446,
       ..._462
     };
   }
   export namespace ibcratelimit {
-    export const v1beta1 = { ..._204,
+    export const v1beta1 = {
+      ..._204,
       ..._205,
       ..._447,
       ..._463
     };
   }
-  export const incentives = { ..._206,
+  export const incentives = {
+    ..._206,
     ..._207,
     ..._208,
     ..._209,
@@ -194,7 +202,8 @@ export namespace osmosis {
     ..._464,
     ..._478
   };
-  export const lockup = { ..._211,
+  export const lockup = {
+    ..._211,
     ..._212,
     ..._213,
     ..._214,
@@ -206,7 +215,8 @@ export namespace osmosis {
     ..._479
   };
   export namespace mint {
-    export const v1beta1 = { ..._216,
+    export const v1beta1 = {
+      ..._216,
       ..._217,
       ..._218,
       ..._450,
@@ -214,7 +224,8 @@ export namespace osmosis {
     };
   }
   export namespace poolincentives {
-    export const v1beta1 = { ..._219,
+    export const v1beta1 = {
+      ..._219,
       ..._220,
       ..._221,
       ..._222,
@@ -223,7 +234,8 @@ export namespace osmosis {
     };
   }
   export namespace protorev {
-    export const v1beta1 = { ..._223,
+    export const v1beta1 = {
+      ..._223,
       ..._224,
       ..._225,
       ..._226,
@@ -237,10 +249,12 @@ export namespace osmosis {
     };
   }
   export namespace store {
-    export const v1beta1 = { ..._229
+    export const v1beta1 = {
+      ..._229
     };
   }
-  export const superfluid = { ..._230,
+  export const superfluid = {
+    ..._230,
     ..._231,
     ..._232,
     ..._233,
@@ -252,7 +266,8 @@ export namespace osmosis {
     ..._481
   };
   export namespace swaprouter {
-    export const v1beta1 = { ..._235,
+    export const v1beta1 = {
+      ..._235,
       ..._236,
       ..._237,
       ..._238,
@@ -265,7 +280,8 @@ export namespace osmosis {
     };
   }
   export namespace tokenfactory {
-    export const v1beta1 = { ..._240,
+    export const v1beta1 = {
+      ..._240,
       ..._241,
       ..._242,
       ..._243,
@@ -278,7 +294,8 @@ export namespace osmosis {
     };
   }
   export namespace twap {
-    export const v1beta1 = { ..._245,
+    export const v1beta1 = {
+      ..._245,
       ..._246,
       ..._247,
       ..._456,
@@ -286,7 +303,8 @@ export namespace osmosis {
     };
   }
   export namespace txfees {
-    export const v1beta1 = { ..._248,
+    export const v1beta1 = {
+      ..._248,
       ..._249,
       ..._250,
       ..._251,
@@ -295,7 +313,8 @@ export namespace osmosis {
     };
   }
   export namespace valsetpref {
-    export const v1beta1 = { ..._252,
+    export const v1beta1 = {
+      ..._252,
       ..._253,
       ..._254,
       ..._432,
@@ -305,7 +324,8 @@ export namespace osmosis {
       ..._484
     };
   }
-  export const ClientFactory = { ..._511,
+  export const ClientFactory = {
+    ..._511,
     ..._512,
     ..._513
   };

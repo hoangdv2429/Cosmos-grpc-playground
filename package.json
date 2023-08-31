@@ -25,6 +25,8 @@
     "build": "npm run build:module && npm run build:main",
     "buidl": "npm run build && npm run build:ts",
     "codegen": "cross-env NODE_ENV=development babel-node scripts/codegen.js",
+    "codegen:grpcweb": "cross-env NODE_ENV=development babel-node scripts/codegen_grpc_web.js",
+    "codegen:grpcgateway": "cross-env NODE_ENV=development babel-node scripts/codegen_gateway.js",
     "prepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index --extensions \".tsx,.ts,.js\"",
     "watch": "cross-env NODE_ENV=development babel-watch src/index --extensions \".tsx,.ts,.js\"",
@@ -90,10 +92,14 @@
     "@cosmjs/proto-signing": "0.29.4",
     "@cosmjs/stargate": "0.29.4",
     "@cosmjs/tendermint-rpc": "^0.29.4",
+    "@cosmology/lcd": "^0.12.0",
+    "@cosmology/telescope": "^0.102.1",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
     "@osmonauts/lcd": "^0.10.0",
+    "@types/libsodium-wrappers-sumo": "^0.7.5",
     "chain-registry": "^1.13.0",
     "cosmjs-utils": "^0.1.0",
+    "libsodium-wrappers-sumo": "^0.7.11",
     "protobufjs": "^6.11.3"
   }
 }

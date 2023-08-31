@@ -1,18 +1,15 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "osmosis.swaprouter.v1beta1";
 /** PoolType is an enumeration of all supported pool types. */
-
 export enum PoolType {
   /** Balancer - Balancer is the standard xy=k curve. Its pool model is defined in x/gamm. */
   Balancer = 0,
-
   /**
    * Stableswap - Stableswap is the Solidly cfmm stable swap curve. Its pool model is defined
    * in x/gamm.
    */
   Stableswap = 1,
-
   /**
    * Concentrated - Concentrated is the pool model specific to concentrated liquidity. It is
    * defined in x/concentrated-liquidity.
@@ -27,15 +24,12 @@ export function poolTypeFromJSON(object: any): PoolType {
     case 0:
     case "Balancer":
       return PoolType.Balancer;
-
     case 1:
     case "Stableswap":
       return PoolType.Stableswap;
-
     case 2:
     case "Concentrated":
       return PoolType.Concentrated;
-
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -46,13 +40,10 @@ export function poolTypeToJSON(object: PoolType): string {
   switch (object) {
     case PoolType.Balancer:
       return "Balancer";
-
     case PoolType.Stableswap:
       return "Stableswap";
-
     case PoolType.Concentrated:
       return "Concentrated";
-
     case PoolType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -64,7 +55,6 @@ export function poolTypeToJSON(object: PoolType): string {
  * allowing the swap router to know which module to route swaps to given the
  * pool id.
  */
-
 export interface ModuleRoute {
   /** pool_type specifies the type of the pool */
   poolType: PoolType;
@@ -79,7 +69,6 @@ export interface ModuleRouteProtoMsg {
  * allowing the swap router to know which module to route swaps to given the
  * pool id.
  */
-
 export interface ModuleRouteAmino {
   /** pool_type specifies the type of the pool */
   pool_type: PoolType;
@@ -94,117 +83,94 @@ export interface ModuleRouteAminoMsg {
  * allowing the swap router to know which module to route swaps to given the
  * pool id.
  */
-
 export interface ModuleRouteSDKType {
   pool_type: PoolType;
 }
-
 function createBaseModuleRoute(): ModuleRoute {
   return {
     poolType: 0
   };
 }
-
 export const ModuleRoute = {
   typeUrl: "/osmosis.swaprouter.v1beta1.ModuleRoute",
   aminoType: "osmosis/swaprouter/module-route",
-
-  encode(message: ModuleRoute, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ModuleRoute, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.poolType !== 0) {
       writer.uint32(8).int32(message.poolType);
     }
-
     return writer;
   },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ModuleRoute {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleRoute {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleRoute();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.poolType = (reader.int32() as any);
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromJSON(object: any): ModuleRoute {
     return {
       poolType: isSet(object.poolType) ? poolTypeFromJSON(object.poolType) : -1
     };
   },
-
   toJSON(message: ModuleRoute): unknown {
     const obj: any = {};
     message.poolType !== undefined && (obj.poolType = poolTypeToJSON(message.poolType));
     return obj;
   },
-
   fromPartial(object: DeepPartial<ModuleRoute>): ModuleRoute {
     const message = createBaseModuleRoute();
     message.poolType = object.poolType ?? 0;
     return message;
   },
-
   fromSDK(object: ModuleRouteSDKType): ModuleRoute {
     return {
       poolType: isSet(object.pool_type) ? poolTypeFromJSON(object.pool_type) : -1
     };
   },
-
   toSDK(message: ModuleRoute): ModuleRouteSDKType {
     const obj: any = {};
     message.poolType !== undefined && (obj.pool_type = poolTypeToJSON(message.poolType));
     return obj;
   },
-
   fromAmino(object: ModuleRouteAmino): ModuleRoute {
     return {
       poolType: isSet(object.pool_type) ? poolTypeFromJSON(object.pool_type) : -1
     };
   },
-
   toAmino(message: ModuleRoute): ModuleRouteAmino {
     const obj: any = {};
     obj.pool_type = message.poolType;
     return obj;
   },
-
   fromAminoMsg(object: ModuleRouteAminoMsg): ModuleRoute {
     return ModuleRoute.fromAmino(object.value);
   },
-
   toAminoMsg(message: ModuleRoute): ModuleRouteAminoMsg {
     return {
       type: "osmosis/swaprouter/module-route",
       value: ModuleRoute.toAmino(message)
     };
   },
-
   fromProtoMsg(message: ModuleRouteProtoMsg): ModuleRoute {
     return ModuleRoute.decode(message.value);
   },
-
   toProto(message: ModuleRoute): Uint8Array {
     return ModuleRoute.encode(message).finish();
   },
-
   toProtoMsg(message: ModuleRoute): ModuleRouteProtoMsg {
     return {
       typeUrl: "/osmosis.swaprouter.v1beta1.ModuleRoute",
       value: ModuleRoute.encode(message).finish()
     };
   }
-
 };

@@ -1,8 +1,8 @@
-import { LCDClient } from "@osmonauts/lcd";
-import { QueryParamsRequest, QueryParamsResponseSDKType } from "./query";
+import { Params, ParamsSDKType } from "./params";
+import { LCDClient } from "@cosmology/lcd";
+import { QueryParamsRequest, QueryParamsRequestSDKType, QueryParamsResponse, QueryParamsResponseSDKType } from "./query";
 export class LCDQueryClient {
   req: LCDClient;
-
   constructor({
     requestClient
   }: {
@@ -12,11 +12,8 @@ export class LCDQueryClient {
     this.params = this.params.bind(this);
   }
   /* this line is used by starport scaffolding # 2 */
-
-
   async params(_params: QueryParamsRequest = {}): Promise<QueryParamsResponseSDKType> {
     const endpoint = `stargaze/alloc/v1beta1/params`;
     return await this.req.get<QueryParamsResponseSDKType>(endpoint);
   }
-
 }

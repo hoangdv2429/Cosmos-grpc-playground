@@ -1,26 +1,23 @@
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
+import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "../../../helpers";
 import { grpc } from "@improbable-eng/grpc-web";
 import { BrowserHeaders } from "browser-headers";
-import { MsgVerifyInvariant, MsgVerifyInvariantResponse } from "./tx";
+import { MsgVerifyInvariant, MsgVerifyInvariantSDKType, MsgVerifyInvariantResponse, MsgVerifyInvariantResponseSDKType } from "./tx";
 /** Msg defines the bank Msg service. */
-
 export interface Msg {
   /** VerifyInvariant defines a method to verify a particular invariance. */
   verifyInvariant(request: DeepPartial<MsgVerifyInvariant>, metadata?: grpc.Metadata): Promise<MsgVerifyInvariantResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.verifyInvariant = this.verifyInvariant.bind(this);
   }
-
   verifyInvariant(request: DeepPartial<MsgVerifyInvariant>, metadata?: grpc.Metadata): Promise<MsgVerifyInvariantResponse> {
     return this.rpc.unary(MsgVerifyInvariantDesc, MsgVerifyInvariant.fromPartial(request), metadata);
   }
-
 }
 export const MsgDesc = {
   serviceName: "cosmos.crisis.v1beta1.Msg"
@@ -34,19 +31,16 @@ export const MsgVerifyInvariantDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return MsgVerifyInvariant.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...MsgVerifyInvariantResponse.decode(data),
-
+      return {
+        ...MsgVerifyInvariantResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -59,7 +53,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -68,12 +61,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -96,5 +90,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

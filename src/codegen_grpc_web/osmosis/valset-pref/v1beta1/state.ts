@@ -1,4 +1,4 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
+import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial } from "../../../helpers";
 export const protobufPackage = "osmosis.valsetpref.v1beta1";
 /**
@@ -8,7 +8,6 @@ export const protobufPackage = "osmosis.valsetpref.v1beta1";
  * staked, make their preference list default to their current staking
  * distribution.
  */
-
 export interface ValidatorPreference {
   /**
    * val_oper_address holds the validator address the user wants to delegate
@@ -16,7 +15,6 @@ export interface ValidatorPreference {
    */
   valOperAddress: string;
   /** weight is decimal between 0 and 1, and they all sum to 1. */
-
   weight: string;
 }
 export interface ValidatorPreferenceProtoMsg {
@@ -30,7 +28,6 @@ export interface ValidatorPreferenceProtoMsg {
  * staked, make their preference list default to their current staking
  * distribution.
  */
-
 export interface ValidatorPreferenceAmino {
   /**
    * val_oper_address holds the validator address the user wants to delegate
@@ -38,7 +35,6 @@ export interface ValidatorPreferenceAmino {
    */
   val_oper_address: string;
   /** weight is decimal between 0 and 1, and they all sum to 1. */
-
   weight: string;
 }
 export interface ValidatorPreferenceAminoMsg {
@@ -52,7 +48,6 @@ export interface ValidatorPreferenceAminoMsg {
  * staked, make their preference list default to their current staking
  * distribution.
  */
-
 export interface ValidatorPreferenceSDKType {
   val_oper_address: string;
   weight: string;
@@ -63,7 +58,6 @@ export interface ValidatorPreferenceSDKType {
  * The percent allocation are arranged in decimal notation from 0 to 1 and must
  * add up to 1.
  */
-
 export interface ValidatorSetPreferences {
   /** preference holds {valAddr, weight} for the user who created it. */
   preferences: ValidatorPreference[];
@@ -78,7 +72,6 @@ export interface ValidatorSetPreferencesProtoMsg {
  * The percent allocation are arranged in decimal notation from 0 to 1 and must
  * add up to 1.
  */
-
 export interface ValidatorSetPreferencesAmino {
   /** preference holds {valAddr, weight} for the user who created it. */
   preferences: ValidatorPreferenceAmino[];
@@ -93,261 +86,208 @@ export interface ValidatorSetPreferencesAminoMsg {
  * The percent allocation are arranged in decimal notation from 0 to 1 and must
  * add up to 1.
  */
-
 export interface ValidatorSetPreferencesSDKType {
   preferences: ValidatorPreferenceSDKType[];
 }
-
 function createBaseValidatorPreference(): ValidatorPreference {
   return {
     valOperAddress: "",
     weight: ""
   };
 }
-
 export const ValidatorPreference = {
   typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorPreference",
   aminoType: "osmosis/valsetpref/validator-preference",
-
-  encode(message: ValidatorPreference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ValidatorPreference, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.valOperAddress !== "") {
       writer.uint32(10).string(message.valOperAddress);
     }
-
     if (message.weight !== "") {
       writer.uint32(18).string(message.weight);
     }
-
     return writer;
   },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ValidatorPreference {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorPreference {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorPreference();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 1:
           message.valOperAddress = reader.string();
           break;
-
         case 2:
           message.weight = reader.string();
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromJSON(object: any): ValidatorPreference {
     return {
       valOperAddress: isSet(object.valOperAddress) ? String(object.valOperAddress) : "",
       weight: isSet(object.weight) ? String(object.weight) : ""
     };
   },
-
   toJSON(message: ValidatorPreference): unknown {
     const obj: any = {};
     message.valOperAddress !== undefined && (obj.valOperAddress = message.valOperAddress);
     message.weight !== undefined && (obj.weight = message.weight);
     return obj;
   },
-
   fromPartial(object: DeepPartial<ValidatorPreference>): ValidatorPreference {
     const message = createBaseValidatorPreference();
     message.valOperAddress = object.valOperAddress ?? "";
     message.weight = object.weight ?? "";
     return message;
   },
-
   fromSDK(object: ValidatorPreferenceSDKType): ValidatorPreference {
     return {
       valOperAddress: object?.val_oper_address,
       weight: object?.weight
     };
   },
-
   toSDK(message: ValidatorPreference): ValidatorPreferenceSDKType {
     const obj: any = {};
     obj.val_oper_address = message.valOperAddress;
     obj.weight = message.weight;
     return obj;
   },
-
   fromAmino(object: ValidatorPreferenceAmino): ValidatorPreference {
     return {
       valOperAddress: object.val_oper_address,
       weight: object.weight
     };
   },
-
   toAmino(message: ValidatorPreference): ValidatorPreferenceAmino {
     const obj: any = {};
     obj.val_oper_address = message.valOperAddress;
     obj.weight = message.weight;
     return obj;
   },
-
   fromAminoMsg(object: ValidatorPreferenceAminoMsg): ValidatorPreference {
     return ValidatorPreference.fromAmino(object.value);
   },
-
   toAminoMsg(message: ValidatorPreference): ValidatorPreferenceAminoMsg {
     return {
       type: "osmosis/valsetpref/validator-preference",
       value: ValidatorPreference.toAmino(message)
     };
   },
-
   fromProtoMsg(message: ValidatorPreferenceProtoMsg): ValidatorPreference {
     return ValidatorPreference.decode(message.value);
   },
-
   toProto(message: ValidatorPreference): Uint8Array {
     return ValidatorPreference.encode(message).finish();
   },
-
   toProtoMsg(message: ValidatorPreference): ValidatorPreferenceProtoMsg {
     return {
       typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorPreference",
       value: ValidatorPreference.encode(message).finish()
     };
   }
-
 };
-
 function createBaseValidatorSetPreferences(): ValidatorSetPreferences {
   return {
     preferences: []
   };
 }
-
 export const ValidatorSetPreferences = {
   typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorSetPreferences",
   aminoType: "osmosis/valsetpref/validator-set-preferences",
-
-  encode(message: ValidatorSetPreferences, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(message: ValidatorSetPreferences, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.preferences) {
       ValidatorPreference.encode(v!, writer.uint32(18).fork()).ldelim();
     }
-
     return writer;
   },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ValidatorSetPreferences {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorSetPreferences {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorSetPreferences();
-
     while (reader.pos < end) {
       const tag = reader.uint32();
-
       switch (tag >>> 3) {
         case 2:
           message.preferences.push(ValidatorPreference.decode(reader, reader.uint32()));
           break;
-
         default:
           reader.skipType(tag & 7);
           break;
       }
     }
-
     return message;
   },
-
   fromJSON(object: any): ValidatorSetPreferences {
     return {
       preferences: Array.isArray(object?.preferences) ? object.preferences.map((e: any) => ValidatorPreference.fromJSON(e)) : []
     };
   },
-
   toJSON(message: ValidatorSetPreferences): unknown {
     const obj: any = {};
-
     if (message.preferences) {
       obj.preferences = message.preferences.map(e => e ? ValidatorPreference.toJSON(e) : undefined);
     } else {
       obj.preferences = [];
     }
-
     return obj;
   },
-
   fromPartial(object: DeepPartial<ValidatorSetPreferences>): ValidatorSetPreferences {
     const message = createBaseValidatorSetPreferences();
     message.preferences = object.preferences?.map(e => ValidatorPreference.fromPartial(e)) || [];
     return message;
   },
-
   fromSDK(object: ValidatorSetPreferencesSDKType): ValidatorSetPreferences {
     return {
       preferences: Array.isArray(object?.preferences) ? object.preferences.map((e: any) => ValidatorPreference.fromSDK(e)) : []
     };
   },
-
   toSDK(message: ValidatorSetPreferences): ValidatorSetPreferencesSDKType {
     const obj: any = {};
-
     if (message.preferences) {
       obj.preferences = message.preferences.map(e => e ? ValidatorPreference.toSDK(e) : undefined);
     } else {
       obj.preferences = [];
     }
-
     return obj;
   },
-
   fromAmino(object: ValidatorSetPreferencesAmino): ValidatorSetPreferences {
     return {
       preferences: Array.isArray(object?.preferences) ? object.preferences.map((e: any) => ValidatorPreference.fromAmino(e)) : []
     };
   },
-
   toAmino(message: ValidatorSetPreferences): ValidatorSetPreferencesAmino {
     const obj: any = {};
-
     if (message.preferences) {
       obj.preferences = message.preferences.map(e => e ? ValidatorPreference.toAmino(e) : undefined);
     } else {
       obj.preferences = [];
     }
-
     return obj;
   },
-
   fromAminoMsg(object: ValidatorSetPreferencesAminoMsg): ValidatorSetPreferences {
     return ValidatorSetPreferences.fromAmino(object.value);
   },
-
   toAminoMsg(message: ValidatorSetPreferences): ValidatorSetPreferencesAminoMsg {
     return {
       type: "osmosis/valsetpref/validator-set-preferences",
       value: ValidatorSetPreferences.toAmino(message)
     };
   },
-
   fromProtoMsg(message: ValidatorSetPreferencesProtoMsg): ValidatorSetPreferences {
     return ValidatorSetPreferences.decode(message.value);
   },
-
   toProto(message: ValidatorSetPreferences): Uint8Array {
     return ValidatorSetPreferences.encode(message).finish();
   },
-
   toProtoMsg(message: ValidatorSetPreferences): ValidatorSetPreferencesProtoMsg {
     return {
       typeUrl: "/osmosis.valsetpref.v1beta1.ValidatorSetPreferences",
       value: ValidatorSetPreferences.encode(message).finish()
     };
   }
-
 };

@@ -1,5 +1,6 @@
+import { PoolParams, PoolParamsSDKType, PoolAsset, PoolAssetSDKType } from "../balancerPool";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgCreateBalancerPool } from "./tx";
+import { MsgCreateBalancerPool, MsgCreateBalancerPoolSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/osmosis.gamm.poolmodels.balancer.v1beta1.MsgCreateBalancerPool", MsgCreateBalancerPool]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,7 +15,6 @@ export const MessageComposer = {
         value: MsgCreateBalancerPool.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     createBalancerPool(value: MsgCreateBalancerPool) {
@@ -23,7 +23,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   toJSON: {
     createBalancerPool(value: MsgCreateBalancerPool) {
@@ -32,7 +31,6 @@ export const MessageComposer = {
         value: MsgCreateBalancerPool.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     createBalancerPool(value: any) {
@@ -41,7 +39,6 @@ export const MessageComposer = {
         value: MsgCreateBalancerPool.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     createBalancerPool(value: MsgCreateBalancerPool) {
@@ -50,6 +47,5 @@ export const MessageComposer = {
         value: MsgCreateBalancerPool.fromPartial(value)
       };
     }
-
   }
 };

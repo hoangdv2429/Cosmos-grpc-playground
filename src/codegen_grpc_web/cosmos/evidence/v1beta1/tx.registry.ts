@@ -1,5 +1,6 @@
+import { Any, AnyProtoMsg, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgSubmitEvidence } from "./tx";
+import { MsgSubmitEvidence, MsgSubmitEvidenceSDKType } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/cosmos.evidence.v1beta1.MsgSubmitEvidence", MsgSubmitEvidence]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -14,7 +15,6 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.encode(value).finish()
       };
     }
-
   },
   withTypeUrl: {
     submitEvidence(value: MsgSubmitEvidence) {
@@ -23,7 +23,6 @@ export const MessageComposer = {
         value
       };
     }
-
   },
   toJSON: {
     submitEvidence(value: MsgSubmitEvidence) {
@@ -32,7 +31,6 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.toJSON(value)
       };
     }
-
   },
   fromJSON: {
     submitEvidence(value: any) {
@@ -41,7 +39,6 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.fromJSON(value)
       };
     }
-
   },
   fromPartial: {
     submitEvidence(value: MsgSubmitEvidence) {
@@ -50,6 +47,5 @@ export const MessageComposer = {
         value: MsgSubmitEvidence.fromPartial(value)
       };
     }
-
   }
 };

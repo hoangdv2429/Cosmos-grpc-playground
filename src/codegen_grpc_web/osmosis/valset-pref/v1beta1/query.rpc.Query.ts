@@ -1,26 +1,24 @@
+import { ValidatorPreference, ValidatorPreferenceSDKType } from "./state";
+import * as _m0 from "protobufjs/minimal";
 import { grpc } from "@improbable-eng/grpc-web";
 import { UnaryMethodDefinitionish } from "../../../grpc-web";
 import { DeepPartial } from "../../../helpers";
 import { BrowserHeaders } from "browser-headers";
-import { UserValidatorPreferencesRequest, UserValidatorPreferencesResponse } from "./query";
+import { UserValidatorPreferencesRequest, UserValidatorPreferencesRequestSDKType, UserValidatorPreferencesResponse, UserValidatorPreferencesResponseSDKType } from "./query";
 /** Query defines the gRPC querier service. */
-
 export interface Query {
   /** Returns the list of ValidatorPreferences for the user. */
   userValidatorPreferences(request: DeepPartial<UserValidatorPreferencesRequest>, metadata?: grpc.Metadata): Promise<UserValidatorPreferencesResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.userValidatorPreferences = this.userValidatorPreferences.bind(this);
   }
-
   userValidatorPreferences(request: DeepPartial<UserValidatorPreferencesRequest>, metadata?: grpc.Metadata): Promise<UserValidatorPreferencesResponse> {
     return this.rpc.unary(QueryUserValidatorPreferencesDesc, UserValidatorPreferencesRequest.fromPartial(request), metadata);
   }
-
 }
 export const QueryDesc = {
   serviceName: "osmosis.valsetpref.v1beta1.Query"
@@ -34,19 +32,16 @@ export const QueryUserValidatorPreferencesDesc: UnaryMethodDefinitionish = {
     serializeBinary() {
       return UserValidatorPreferencesRequest.encode(this).finish();
     }
-
   } as any),
   responseType: ({
     deserializeBinary(data: Uint8Array) {
-      return { ...UserValidatorPreferencesResponse.decode(data),
-
+      return {
+        ...UserValidatorPreferencesResponse.decode(data),
         toObject() {
           return this;
         }
-
       };
     }
-
   } as any)
 };
 export interface Rpc {
@@ -59,7 +54,6 @@ export class GrpcWebImpl {
     debug?: boolean;
     metadata?: grpc.Metadata;
   };
-
   constructor(host: string, options: {
     transport?: grpc.TransportFactory;
     debug?: boolean;
@@ -68,12 +62,13 @@ export class GrpcWebImpl {
     this.host = host;
     this.options = options;
   }
-
   unary<T extends UnaryMethodDefinitionish>(methodDesc: T, _request: any, metadata: grpc.Metadata | undefined) {
-    const request = { ..._request,
+    const request = {
+      ..._request,
       ...methodDesc.requestType
     };
-    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({ ...this.options?.metadata.headersMap,
+    const maybeCombinedMetadata = metadata && this.options.metadata ? new BrowserHeaders({
+      ...this.options?.metadata.headersMap,
       ...metadata?.headersMap
     }) : metadata || this.options.metadata;
     return new Promise((resolve, reject) => {
@@ -96,5 +91,4 @@ export class GrpcWebImpl {
       });
     });
   }
-
 }

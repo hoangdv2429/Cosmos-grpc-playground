@@ -1,5 +1,5 @@
-/* eslint-disable */
-import { MsgCreateProvider, MsgUpdateProvider, MsgDeleteProvider } from "./provider";
+import { Attribute, AttributeSDKType } from "../../base/v1beta1/attribute";
+import { MsgCreateProvider, MsgCreateProviderSDKType, MsgUpdateProvider, MsgUpdateProviderSDKType, MsgDeleteProvider, MsgDeleteProviderSDKType } from "./provider";
 export const AminoConverter = {
   "/akash.provider.v1beta1.MsgCreateProvider": {
     aminoType: "/akash.provider.v1beta1.MsgCreateProvider",

@@ -1,5 +1,6 @@
-//@ts-nocheck
-import { MsgSwapExactAmountIn, MsgSwapExactAmountOut } from "./tx";
+import { SwapAmountInRoute, SwapAmountInRouteSDKType, SwapAmountOutRoute, SwapAmountOutRouteSDKType } from "./swap_route";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { MsgSwapExactAmountIn, MsgSwapExactAmountInSDKType, MsgSwapExactAmountOut, MsgSwapExactAmountOutSDKType } from "./tx";
 export const AminoConverter = {
   "/osmosis.swaprouter.v1beta1.MsgSwapExactAmountIn": {
     aminoType: "osmosis/swaprouter/swap-exact-amount-in",

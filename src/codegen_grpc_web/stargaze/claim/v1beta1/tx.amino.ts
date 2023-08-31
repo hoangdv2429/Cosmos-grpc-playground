@@ -1,4 +1,6 @@
-import { MsgInitialClaim, MsgClaimFor } from "./tx";
+import { Action, ActionSDKType } from "./claim_record";
+import { Coin, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
+import { MsgInitialClaim, MsgInitialClaimSDKType, MsgClaimFor, MsgClaimForSDKType } from "./tx";
 export const AminoConverter = {
   "/publicawesome.stargaze.claim.v1beta1.MsgInitialClaim": {
     aminoType: "/publicawesome.stargaze.claim.v1beta1.MsgInitialClaim",

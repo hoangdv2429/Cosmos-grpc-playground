@@ -7,10 +7,12 @@ import * as _161 from "./protobuf/empty";
 import * as _162 from "./protobuf/timestamp";
 import * as _163 from "../orai/descriptor";
 export namespace google {
-  export const api = { ..._156,
+  export const api = {
+    ..._156,
     ..._157
   };
-  export const protobuf = { ..._158,
+  export const protobuf = {
+    ..._158,
     ..._159,
     ..._160,
     ..._161,
