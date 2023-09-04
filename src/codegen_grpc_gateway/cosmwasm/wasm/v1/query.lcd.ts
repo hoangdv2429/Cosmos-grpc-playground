@@ -1,8 +1,6 @@
-import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
-import { ContractInfo, ContractInfoSDKType, ContractCodeHistoryEntry, ContractCodeHistoryEntrySDKType, Model, ModelSDKType } from "./types";
 import { setPaginationParams } from "../../../helpers";
-import { LCDClient } from "@osmonauts/lcd";
-import { QueryContractInfoRequest, QueryContractInfoRequestSDKType, QueryContractInfoResponse, QueryContractInfoResponseSDKType, QueryContractHistoryRequest, QueryContractHistoryRequestSDKType, QueryContractHistoryResponse, QueryContractHistoryResponseSDKType, QueryContractsByCodeRequest, QueryContractsByCodeRequestSDKType, QueryContractsByCodeResponse, QueryContractsByCodeResponseSDKType, QueryAllContractStateRequest, QueryAllContractStateRequestSDKType, QueryAllContractStateResponse, QueryAllContractStateResponseSDKType, QueryRawContractStateRequest, QueryRawContractStateRequestSDKType, QueryRawContractStateResponse, QueryRawContractStateResponseSDKType, QuerySmartContractStateRequest, QuerySmartContractStateRequestSDKType, QuerySmartContractStateResponse, QuerySmartContractStateResponseSDKType, QueryCodeRequest, QueryCodeRequestSDKType, QueryCodeResponse, QueryCodeResponseSDKType, QueryCodesRequest, QueryCodesRequestSDKType, QueryCodesResponse, QueryCodesResponseSDKType, QueryPinnedCodesRequest, QueryPinnedCodesRequestSDKType, QueryPinnedCodesResponse, QueryPinnedCodesResponseSDKType } from "./query";
+import { LCDClient } from "@cosmology/lcd";
+import { QueryContractInfoRequest, QueryContractInfoResponseSDKType, QueryContractHistoryRequest, QueryContractHistoryResponseSDKType, QueryContractsByCodeRequest, QueryContractsByCodeResponseSDKType, QueryAllContractStateRequest, QueryAllContractStateResponseSDKType, QueryRawContractStateRequest, QueryRawContractStateResponseSDKType, QuerySmartContractStateRequest, QuerySmartContractStateResponseSDKType, QueryCodeRequest, QueryCodeResponseSDKType, QueryCodesRequest, QueryCodesResponseSDKType, QueryPinnedCodesRequest, QueryPinnedCodesResponseSDKType, QueryParamsRequest, QueryParamsResponseSDKType, QueryContractsByCreatorRequest, QueryContractsByCreatorResponseSDKType } from "./query";
 export class LCDQueryClient {
   req: LCDClient;
   constructor({
@@ -20,6 +18,8 @@ export class LCDQueryClient {
     this.code = this.code.bind(this);
     this.codes = this.codes.bind(this);
     this.pinnedCodes = this.pinnedCodes.bind(this);
+    this.params = this.params.bind(this);
+    this.contractsByCreator = this.contractsByCreator.bind(this);
   }
   /* ContractInfo gets the contract meta data */
   async contractInfo(params: QueryContractInfoRequest): Promise<QueryContractInfoResponseSDKType> {
@@ -61,12 +61,12 @@ export class LCDQueryClient {
   }
   /* RawContractState gets single key from the raw store data of a contract */
   async rawContractState(params: QueryRawContractStateRequest): Promise<QueryRawContractStateResponseSDKType> {
-    const endpoint = `wasm/v1/contract/${params.address}/raw/${params.queryData}`;
+    const endpoint = `cosmwasm/wasm/v1/contract/${params.address}/raw/${params.queryData}`;
     return await this.req.get<QueryRawContractStateResponseSDKType>(endpoint);
   }
   /* SmartContractState get smart query result from the contract */
   async smartContractState(params: QuerySmartContractStateRequest): Promise<QuerySmartContractStateResponseSDKType> {
-    const endpoint = `wasm/v1/contract/${params.address}/smart/${params.queryData}`;
+    const endpoint = `cosmwasm/wasm/v1/contract/${params.address}/smart/${params.queryData}`;
     return await this.req.get<QuerySmartContractStateResponseSDKType>(endpoint);
   }
   /* Code gets the binary code and metadata for a singe wasm code */
@@ -99,5 +99,21 @@ export class LCDQueryClient {
     }
     const endpoint = `cosmwasm/wasm/v1/codes/pinned`;
     return await this.req.get<QueryPinnedCodesResponseSDKType>(endpoint, options);
+  }
+  /* Params gets the module params */
+  async params(_params: QueryParamsRequest = {}): Promise<QueryParamsResponseSDKType> {
+    const endpoint = `cosmwasm/wasm/v1/codes/params`;
+    return await this.req.get<QueryParamsResponseSDKType>(endpoint);
+  }
+  /* ContractsByCreator gets the contracts by creator */
+  async contractsByCreator(params: QueryContractsByCreatorRequest): Promise<QueryContractsByCreatorResponseSDKType> {
+    const options: any = {
+      params: {}
+    };
+    if (typeof params?.pagination !== "undefined") {
+      setPaginationParams(options, params.pagination);
+    }
+    const endpoint = `cosmwasm/wasm/v1/contracts/creator/${params.creatorAddress}`;
+    return await this.req.get<QueryContractsByCreatorResponseSDKType>(endpoint, options);
   }
 }

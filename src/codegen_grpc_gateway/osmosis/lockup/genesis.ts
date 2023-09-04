@@ -1,26 +1,11 @@
-import { PeriodLock, PeriodLockAmino, PeriodLockSDKType, SyntheticLock, SyntheticLockAmino, SyntheticLockSDKType } from "./lock";
-import { Long, isSet, DeepPartial } from "../../helpers";
+import { PeriodLock, PeriodLockSDKType, SyntheticLock, SyntheticLockSDKType } from "./lock";
+import { Long, isSet } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
-export const protobufPackage = "osmosis.lockup";
 /** GenesisState defines the lockup module's genesis state. */
 export interface GenesisState {
   lastLockId: Long;
   locks: PeriodLock[];
   syntheticLocks: SyntheticLock[];
-}
-export interface GenesisStateProtoMsg {
-  typeUrl: "/osmosis.lockup.GenesisState";
-  value: Uint8Array;
-}
-/** GenesisState defines the lockup module's genesis state. */
-export interface GenesisStateAmino {
-  last_lock_id: string;
-  locks: PeriodLockAmino[];
-  synthetic_locks: SyntheticLockAmino[];
-}
-export interface GenesisStateAminoMsg {
-  type: "osmosis/lockup/genesis-state";
-  value: GenesisStateAmino;
 }
 /** GenesisState defines the lockup module's genesis state. */
 export interface GenesisStateSDKType {
@@ -36,8 +21,6 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
-  typeUrl: "/osmosis.lockup.GenesisState",
-  aminoType: "osmosis/lockup/genesis-state",
   encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.lastLockId.isZero()) {
       writer.uint32(8).uint64(message.lastLockId);
@@ -95,76 +78,11 @@ export const GenesisState = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<GenesisState>): GenesisState {
+  fromPartial(object: Partial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.lastLockId = object.lastLockId !== undefined && object.lastLockId !== null ? Long.fromValue(object.lastLockId) : Long.UZERO;
     message.locks = object.locks?.map(e => PeriodLock.fromPartial(e)) || [];
     message.syntheticLocks = object.syntheticLocks?.map(e => SyntheticLock.fromPartial(e)) || [];
     return message;
-  },
-  fromSDK(object: GenesisStateSDKType): GenesisState {
-    return {
-      lastLockId: object?.last_lock_id,
-      locks: Array.isArray(object?.locks) ? object.locks.map((e: any) => PeriodLock.fromSDK(e)) : [],
-      syntheticLocks: Array.isArray(object?.synthetic_locks) ? object.synthetic_locks.map((e: any) => SyntheticLock.fromSDK(e)) : []
-    };
-  },
-  toSDK(message: GenesisState): GenesisStateSDKType {
-    const obj: any = {};
-    obj.last_lock_id = message.lastLockId;
-    if (message.locks) {
-      obj.locks = message.locks.map(e => e ? PeriodLock.toSDK(e) : undefined);
-    } else {
-      obj.locks = [];
-    }
-    if (message.syntheticLocks) {
-      obj.synthetic_locks = message.syntheticLocks.map(e => e ? SyntheticLock.toSDK(e) : undefined);
-    } else {
-      obj.synthetic_locks = [];
-    }
-    return obj;
-  },
-  fromAmino(object: GenesisStateAmino): GenesisState {
-    return {
-      lastLockId: Long.fromString(object.last_lock_id),
-      locks: Array.isArray(object?.locks) ? object.locks.map((e: any) => PeriodLock.fromAmino(e)) : [],
-      syntheticLocks: Array.isArray(object?.synthetic_locks) ? object.synthetic_locks.map((e: any) => SyntheticLock.fromAmino(e)) : []
-    };
-  },
-  toAmino(message: GenesisState): GenesisStateAmino {
-    const obj: any = {};
-    obj.last_lock_id = message.lastLockId ? message.lastLockId.toString() : undefined;
-    if (message.locks) {
-      obj.locks = message.locks.map(e => e ? PeriodLock.toAmino(e) : undefined);
-    } else {
-      obj.locks = [];
-    }
-    if (message.syntheticLocks) {
-      obj.synthetic_locks = message.syntheticLocks.map(e => e ? SyntheticLock.toAmino(e) : undefined);
-    } else {
-      obj.synthetic_locks = [];
-    }
-    return obj;
-  },
-  fromAminoMsg(object: GenesisStateAminoMsg): GenesisState {
-    return GenesisState.fromAmino(object.value);
-  },
-  toAminoMsg(message: GenesisState): GenesisStateAminoMsg {
-    return {
-      type: "osmosis/lockup/genesis-state",
-      value: GenesisState.toAmino(message)
-    };
-  },
-  fromProtoMsg(message: GenesisStateProtoMsg): GenesisState {
-    return GenesisState.decode(message.value);
-  },
-  toProto(message: GenesisState): Uint8Array {
-    return GenesisState.encode(message).finish();
-  },
-  toProtoMsg(message: GenesisState): GenesisStateProtoMsg {
-    return {
-      typeUrl: "/osmosis.lockup.GenesisState",
-      value: GenesisState.encode(message).finish()
-    };
   }
 };

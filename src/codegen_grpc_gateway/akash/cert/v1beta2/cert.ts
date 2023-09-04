@@ -1,6 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, bytesFromBase64, base64FromBytes } from "../../../helpers";
-export const protobufPackage = "akash.cert.v1beta2";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 /** State is an enum which refers to state of deployment */
 export enum Certificate_State {
   /** invalid - Prefix should start with 0 in enum. So declaring dummy state */
@@ -12,7 +11,6 @@ export enum Certificate_State {
   UNRECOGNIZED = -1,
 }
 export const Certificate_StateSDKType = Certificate_State;
-export const Certificate_StateAmino = Certificate_State;
 export function certificate_StateFromJSON(object: any): Certificate_State {
   switch (object) {
     case 0:
@@ -48,19 +46,6 @@ export interface CertificateID {
   owner: string;
   serial: string;
 }
-export interface CertificateIDProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.CertificateID";
-  value: Uint8Array;
-}
-/** CertificateID stores owner and sequence number */
-export interface CertificateIDAmino {
-  owner: string;
-  serial: string;
-}
-export interface CertificateIDAminoMsg {
-  type: "/akash.cert.v1beta2.CertificateID";
-  value: CertificateIDAmino;
-}
 /** CertificateID stores owner and sequence number */
 export interface CertificateIDSDKType {
   owner: string;
@@ -71,20 +56,6 @@ export interface Certificate {
   state: Certificate_State;
   cert: Uint8Array;
   pubkey: Uint8Array;
-}
-export interface CertificateProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.Certificate";
-  value: Uint8Array;
-}
-/** Certificate stores state, certificate and it's public key */
-export interface CertificateAmino {
-  state: Certificate_State;
-  cert: Uint8Array;
-  pubkey: Uint8Array;
-}
-export interface CertificateAminoMsg {
-  type: "/akash.cert.v1beta2.Certificate";
-  value: CertificateAmino;
 }
 /** Certificate stores state, certificate and it's public key */
 export interface CertificateSDKType {
@@ -98,20 +69,6 @@ export interface CertificateFilter {
   serial: string;
   state: string;
 }
-export interface CertificateFilterProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.CertificateFilter";
-  value: Uint8Array;
-}
-/** CertificateFilter defines filters used to filter certificates */
-export interface CertificateFilterAmino {
-  owner: string;
-  serial: string;
-  state: string;
-}
-export interface CertificateFilterAminoMsg {
-  type: "/akash.cert.v1beta2.CertificateFilter";
-  value: CertificateFilterAmino;
-}
 /** CertificateFilter defines filters used to filter certificates */
 export interface CertificateFilterSDKType {
   owner: string;
@@ -124,20 +81,6 @@ export interface MsgCreateCertificate {
   cert: Uint8Array;
   pubkey: Uint8Array;
 }
-export interface MsgCreateCertificateProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.MsgCreateCertificate";
-  value: Uint8Array;
-}
-/** MsgCreateCertificate defines an SDK message for creating certificate */
-export interface MsgCreateCertificateAmino {
-  owner: string;
-  cert: Uint8Array;
-  pubkey: Uint8Array;
-}
-export interface MsgCreateCertificateAminoMsg {
-  type: "/akash.cert.v1beta2.MsgCreateCertificate";
-  value: MsgCreateCertificateAmino;
-}
 /** MsgCreateCertificate defines an SDK message for creating certificate */
 export interface MsgCreateCertificateSDKType {
   owner: string;
@@ -146,33 +89,11 @@ export interface MsgCreateCertificateSDKType {
 }
 /** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
 export interface MsgCreateCertificateResponse {}
-export interface MsgCreateCertificateResponseProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.MsgCreateCertificateResponse";
-  value: Uint8Array;
-}
-/** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
-export interface MsgCreateCertificateResponseAmino {}
-export interface MsgCreateCertificateResponseAminoMsg {
-  type: "/akash.cert.v1beta2.MsgCreateCertificateResponse";
-  value: MsgCreateCertificateResponseAmino;
-}
 /** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
 export interface MsgCreateCertificateResponseSDKType {}
 /** MsgRevokeCertificate defines an SDK message for revoking certificate */
 export interface MsgRevokeCertificate {
   id: CertificateID;
-}
-export interface MsgRevokeCertificateProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificate";
-  value: Uint8Array;
-}
-/** MsgRevokeCertificate defines an SDK message for revoking certificate */
-export interface MsgRevokeCertificateAmino {
-  id?: CertificateIDAmino;
-}
-export interface MsgRevokeCertificateAminoMsg {
-  type: "/akash.cert.v1beta2.MsgRevokeCertificate";
-  value: MsgRevokeCertificateAmino;
 }
 /** MsgRevokeCertificate defines an SDK message for revoking certificate */
 export interface MsgRevokeCertificateSDKType {
@@ -180,16 +101,6 @@ export interface MsgRevokeCertificateSDKType {
 }
 /** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
 export interface MsgRevokeCertificateResponse {}
-export interface MsgRevokeCertificateResponseProtoMsg {
-  typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificateResponse";
-  value: Uint8Array;
-}
-/** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
-export interface MsgRevokeCertificateResponseAmino {}
-export interface MsgRevokeCertificateResponseAminoMsg {
-  type: "/akash.cert.v1beta2.MsgRevokeCertificateResponse";
-  value: MsgRevokeCertificateResponseAmino;
-}
 /** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
 export interface MsgRevokeCertificateResponseSDKType {}
 function createBaseCertificateID(): CertificateID {
@@ -199,7 +110,6 @@ function createBaseCertificateID(): CertificateID {
   };
 }
 export const CertificateID = {
-  typeUrl: "/akash.cert.v1beta2.CertificateID",
   encode(message: CertificateID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -241,50 +151,11 @@ export const CertificateID = {
     message.serial !== undefined && (obj.serial = message.serial);
     return obj;
   },
-  fromPartial(object: DeepPartial<CertificateID>): CertificateID {
+  fromPartial(object: Partial<CertificateID>): CertificateID {
     const message = createBaseCertificateID();
     message.owner = object.owner ?? "";
     message.serial = object.serial ?? "";
     return message;
-  },
-  fromSDK(object: CertificateIDSDKType): CertificateID {
-    return {
-      owner: object?.owner,
-      serial: object?.serial
-    };
-  },
-  toSDK(message: CertificateID): CertificateIDSDKType {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.serial = message.serial;
-    return obj;
-  },
-  fromAmino(object: CertificateIDAmino): CertificateID {
-    return {
-      owner: object.owner,
-      serial: object.serial
-    };
-  },
-  toAmino(message: CertificateID): CertificateIDAmino {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.serial = message.serial;
-    return obj;
-  },
-  fromAminoMsg(object: CertificateIDAminoMsg): CertificateID {
-    return CertificateID.fromAmino(object.value);
-  },
-  fromProtoMsg(message: CertificateIDProtoMsg): CertificateID {
-    return CertificateID.decode(message.value);
-  },
-  toProto(message: CertificateID): Uint8Array {
-    return CertificateID.encode(message).finish();
-  },
-  toProtoMsg(message: CertificateID): CertificateIDProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.CertificateID",
-      value: CertificateID.encode(message).finish()
-    };
   }
 };
 function createBaseCertificate(): Certificate {
@@ -295,7 +166,6 @@ function createBaseCertificate(): Certificate {
   };
 }
 export const Certificate = {
-  typeUrl: "/akash.cert.v1beta2.Certificate",
   encode(message: Certificate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.state !== 0) {
       writer.uint32(16).int32(message.state);
@@ -333,7 +203,7 @@ export const Certificate = {
   },
   fromJSON(object: any): Certificate {
     return {
-      state: isSet(object.state) ? certificate_StateFromJSON(object.state) : 0,
+      state: isSet(object.state) ? certificate_StateFromJSON(object.state) : -1,
       cert: isSet(object.cert) ? bytesFromBase64(object.cert) : new Uint8Array(),
       pubkey: isSet(object.pubkey) ? bytesFromBase64(object.pubkey) : new Uint8Array()
     };
@@ -345,55 +215,12 @@ export const Certificate = {
     message.pubkey !== undefined && (obj.pubkey = base64FromBytes(message.pubkey !== undefined ? message.pubkey : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<Certificate>): Certificate {
+  fromPartial(object: Partial<Certificate>): Certificate {
     const message = createBaseCertificate();
     message.state = object.state ?? 0;
     message.cert = object.cert ?? new Uint8Array();
     message.pubkey = object.pubkey ?? new Uint8Array();
     return message;
-  },
-  fromSDK(object: CertificateSDKType): Certificate {
-    return {
-      state: isSet(object.state) ? certificate_StateFromJSON(object.state) : 0,
-      cert: object?.cert,
-      pubkey: object?.pubkey
-    };
-  },
-  toSDK(message: Certificate): CertificateSDKType {
-    const obj: any = {};
-    message.state !== undefined && (obj.state = certificate_StateToJSON(message.state));
-    obj.cert = message.cert;
-    obj.pubkey = message.pubkey;
-    return obj;
-  },
-  fromAmino(object: CertificateAmino): Certificate {
-    return {
-      state: isSet(object.state) ? certificate_StateFromJSON(object.state) : 0,
-      cert: object.cert,
-      pubkey: object.pubkey
-    };
-  },
-  toAmino(message: Certificate): CertificateAmino {
-    const obj: any = {};
-    obj.state = message.state;
-    obj.cert = message.cert;
-    obj.pubkey = message.pubkey;
-    return obj;
-  },
-  fromAminoMsg(object: CertificateAminoMsg): Certificate {
-    return Certificate.fromAmino(object.value);
-  },
-  fromProtoMsg(message: CertificateProtoMsg): Certificate {
-    return Certificate.decode(message.value);
-  },
-  toProto(message: Certificate): Uint8Array {
-    return Certificate.encode(message).finish();
-  },
-  toProtoMsg(message: Certificate): CertificateProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.Certificate",
-      value: Certificate.encode(message).finish()
-    };
   }
 };
 function createBaseCertificateFilter(): CertificateFilter {
@@ -404,7 +231,6 @@ function createBaseCertificateFilter(): CertificateFilter {
   };
 }
 export const CertificateFilter = {
-  typeUrl: "/akash.cert.v1beta2.CertificateFilter",
   encode(message: CertificateFilter, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -454,55 +280,12 @@ export const CertificateFilter = {
     message.state !== undefined && (obj.state = message.state);
     return obj;
   },
-  fromPartial(object: DeepPartial<CertificateFilter>): CertificateFilter {
+  fromPartial(object: Partial<CertificateFilter>): CertificateFilter {
     const message = createBaseCertificateFilter();
     message.owner = object.owner ?? "";
     message.serial = object.serial ?? "";
     message.state = object.state ?? "";
     return message;
-  },
-  fromSDK(object: CertificateFilterSDKType): CertificateFilter {
-    return {
-      owner: object?.owner,
-      serial: object?.serial,
-      state: object?.state
-    };
-  },
-  toSDK(message: CertificateFilter): CertificateFilterSDKType {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.serial = message.serial;
-    obj.state = message.state;
-    return obj;
-  },
-  fromAmino(object: CertificateFilterAmino): CertificateFilter {
-    return {
-      owner: object.owner,
-      serial: object.serial,
-      state: object.state
-    };
-  },
-  toAmino(message: CertificateFilter): CertificateFilterAmino {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.serial = message.serial;
-    obj.state = message.state;
-    return obj;
-  },
-  fromAminoMsg(object: CertificateFilterAminoMsg): CertificateFilter {
-    return CertificateFilter.fromAmino(object.value);
-  },
-  fromProtoMsg(message: CertificateFilterProtoMsg): CertificateFilter {
-    return CertificateFilter.decode(message.value);
-  },
-  toProto(message: CertificateFilter): Uint8Array {
-    return CertificateFilter.encode(message).finish();
-  },
-  toProtoMsg(message: CertificateFilter): CertificateFilterProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.CertificateFilter",
-      value: CertificateFilter.encode(message).finish()
-    };
   }
 };
 function createBaseMsgCreateCertificate(): MsgCreateCertificate {
@@ -513,7 +296,6 @@ function createBaseMsgCreateCertificate(): MsgCreateCertificate {
   };
 }
 export const MsgCreateCertificate = {
-  typeUrl: "/akash.cert.v1beta2.MsgCreateCertificate",
   encode(message: MsgCreateCertificate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
@@ -563,62 +345,18 @@ export const MsgCreateCertificate = {
     message.pubkey !== undefined && (obj.pubkey = base64FromBytes(message.pubkey !== undefined ? message.pubkey : new Uint8Array()));
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgCreateCertificate>): MsgCreateCertificate {
+  fromPartial(object: Partial<MsgCreateCertificate>): MsgCreateCertificate {
     const message = createBaseMsgCreateCertificate();
     message.owner = object.owner ?? "";
     message.cert = object.cert ?? new Uint8Array();
     message.pubkey = object.pubkey ?? new Uint8Array();
     return message;
-  },
-  fromSDK(object: MsgCreateCertificateSDKType): MsgCreateCertificate {
-    return {
-      owner: object?.owner,
-      cert: object?.cert,
-      pubkey: object?.pubkey
-    };
-  },
-  toSDK(message: MsgCreateCertificate): MsgCreateCertificateSDKType {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.cert = message.cert;
-    obj.pubkey = message.pubkey;
-    return obj;
-  },
-  fromAmino(object: MsgCreateCertificateAmino): MsgCreateCertificate {
-    return {
-      owner: object.owner,
-      cert: object.cert,
-      pubkey: object.pubkey
-    };
-  },
-  toAmino(message: MsgCreateCertificate): MsgCreateCertificateAmino {
-    const obj: any = {};
-    obj.owner = message.owner;
-    obj.cert = message.cert;
-    obj.pubkey = message.pubkey;
-    return obj;
-  },
-  fromAminoMsg(object: MsgCreateCertificateAminoMsg): MsgCreateCertificate {
-    return MsgCreateCertificate.fromAmino(object.value);
-  },
-  fromProtoMsg(message: MsgCreateCertificateProtoMsg): MsgCreateCertificate {
-    return MsgCreateCertificate.decode(message.value);
-  },
-  toProto(message: MsgCreateCertificate): Uint8Array {
-    return MsgCreateCertificate.encode(message).finish();
-  },
-  toProtoMsg(message: MsgCreateCertificate): MsgCreateCertificateProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.MsgCreateCertificate",
-      value: MsgCreateCertificate.encode(message).finish()
-    };
   }
 };
 function createBaseMsgCreateCertificateResponse(): MsgCreateCertificateResponse {
   return {};
 }
 export const MsgCreateCertificateResponse = {
-  typeUrl: "/akash.cert.v1beta2.MsgCreateCertificateResponse",
   encode(_: MsgCreateCertificateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
@@ -643,38 +381,9 @@ export const MsgCreateCertificateResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgCreateCertificateResponse>): MsgCreateCertificateResponse {
+  fromPartial(_: Partial<MsgCreateCertificateResponse>): MsgCreateCertificateResponse {
     const message = createBaseMsgCreateCertificateResponse();
     return message;
-  },
-  fromSDK(_: MsgCreateCertificateResponseSDKType): MsgCreateCertificateResponse {
-    return {};
-  },
-  toSDK(_: MsgCreateCertificateResponse): MsgCreateCertificateResponseSDKType {
-    const obj: any = {};
-    return obj;
-  },
-  fromAmino(_: MsgCreateCertificateResponseAmino): MsgCreateCertificateResponse {
-    return {};
-  },
-  toAmino(_: MsgCreateCertificateResponse): MsgCreateCertificateResponseAmino {
-    const obj: any = {};
-    return obj;
-  },
-  fromAminoMsg(object: MsgCreateCertificateResponseAminoMsg): MsgCreateCertificateResponse {
-    return MsgCreateCertificateResponse.fromAmino(object.value);
-  },
-  fromProtoMsg(message: MsgCreateCertificateResponseProtoMsg): MsgCreateCertificateResponse {
-    return MsgCreateCertificateResponse.decode(message.value);
-  },
-  toProto(message: MsgCreateCertificateResponse): Uint8Array {
-    return MsgCreateCertificateResponse.encode(message).finish();
-  },
-  toProtoMsg(message: MsgCreateCertificateResponse): MsgCreateCertificateResponseProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.MsgCreateCertificateResponse",
-      value: MsgCreateCertificateResponse.encode(message).finish()
-    };
   }
 };
 function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
@@ -683,7 +392,6 @@ function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
   };
 }
 export const MsgRevokeCertificate = {
-  typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificate",
   encode(message: MsgRevokeCertificate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.id !== undefined) {
       CertificateID.encode(message.id, writer.uint32(10).fork()).ldelim();
@@ -717,52 +425,16 @@ export const MsgRevokeCertificate = {
     message.id !== undefined && (obj.id = message.id ? CertificateID.toJSON(message.id) : undefined);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgRevokeCertificate>): MsgRevokeCertificate {
+  fromPartial(object: Partial<MsgRevokeCertificate>): MsgRevokeCertificate {
     const message = createBaseMsgRevokeCertificate();
     message.id = object.id !== undefined && object.id !== null ? CertificateID.fromPartial(object.id) : undefined;
     return message;
-  },
-  fromSDK(object: MsgRevokeCertificateSDKType): MsgRevokeCertificate {
-    return {
-      id: object.id ? CertificateID.fromSDK(object.id) : undefined
-    };
-  },
-  toSDK(message: MsgRevokeCertificate): MsgRevokeCertificateSDKType {
-    const obj: any = {};
-    message.id !== undefined && (obj.id = message.id ? CertificateID.toSDK(message.id) : undefined);
-    return obj;
-  },
-  fromAmino(object: MsgRevokeCertificateAmino): MsgRevokeCertificate {
-    return {
-      id: object?.id ? CertificateID.fromAmino(object.id) : undefined
-    };
-  },
-  toAmino(message: MsgRevokeCertificate): MsgRevokeCertificateAmino {
-    const obj: any = {};
-    obj.id = message.id ? CertificateID.toAmino(message.id) : undefined;
-    return obj;
-  },
-  fromAminoMsg(object: MsgRevokeCertificateAminoMsg): MsgRevokeCertificate {
-    return MsgRevokeCertificate.fromAmino(object.value);
-  },
-  fromProtoMsg(message: MsgRevokeCertificateProtoMsg): MsgRevokeCertificate {
-    return MsgRevokeCertificate.decode(message.value);
-  },
-  toProto(message: MsgRevokeCertificate): Uint8Array {
-    return MsgRevokeCertificate.encode(message).finish();
-  },
-  toProtoMsg(message: MsgRevokeCertificate): MsgRevokeCertificateProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificate",
-      value: MsgRevokeCertificate.encode(message).finish()
-    };
   }
 };
 function createBaseMsgRevokeCertificateResponse(): MsgRevokeCertificateResponse {
   return {};
 }
 export const MsgRevokeCertificateResponse = {
-  typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificateResponse",
   encode(_: MsgRevokeCertificateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
@@ -787,37 +459,8 @@ export const MsgRevokeCertificateResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgRevokeCertificateResponse>): MsgRevokeCertificateResponse {
+  fromPartial(_: Partial<MsgRevokeCertificateResponse>): MsgRevokeCertificateResponse {
     const message = createBaseMsgRevokeCertificateResponse();
     return message;
-  },
-  fromSDK(_: MsgRevokeCertificateResponseSDKType): MsgRevokeCertificateResponse {
-    return {};
-  },
-  toSDK(_: MsgRevokeCertificateResponse): MsgRevokeCertificateResponseSDKType {
-    const obj: any = {};
-    return obj;
-  },
-  fromAmino(_: MsgRevokeCertificateResponseAmino): MsgRevokeCertificateResponse {
-    return {};
-  },
-  toAmino(_: MsgRevokeCertificateResponse): MsgRevokeCertificateResponseAmino {
-    const obj: any = {};
-    return obj;
-  },
-  fromAminoMsg(object: MsgRevokeCertificateResponseAminoMsg): MsgRevokeCertificateResponse {
-    return MsgRevokeCertificateResponse.fromAmino(object.value);
-  },
-  fromProtoMsg(message: MsgRevokeCertificateResponseProtoMsg): MsgRevokeCertificateResponse {
-    return MsgRevokeCertificateResponse.decode(message.value);
-  },
-  toProto(message: MsgRevokeCertificateResponse): Uint8Array {
-    return MsgRevokeCertificateResponse.encode(message).finish();
-  },
-  toProtoMsg(message: MsgRevokeCertificateResponse): MsgRevokeCertificateResponseProtoMsg {
-    return {
-      typeUrl: "/akash.cert.v1beta2.MsgRevokeCertificateResponse",
-      value: MsgRevokeCertificateResponse.encode(message).finish()
-    };
   }
 };

@@ -1,9 +1,9 @@
 import { chains } from "chain-registry";
 import { getOfflineSignerProto as getOfflineSigner } from "cosmjs-utils";
-import { cosmos, osmosis } from "./codegen_grpc_gateway";
+import { cosmos, osmosis, ibc } from "./codegen_grpc_gateway";
 import {
   getSigningCosmosClient,
-  getSigningOsmosisClient,
+  getSigningIbcClient,
 } from "./codegen_grpc_gateway";
 import { TxRaw } from "./codegen_grpc_gateway/cosmos/tx/v1beta1/tx";
 import { BroadcastMode } from "./codegen_grpc_gateway/cosmos/tx/v1beta1/service";
@@ -22,7 +22,7 @@ import {
 //transaction transition is sign => encode => broadcast
 
 const main = async () => {
-  const _address = "osmo1xa382g55fvyyp3rmdsk548qpdzmh6p37ajdk99";
+  const _address = "stars147auavf4tvghskslq2w65de0nh5dqdmlx60rax";
 
   //create gRPC-web client
   const client = await osmosis.ClientFactory.createGrpcGateWayClient({
@@ -35,7 +35,7 @@ const main = async () => {
     // Osmosis mainnet
     // endpoint: 'https://lcd.osmosis.zone'
     // Osmosis testnet
-    endpoint: "https://lcd.osmotest5.osmosis.zone/",
+    endpoint: "https://lcd-stargaze.whispernode.com:443",
   });
 
   console.time("node_status");
@@ -49,6 +49,8 @@ const main = async () => {
   const account = await client.cosmos.auth.v1beta1.account({
     address: _address,
   });
+  console.log(account);
+
   console.timeEnd("accountInfo");
   // console.log(account);
 
@@ -62,23 +64,16 @@ const main = async () => {
       sequence: Number(baseAccount.sequence),
       //chainId: 'pulsar-2',
       //chainId: 'osmosis-1'
-      chainId: "osmo-test-5",
+      chainId: "stargaze-1",
     };
   } catch (error) {
     console.log("error getting signer data!!:", JSON.stringify(signerData));
     return;
   }
 
-  const data = await client.cosmos.bank.v1beta1.allBalances({
-    address: _address,
-    pagination: null,
-  });
-  // console.log("Before: ", data);
-
   //for whomever take my 1 OSMO when I'm developing for the whole community, I pity you
-  const mnemonic =
-    "chef pigeon panic shadow tool picnic soda axis display element gadget finger";
-  const chain = chains.find(({ chain_name }) => chain_name === "osmosis");
+  const mnemonic = "mnemonic";
+  const chain = chains.find(({ chain_name }) => chain_name === "stargaze");
 
   // get proto offline signer
   const signer = await getOfflineSigner({
@@ -87,7 +82,7 @@ const main = async () => {
   });
 
   //get signer
-  const signClient = await getSigningCosmosClient({
+  const signClient = await getSigningIbcClient({
     rpcEndpoint: "https://cosmos-rpc.quickapi.com:443",
     signer,
   });
@@ -96,26 +91,57 @@ const main = async () => {
   // example for send msg
   //--------------------------------------------
 
-  const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-  const msg = send({
-    amount: [
-      {
-        denom: "uosmo",
-        amount: "1000",
-      },
-    ],
-    toAddress: _address,
-    fromAddress: _address,
+  // const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+  // const msg = send({
+  //   amount: [
+  //     {
+  //       denom: "uosmo",
+  //       amount: "1000",
+  //     },
+  //   ],
+  //   toAddress: _address,
+  //   fromAddress: _address,
+  // });
+
+  // const fee = {
+  //   amount: [
+  //     {
+  //       denom: "uosmo",
+  //       amount: "864",
+  //     },
+  //   ],
+  //   gas: "86364",
+  // };
+  const stamp = Date.now();
+  const timeoutInNanos = (stamp + 1.2e6) * 1e6;
+  const { transfer } = ibc.applications.transfer.v1.MessageComposer.withTypeUrl;
+
+  const msg = transfer({
+    sourcePort: "transfer",
+    sourceChannel: "channel-184",
+    token: {
+      denom: "ustars",
+      amount: "1000000",
+    },
+    sender: "stars147auavf4tvghskslq2w65de0nh5dqdmlx60rax",
+    receiver: "centauri19crd4fwzm9qtf5ln5l3e2vmquhevjwprjdx5zj",
+    timeoutHeight: {
+      revisionNumber: Long.fromString("0"),
+      revisionHeight: Long.fromString("0"),
+    },
+    timeoutTimestamp: Long.fromNumber(timeoutInNanos),
+    //@ts-ignore
+    memo: '"{"forward":{"receiver":"5vcWohemVnf29KMudZboxLgR8H79t9sDygtjCmegMu6eoFoo","port":"transfer","channel":"channel-2","timeout":6000000000000,"retries":0}}"',
   });
 
   const fee = {
     amount: [
       {
-        denom: "uosmo",
-        amount: "864",
+        denom: "ustars",
+        amount: "250000",
       },
     ],
-    gas: "86364",
+    gas: "250000",
   };
 
   const account_data = await signer.getAccounts();
@@ -137,6 +163,8 @@ const main = async () => {
     txBytes: txRawBytes,
     mode: BroadcastMode.BROADCAST_MODE_BLOCK,
   });
+  console.log(res);
+
   console.timeEnd("broadcastTx");
 
   // console.log(res);

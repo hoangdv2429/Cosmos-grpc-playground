@@ -1,6 +1,5 @@
-import { Long, isSet, DeepPartial } from "../../helpers";
+import { Long, isSet } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
-export const protobufPackage = "tendermint.version";
 /**
  * App includes the protocol and software version for the application.
  * This information is included in ResponseInfo. The App.Protocol can be
@@ -9,23 +8,6 @@ export const protobufPackage = "tendermint.version";
 export interface App {
   protocol: Long;
   software: string;
-}
-export interface AppProtoMsg {
-  typeUrl: "/tendermint.version.App";
-  value: Uint8Array;
-}
-/**
- * App includes the protocol and software version for the application.
- * This information is included in ResponseInfo. The App.Protocol can be
- * updated in ResponseEndBlock.
- */
-export interface AppAmino {
-  protocol: string;
-  software: string;
-}
-export interface AppAminoMsg {
-  type: "/tendermint.version.App";
-  value: AppAmino;
 }
 /**
  * App includes the protocol and software version for the application.
@@ -45,23 +27,6 @@ export interface Consensus {
   block: Long;
   app: Long;
 }
-export interface ConsensusProtoMsg {
-  typeUrl: "/tendermint.version.Consensus";
-  value: Uint8Array;
-}
-/**
- * Consensus captures the consensus rules for processing a block in the blockchain,
- * including all blockchain data structures and the rules of the application's
- * state transition machine.
- */
-export interface ConsensusAmino {
-  block: string;
-  app: string;
-}
-export interface ConsensusAminoMsg {
-  type: "/tendermint.version.Consensus";
-  value: ConsensusAmino;
-}
 /**
  * Consensus captures the consensus rules for processing a block in the blockchain,
  * including all blockchain data structures and the rules of the application's
@@ -78,7 +43,6 @@ function createBaseApp(): App {
   };
 }
 export const App = {
-  typeUrl: "/tendermint.version.App",
   encode(message: App, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.protocol.isZero()) {
       writer.uint32(8).uint64(message.protocol);
@@ -120,50 +84,11 @@ export const App = {
     message.software !== undefined && (obj.software = message.software);
     return obj;
   },
-  fromPartial(object: DeepPartial<App>): App {
+  fromPartial(object: Partial<App>): App {
     const message = createBaseApp();
     message.protocol = object.protocol !== undefined && object.protocol !== null ? Long.fromValue(object.protocol) : Long.UZERO;
     message.software = object.software ?? "";
     return message;
-  },
-  fromSDK(object: AppSDKType): App {
-    return {
-      protocol: object?.protocol,
-      software: object?.software
-    };
-  },
-  toSDK(message: App): AppSDKType {
-    const obj: any = {};
-    obj.protocol = message.protocol;
-    obj.software = message.software;
-    return obj;
-  },
-  fromAmino(object: AppAmino): App {
-    return {
-      protocol: Long.fromString(object.protocol),
-      software: object.software
-    };
-  },
-  toAmino(message: App): AppAmino {
-    const obj: any = {};
-    obj.protocol = message.protocol ? message.protocol.toString() : undefined;
-    obj.software = message.software;
-    return obj;
-  },
-  fromAminoMsg(object: AppAminoMsg): App {
-    return App.fromAmino(object.value);
-  },
-  fromProtoMsg(message: AppProtoMsg): App {
-    return App.decode(message.value);
-  },
-  toProto(message: App): Uint8Array {
-    return App.encode(message).finish();
-  },
-  toProtoMsg(message: App): AppProtoMsg {
-    return {
-      typeUrl: "/tendermint.version.App",
-      value: App.encode(message).finish()
-    };
   }
 };
 function createBaseConsensus(): Consensus {
@@ -173,7 +98,6 @@ function createBaseConsensus(): Consensus {
   };
 }
 export const Consensus = {
-  typeUrl: "/tendermint.version.Consensus",
   encode(message: Consensus, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.block.isZero()) {
       writer.uint32(8).uint64(message.block);
@@ -215,49 +139,10 @@ export const Consensus = {
     message.app !== undefined && (obj.app = (message.app || Long.UZERO).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<Consensus>): Consensus {
+  fromPartial(object: Partial<Consensus>): Consensus {
     const message = createBaseConsensus();
     message.block = object.block !== undefined && object.block !== null ? Long.fromValue(object.block) : Long.UZERO;
     message.app = object.app !== undefined && object.app !== null ? Long.fromValue(object.app) : Long.UZERO;
     return message;
-  },
-  fromSDK(object: ConsensusSDKType): Consensus {
-    return {
-      block: object?.block,
-      app: object?.app
-    };
-  },
-  toSDK(message: Consensus): ConsensusSDKType {
-    const obj: any = {};
-    obj.block = message.block;
-    obj.app = message.app;
-    return obj;
-  },
-  fromAmino(object: ConsensusAmino): Consensus {
-    return {
-      block: Long.fromString(object.block),
-      app: Long.fromString(object.app)
-    };
-  },
-  toAmino(message: Consensus): ConsensusAmino {
-    const obj: any = {};
-    obj.block = message.block ? message.block.toString() : undefined;
-    obj.app = message.app ? message.app.toString() : undefined;
-    return obj;
-  },
-  fromAminoMsg(object: ConsensusAminoMsg): Consensus {
-    return Consensus.fromAmino(object.value);
-  },
-  fromProtoMsg(message: ConsensusProtoMsg): Consensus {
-    return Consensus.decode(message.value);
-  },
-  toProto(message: Consensus): Uint8Array {
-    return Consensus.encode(message).finish();
-  },
-  toProtoMsg(message: Consensus): ConsensusProtoMsg {
-    return {
-      typeUrl: "/tendermint.version.Consensus",
-      value: Consensus.encode(message).finish()
-    };
   }
 };

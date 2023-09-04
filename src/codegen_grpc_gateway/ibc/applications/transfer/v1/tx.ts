@@ -1,8 +1,7 @@
-import { Coin, CoinAmino, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
-import { Height, HeightAmino, HeightSDKType } from "../../../core/client/v1/client";
-import { Long, isSet, DeepPartial } from "../../../../helpers";
+import { Coin, CoinSDKType } from "../../../../cosmos/base/v1beta1/coin";
+import { Height, HeightSDKType, Params, ParamsSDKType } from "../../../core/client/v1/client";
+import { Long, isSet } from "../../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-export const protobufPackage = "ibc.applications.transfer.v1";
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
  * ICS20 enabled chains. See ICS Spec here:
@@ -25,45 +24,12 @@ export interface MsgTransfer {
    */
   timeoutHeight: Height;
   /**
-   * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
+   * Timeout timestamp in absolute nanoseconds since unix epoch.
    * The timeout is disabled when set to 0.
    */
   timeoutTimestamp: Long;
-}
-export interface MsgTransferProtoMsg {
-  typeUrl: "/ibc.applications.transfer.v1.MsgTransfer";
-  value: Uint8Array;
-}
-/**
- * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
- * ICS20 enabled chains. See ICS Spec here:
- * https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures
- */
-export interface MsgTransferAmino {
-  /** the port on which the packet will be sent */
-  source_port: string;
-  /** the channel by which the packet will be sent */
-  source_channel: string;
-  /** the tokens to be transferred */
-  token?: CoinAmino;
-  /** the sender address */
-  sender: string;
-  /** the recipient address on the destination chain */
-  receiver: string;
-  /**
-   * Timeout height relative to the current block height.
-   * The timeout is disabled when set to 0.
-   */
-  timeout_height?: HeightAmino;
-  /**
-   * Timeout timestamp (in nanoseconds) relative to the current block timestamp.
-   * The timeout is disabled when set to 0.
-   */
-  timeout_timestamp: string;
-}
-export interface MsgTransferAminoMsg {
-  type: "cosmos-sdk/MsgTransfer";
-  value: MsgTransferAmino;
+  /** optional memo */
+  memo: string;
 }
 /**
  * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
@@ -78,35 +44,56 @@ export interface MsgTransferSDKType {
   receiver: string;
   timeout_height: HeightSDKType;
   timeout_timestamp: Long;
+  memo: string;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
-export interface MsgTransferResponse {}
-export interface MsgTransferResponseProtoMsg {
-  typeUrl: "/ibc.applications.transfer.v1.MsgTransferResponse";
-  value: Uint8Array;
+export interface MsgTransferResponse {
+  /** sequence number of the transfer packet sent */
+  sequence: Long;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
-export interface MsgTransferResponseAmino {}
-export interface MsgTransferResponseAminoMsg {
-  type: "cosmos-sdk/MsgTransferResponse";
-  value: MsgTransferResponseAmino;
+export interface MsgTransferResponseSDKType {
+  sequence: Long;
 }
-/** MsgTransferResponse defines the Msg/Transfer response type. */
-export interface MsgTransferResponseSDKType {}
+/** MsgUpdateParams is the Msg/UpdateParams request type. */
+export interface MsgUpdateParams {
+  /** signer address (it may be the the address that controls the module, which defaults to x/gov unless overwritten). */
+  signer: string;
+  /**
+   * params defines the transfer parameters to update.
+   * 
+   * NOTE: All parameters must be supplied.
+   */
+  params: Params;
+}
+/** MsgUpdateParams is the Msg/UpdateParams request type. */
+export interface MsgUpdateParamsSDKType {
+  signer: string;
+  params: ParamsSDKType;
+}
+/**
+ * MsgUpdateParamsResponse defines the response structure for executing a
+ * MsgUpdateParams message.
+ */
+export interface MsgUpdateParamsResponse {}
+/**
+ * MsgUpdateParamsResponse defines the response structure for executing a
+ * MsgUpdateParams message.
+ */
+export interface MsgUpdateParamsResponseSDKType {}
 function createBaseMsgTransfer(): MsgTransfer {
   return {
     sourcePort: "",
     sourceChannel: "",
-    token: undefined,
+    token: Coin.fromPartial({}),
     sender: "",
     receiver: "",
     timeoutHeight: Height.fromPartial({}),
-    timeoutTimestamp: Long.UZERO
+    timeoutTimestamp: Long.UZERO,
+    memo: ""
   };
 }
 export const MsgTransfer = {
-  typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
-  aminoType: "cosmos-sdk/MsgTransfer",
   encode(message: MsgTransfer, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.sourcePort !== "") {
       writer.uint32(10).string(message.sourcePort);
@@ -128,6 +115,9 @@ export const MsgTransfer = {
     }
     if (!message.timeoutTimestamp.isZero()) {
       writer.uint32(56).uint64(message.timeoutTimestamp);
+    }
+    if (message.memo !== "") {
+      writer.uint32(66).string(message.memo);
     }
     return writer;
   },
@@ -159,6 +149,9 @@ export const MsgTransfer = {
         case 7:
           message.timeoutTimestamp = (reader.uint64() as Long);
           break;
+        case 8:
+          message.memo = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -174,7 +167,8 @@ export const MsgTransfer = {
       sender: isSet(object.sender) ? String(object.sender) : "",
       receiver: isSet(object.receiver) ? String(object.receiver) : "",
       timeoutHeight: isSet(object.timeoutHeight) ? Height.fromJSON(object.timeoutHeight) : undefined,
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO
+      timeoutTimestamp: isSet(object.timeoutTimestamp) ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO,
+      memo: isSet(object.memo) ? String(object.memo) : ""
     };
   },
   toJSON(message: MsgTransfer): unknown {
@@ -186,9 +180,10 @@ export const MsgTransfer = {
     message.receiver !== undefined && (obj.receiver = message.receiver);
     message.timeoutHeight !== undefined && (obj.timeoutHeight = message.timeoutHeight ? Height.toJSON(message.timeoutHeight) : undefined);
     message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || Long.UZERO).toString());
+    message.memo !== undefined && (obj.memo = message.memo);
     return obj;
   },
-  fromPartial(object: DeepPartial<MsgTransfer>): MsgTransfer {
+  fromPartial(object: Partial<MsgTransfer>): MsgTransfer {
     const message = createBaseMsgTransfer();
     message.sourcePort = object.sourcePort ?? "";
     message.sourceChannel = object.sourceChannel ?? "";
@@ -197,87 +192,121 @@ export const MsgTransfer = {
     message.receiver = object.receiver ?? "";
     message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Height.fromPartial(object.timeoutHeight) : undefined;
     message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO;
+    message.memo = object.memo ?? "";
     return message;
-  },
-  fromSDK(object: MsgTransferSDKType): MsgTransfer {
-    return {
-      sourcePort: object?.source_port,
-      sourceChannel: object?.source_channel,
-      token: object.token ? Coin.fromSDK(object.token) : undefined,
-      sender: object?.sender,
-      receiver: object?.receiver,
-      timeoutHeight: object.timeout_height ? Height.fromSDK(object.timeout_height) : undefined,
-      timeoutTimestamp: object?.timeout_timestamp
-    };
-  },
-  toSDK(message: MsgTransfer): MsgTransferSDKType {
-    const obj: any = {};
-    obj.source_port = message.sourcePort;
-    obj.source_channel = message.sourceChannel;
-    message.token !== undefined && (obj.token = message.token ? Coin.toSDK(message.token) : undefined);
-    obj.sender = message.sender;
-    obj.receiver = message.receiver;
-    message.timeoutHeight !== undefined && (obj.timeout_height = message.timeoutHeight ? Height.toSDK(message.timeoutHeight) : undefined);
-    obj.timeout_timestamp = message.timeoutTimestamp;
-    return obj;
-  },
-  fromAmino(object: MsgTransferAmino): MsgTransfer {
-    return {
-      sourcePort: object.source_port,
-      sourceChannel: object.source_channel,
-      token: object?.token ? Coin.fromAmino(object.token) : undefined,
-      sender: object.sender,
-      receiver: object.receiver,
-      timeoutHeight: object?.timeout_height ? Height.fromAmino(object.timeout_height) : undefined,
-      timeoutTimestamp: Long.fromString(object.timeout_timestamp)
-    };
-  },
-  toAmino(message: MsgTransfer): MsgTransferAmino {
-    const obj: any = {};
-    obj.source_port = message.sourcePort;
-    obj.source_channel = message.sourceChannel;
-    obj.token = message.token ? Coin.toAmino(message.token) : undefined;
-    obj.sender = message.sender;
-    obj.receiver = message.receiver;
-    obj.timeout_height = message.timeoutHeight ? Height.toAmino(message.timeoutHeight) : {};
-    obj.timeout_timestamp = message.timeoutTimestamp ? message.timeoutTimestamp.toString() : undefined;
-    return obj;
-  },
-  fromAminoMsg(object: MsgTransferAminoMsg): MsgTransfer {
-    return MsgTransfer.fromAmino(object.value);
-  },
-  toAminoMsg(message: MsgTransfer): MsgTransferAminoMsg {
-    return {
-      type: "cosmos-sdk/MsgTransfer",
-      value: MsgTransfer.toAmino(message)
-    };
-  },
-  fromProtoMsg(message: MsgTransferProtoMsg): MsgTransfer {
-    return MsgTransfer.decode(message.value);
-  },
-  toProto(message: MsgTransfer): Uint8Array {
-    return MsgTransfer.encode(message).finish();
-  },
-  toProtoMsg(message: MsgTransfer): MsgTransferProtoMsg {
-    return {
-      typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
-      value: MsgTransfer.encode(message).finish()
-    };
   }
 };
 function createBaseMsgTransferResponse(): MsgTransferResponse {
-  return {};
+  return {
+    sequence: Long.UZERO
+  };
 }
 export const MsgTransferResponse = {
-  typeUrl: "/ibc.applications.transfer.v1.MsgTransferResponse",
-  aminoType: "cosmos-sdk/MsgTransferResponse",
-  encode(_: MsgTransferResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTransferResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.sequence.isZero()) {
+      writer.uint32(8).uint64(message.sequence);
+    }
     return writer;
   },
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransferResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.sequence = (reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgTransferResponse {
+    return {
+      sequence: isSet(object.sequence) ? Long.fromValue(object.sequence) : Long.UZERO
+    };
+  },
+  toJSON(message: MsgTransferResponse): unknown {
+    const obj: any = {};
+    message.sequence !== undefined && (obj.sequence = (message.sequence || Long.UZERO).toString());
+    return obj;
+  },
+  fromPartial(object: Partial<MsgTransferResponse>): MsgTransferResponse {
+    const message = createBaseMsgTransferResponse();
+    message.sequence = object.sequence !== undefined && object.sequence !== null ? Long.fromValue(object.sequence) : Long.UZERO;
+    return message;
+  }
+};
+function createBaseMsgUpdateParams(): MsgUpdateParams {
+  return {
+    signer: "",
+    params: Params.fromPartial({})
+  };
+}
+export const MsgUpdateParams = {
+  encode(message: MsgUpdateParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.signer !== "") {
+      writer.uint32(10).string(message.signer);
+    }
+    if (message.params !== undefined) {
+      Params.encode(message.params, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParams {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateParams();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.signer = reader.string();
+          break;
+        case 2:
+          message.params = Params.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgUpdateParams {
+    return {
+      signer: isSet(object.signer) ? String(object.signer) : "",
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+    };
+  },
+  toJSON(message: MsgUpdateParams): unknown {
+    const obj: any = {};
+    message.signer !== undefined && (obj.signer = message.signer);
+    message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+    return obj;
+  },
+  fromPartial(object: Partial<MsgUpdateParams>): MsgUpdateParams {
+    const message = createBaseMsgUpdateParams();
+    message.signer = object.signer ?? "";
+    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    return message;
+  }
+};
+function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
+  return {};
+}
+export const MsgUpdateParamsResponse = {
+  encode(_: MsgUpdateParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParamsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateParamsResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -288,50 +317,15 @@ export const MsgTransferResponse = {
     }
     return message;
   },
-  fromJSON(_: any): MsgTransferResponse {
+  fromJSON(_: any): MsgUpdateParamsResponse {
     return {};
   },
-  toJSON(_: MsgTransferResponse): unknown {
+  toJSON(_: MsgUpdateParamsResponse): unknown {
     const obj: any = {};
     return obj;
   },
-  fromPartial(_: DeepPartial<MsgTransferResponse>): MsgTransferResponse {
-    const message = createBaseMsgTransferResponse();
+  fromPartial(_: Partial<MsgUpdateParamsResponse>): MsgUpdateParamsResponse {
+    const message = createBaseMsgUpdateParamsResponse();
     return message;
-  },
-  fromSDK(_: MsgTransferResponseSDKType): MsgTransferResponse {
-    return {};
-  },
-  toSDK(_: MsgTransferResponse): MsgTransferResponseSDKType {
-    const obj: any = {};
-    return obj;
-  },
-  fromAmino(_: MsgTransferResponseAmino): MsgTransferResponse {
-    return {};
-  },
-  toAmino(_: MsgTransferResponse): MsgTransferResponseAmino {
-    const obj: any = {};
-    return obj;
-  },
-  fromAminoMsg(object: MsgTransferResponseAminoMsg): MsgTransferResponse {
-    return MsgTransferResponse.fromAmino(object.value);
-  },
-  toAminoMsg(message: MsgTransferResponse): MsgTransferResponseAminoMsg {
-    return {
-      type: "cosmos-sdk/MsgTransferResponse",
-      value: MsgTransferResponse.toAmino(message)
-    };
-  },
-  fromProtoMsg(message: MsgTransferResponseProtoMsg): MsgTransferResponse {
-    return MsgTransferResponse.decode(message.value);
-  },
-  toProto(message: MsgTransferResponse): Uint8Array {
-    return MsgTransferResponse.encode(message).finish();
-  },
-  toProtoMsg(message: MsgTransferResponse): MsgTransferResponseProtoMsg {
-    return {
-      typeUrl: "/ibc.applications.transfer.v1.MsgTransferResponse",
-      value: MsgTransferResponse.encode(message).finish()
-    };
   }
 };

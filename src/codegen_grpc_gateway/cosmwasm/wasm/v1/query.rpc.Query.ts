@@ -1,7 +1,5 @@
-import { PageRequest, PageRequestSDKType, PageResponse, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
-import { ContractInfo, ContractInfoSDKType, ContractCodeHistoryEntry, ContractCodeHistoryEntrySDKType, Model, ModelSDKType } from "./types";
 import * as fm from "../../../grpc-gateway";
-import { QueryContractInfoRequest, QueryContractInfoRequestSDKType, QueryContractInfoResponse, QueryContractInfoResponseSDKType, QueryContractHistoryRequest, QueryContractHistoryRequestSDKType, QueryContractHistoryResponse, QueryContractHistoryResponseSDKType, QueryContractsByCodeRequest, QueryContractsByCodeRequestSDKType, QueryContractsByCodeResponse, QueryContractsByCodeResponseSDKType, QueryAllContractStateRequest, QueryAllContractStateRequestSDKType, QueryAllContractStateResponse, QueryAllContractStateResponseSDKType, QueryRawContractStateRequest, QueryRawContractStateRequestSDKType, QueryRawContractStateResponse, QueryRawContractStateResponseSDKType, QuerySmartContractStateRequest, QuerySmartContractStateRequestSDKType, QuerySmartContractStateResponse, QuerySmartContractStateResponseSDKType, QueryCodeRequest, QueryCodeRequestSDKType, QueryCodeResponse, QueryCodeResponseSDKType, QueryCodesRequest, QueryCodesRequestSDKType, QueryCodesResponse, QueryCodesResponseSDKType, QueryPinnedCodesRequest, QueryPinnedCodesRequestSDKType, QueryPinnedCodesResponse, QueryPinnedCodesResponseSDKType } from "./query";
+import { QueryContractInfoRequest, QueryContractInfoResponse, QueryContractHistoryRequest, QueryContractHistoryResponse, QueryContractsByCodeRequest, QueryContractsByCodeResponse, QueryAllContractStateRequest, QueryAllContractStateResponse, QueryRawContractStateRequest, QueryRawContractStateResponse, QuerySmartContractStateRequest, QuerySmartContractStateResponse, QueryCodeRequest, QueryCodeResponse, QueryCodesRequest, QueryCodesResponse, QueryPinnedCodesRequest, QueryPinnedCodesResponse, QueryParamsRequest, QueryParamsResponse, QueryContractsByCreatorRequest, QueryContractsByCreatorResponse } from "./query";
 export class Query {
   /** ContractInfo gets the contract meta data */
   static contractInfo(request: QueryContractInfoRequest, initRequest?: fm.InitReq): Promise<QueryContractInfoResponse> {
@@ -41,7 +39,7 @@ export class Query {
   }
   /** RawContractState gets single key from the raw store data of a contract */
   static rawContractState(request: QueryRawContractStateRequest, initRequest?: fm.InitReq): Promise<QueryRawContractStateResponse> {
-    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/raw/${request["query_data"]}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmwasm/wasm/v1/contract/${request["address"]}/raw/${request["query_data"]}?${fm.renderURLSearchParams({
       ...request
     }, ["address", "query_data"])}`, {
       ...initRequest,
@@ -50,7 +48,7 @@ export class Query {
   }
   /** SmartContractState get smart query result from the contract */
   static smartContractState(request: QuerySmartContractStateRequest, initRequest?: fm.InitReq): Promise<QuerySmartContractStateResponse> {
-    return fm.fetchReq(`/wasm/v1/contract/${request["address"]}/smart/${request["query_data"]}?${fm.renderURLSearchParams({
+    return fm.fetchReq(`/cosmwasm/wasm/v1/contract/${request["address"]}/smart/${request["query_data"]}?${fm.renderURLSearchParams({
       ...request
     }, ["address", "query_data"])}`, {
       ...initRequest,
@@ -80,6 +78,24 @@ export class Query {
     return fm.fetchReq(`/cosmwasm/wasm/v1/codes/pinned?${fm.renderURLSearchParams({
       ...request
     }, [])}`, {
+      ...initRequest,
+      method: "GET"
+    });
+  }
+  /** Params gets the module params */
+  static params(request: QueryParamsRequest, initRequest?: fm.InitReq): Promise<QueryParamsResponse> {
+    return fm.fetchReq(`/cosmwasm/wasm/v1/codes/params?${fm.renderURLSearchParams({
+      ...request
+    }, [])}`, {
+      ...initRequest,
+      method: "GET"
+    });
+  }
+  /** ContractsByCreator gets the contracts by creator */
+  static contractsByCreator(request: QueryContractsByCreatorRequest, initRequest?: fm.InitReq): Promise<QueryContractsByCreatorResponse> {
+    return fm.fetchReq(`/cosmwasm/wasm/v1/contracts/creator/${request["creator_address"]}?${fm.renderURLSearchParams({
+      ...request
+    }, ["creator_address"])}`, {
       ...initRequest,
       method: "GET"
     });
@@ -149,6 +165,20 @@ export class QueryClientImpl {
   /** PinnedCodes gets the pinned code ids */
   async pinnedCodes(req: QueryPinnedCodesRequest, headers?: HeadersInit): Promise<QueryPinnedCodesResponse> {
     return Query.pinnedCodes(req, {
+      headers,
+      pathPrefix: this.url
+    });
+  }
+  /** Params gets the module params */
+  async params(req: QueryParamsRequest, headers?: HeadersInit): Promise<QueryParamsResponse> {
+    return Query.params(req, {
+      headers,
+      pathPrefix: this.url
+    });
+  }
+  /** ContractsByCreator gets the contracts by creator */
+  async contractsByCreator(req: QueryContractsByCreatorRequest, headers?: HeadersInit): Promise<QueryContractsByCreatorResponse> {
+    return Query.contractsByCreator(req, {
       headers,
       pathPrefix: this.url
     });

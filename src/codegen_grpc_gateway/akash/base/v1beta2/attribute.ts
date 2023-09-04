@@ -1,23 +1,9 @@
 import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial } from "../../../helpers";
-export const protobufPackage = "akash.base.v1beta2";
+import { isSet } from "../../../helpers";
 /** Attribute represents key value pair */
 export interface Attribute {
   key: string;
   value: string;
-}
-export interface AttributeProtoMsg {
-  typeUrl: "/akash.base.v1beta2.Attribute";
-  value: Uint8Array;
-}
-/** Attribute represents key value pair */
-export interface AttributeAmino {
-  key: string;
-  value: string;
-}
-export interface AttributeAminoMsg {
-  type: "/akash.base.v1beta2.Attribute";
-  value: AttributeAmino;
 }
 /** Attribute represents key value pair */
 export interface AttributeSDKType {
@@ -36,26 +22,6 @@ export interface SignedBy {
   /** any_of at least of of the keys from the list must have signed attributes */
   anyOf: string[];
 }
-export interface SignedByProtoMsg {
-  typeUrl: "/akash.base.v1beta2.SignedBy";
-  value: Uint8Array;
-}
-/**
- * SignedBy represents validation accounts that tenant expects signatures for provider attributes
- * AllOf has precedence i.e. if there is at least one entry AnyOf is ignored regardless to how many
- * entries there
- * this behaviour to be discussed
- */
-export interface SignedByAmino {
-  /** all_of all keys in this list must have signed attributes */
-  all_of: string[];
-  /** any_of at least of of the keys from the list must have signed attributes */
-  any_of: string[];
-}
-export interface SignedByAminoMsg {
-  type: "/akash.base.v1beta2.SignedBy";
-  value: SignedByAmino;
-}
 /**
  * SignedBy represents validation accounts that tenant expects signatures for provider attributes
  * AllOf has precedence i.e. if there is at least one entry AnyOf is ignored regardless to how many
@@ -73,21 +39,6 @@ export interface PlacementRequirements {
   /** Attribute list of attributes tenant expects from the provider */
   attributes: Attribute[];
 }
-export interface PlacementRequirementsProtoMsg {
-  typeUrl: "/akash.base.v1beta2.PlacementRequirements";
-  value: Uint8Array;
-}
-/** PlacementRequirements */
-export interface PlacementRequirementsAmino {
-  /** SignedBy list of keys that tenants expect to have signatures from */
-  signed_by?: SignedByAmino;
-  /** Attribute list of attributes tenant expects from the provider */
-  attributes: AttributeAmino[];
-}
-export interface PlacementRequirementsAminoMsg {
-  type: "/akash.base.v1beta2.PlacementRequirements";
-  value: PlacementRequirementsAmino;
-}
 /** PlacementRequirements */
 export interface PlacementRequirementsSDKType {
   signed_by: SignedBySDKType;
@@ -100,7 +51,6 @@ function createBaseAttribute(): Attribute {
   };
 }
 export const Attribute = {
-  typeUrl: "/akash.base.v1beta2.Attribute",
   encode(message: Attribute, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
@@ -142,50 +92,11 @@ export const Attribute = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial(object: DeepPartial<Attribute>): Attribute {
+  fromPartial(object: Partial<Attribute>): Attribute {
     const message = createBaseAttribute();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
     return message;
-  },
-  fromSDK(object: AttributeSDKType): Attribute {
-    return {
-      key: object?.key,
-      value: object?.value
-    };
-  },
-  toSDK(message: Attribute): AttributeSDKType {
-    const obj: any = {};
-    obj.key = message.key;
-    obj.value = message.value;
-    return obj;
-  },
-  fromAmino(object: AttributeAmino): Attribute {
-    return {
-      key: object.key,
-      value: object.value
-    };
-  },
-  toAmino(message: Attribute): AttributeAmino {
-    const obj: any = {};
-    obj.key = message.key;
-    obj.value = message.value;
-    return obj;
-  },
-  fromAminoMsg(object: AttributeAminoMsg): Attribute {
-    return Attribute.fromAmino(object.value);
-  },
-  fromProtoMsg(message: AttributeProtoMsg): Attribute {
-    return Attribute.decode(message.value);
-  },
-  toProto(message: Attribute): Uint8Array {
-    return Attribute.encode(message).finish();
-  },
-  toProtoMsg(message: Attribute): AttributeProtoMsg {
-    return {
-      typeUrl: "/akash.base.v1beta2.Attribute",
-      value: Attribute.encode(message).finish()
-    };
   }
 };
 function createBaseSignedBy(): SignedBy {
@@ -195,7 +106,6 @@ function createBaseSignedBy(): SignedBy {
   };
 }
 export const SignedBy = {
-  typeUrl: "/akash.base.v1beta2.SignedBy",
   encode(message: SignedBy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.allOf) {
       writer.uint32(10).string(v!);
@@ -245,66 +155,11 @@ export const SignedBy = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<SignedBy>): SignedBy {
+  fromPartial(object: Partial<SignedBy>): SignedBy {
     const message = createBaseSignedBy();
     message.allOf = object.allOf?.map(e => e) || [];
     message.anyOf = object.anyOf?.map(e => e) || [];
     return message;
-  },
-  fromSDK(object: SignedBySDKType): SignedBy {
-    return {
-      allOf: Array.isArray(object?.all_of) ? object.all_of.map((e: any) => e) : [],
-      anyOf: Array.isArray(object?.any_of) ? object.any_of.map((e: any) => e) : []
-    };
-  },
-  toSDK(message: SignedBy): SignedBySDKType {
-    const obj: any = {};
-    if (message.allOf) {
-      obj.all_of = message.allOf.map(e => e);
-    } else {
-      obj.all_of = [];
-    }
-    if (message.anyOf) {
-      obj.any_of = message.anyOf.map(e => e);
-    } else {
-      obj.any_of = [];
-    }
-    return obj;
-  },
-  fromAmino(object: SignedByAmino): SignedBy {
-    return {
-      allOf: Array.isArray(object?.all_of) ? object.all_of.map((e: any) => e) : [],
-      anyOf: Array.isArray(object?.any_of) ? object.any_of.map((e: any) => e) : []
-    };
-  },
-  toAmino(message: SignedBy): SignedByAmino {
-    const obj: any = {};
-    if (message.allOf) {
-      obj.all_of = message.allOf.map(e => e);
-    } else {
-      obj.all_of = [];
-    }
-    if (message.anyOf) {
-      obj.any_of = message.anyOf.map(e => e);
-    } else {
-      obj.any_of = [];
-    }
-    return obj;
-  },
-  fromAminoMsg(object: SignedByAminoMsg): SignedBy {
-    return SignedBy.fromAmino(object.value);
-  },
-  fromProtoMsg(message: SignedByProtoMsg): SignedBy {
-    return SignedBy.decode(message.value);
-  },
-  toProto(message: SignedBy): Uint8Array {
-    return SignedBy.encode(message).finish();
-  },
-  toProtoMsg(message: SignedBy): SignedByProtoMsg {
-    return {
-      typeUrl: "/akash.base.v1beta2.SignedBy",
-      value: SignedBy.encode(message).finish()
-    };
   }
 };
 function createBasePlacementRequirements(): PlacementRequirements {
@@ -314,7 +169,6 @@ function createBasePlacementRequirements(): PlacementRequirements {
   };
 }
 export const PlacementRequirements = {
-  typeUrl: "/akash.base.v1beta2.PlacementRequirements",
   encode(message: PlacementRequirements, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.signedBy !== undefined) {
       SignedBy.encode(message.signedBy, writer.uint32(10).fork()).ldelim();
@@ -360,57 +214,10 @@ export const PlacementRequirements = {
     }
     return obj;
   },
-  fromPartial(object: DeepPartial<PlacementRequirements>): PlacementRequirements {
+  fromPartial(object: Partial<PlacementRequirements>): PlacementRequirements {
     const message = createBasePlacementRequirements();
     message.signedBy = object.signedBy !== undefined && object.signedBy !== null ? SignedBy.fromPartial(object.signedBy) : undefined;
     message.attributes = object.attributes?.map(e => Attribute.fromPartial(e)) || [];
     return message;
-  },
-  fromSDK(object: PlacementRequirementsSDKType): PlacementRequirements {
-    return {
-      signedBy: object.signed_by ? SignedBy.fromSDK(object.signed_by) : undefined,
-      attributes: Array.isArray(object?.attributes) ? object.attributes.map((e: any) => Attribute.fromSDK(e)) : []
-    };
-  },
-  toSDK(message: PlacementRequirements): PlacementRequirementsSDKType {
-    const obj: any = {};
-    message.signedBy !== undefined && (obj.signed_by = message.signedBy ? SignedBy.toSDK(message.signedBy) : undefined);
-    if (message.attributes) {
-      obj.attributes = message.attributes.map(e => e ? Attribute.toSDK(e) : undefined);
-    } else {
-      obj.attributes = [];
-    }
-    return obj;
-  },
-  fromAmino(object: PlacementRequirementsAmino): PlacementRequirements {
-    return {
-      signedBy: object?.signed_by ? SignedBy.fromAmino(object.signed_by) : undefined,
-      attributes: Array.isArray(object?.attributes) ? object.attributes.map((e: any) => Attribute.fromAmino(e)) : []
-    };
-  },
-  toAmino(message: PlacementRequirements): PlacementRequirementsAmino {
-    const obj: any = {};
-    obj.signed_by = message.signedBy ? SignedBy.toAmino(message.signedBy) : undefined;
-    if (message.attributes) {
-      obj.attributes = message.attributes.map(e => e ? Attribute.toAmino(e) : undefined);
-    } else {
-      obj.attributes = [];
-    }
-    return obj;
-  },
-  fromAminoMsg(object: PlacementRequirementsAminoMsg): PlacementRequirements {
-    return PlacementRequirements.fromAmino(object.value);
-  },
-  fromProtoMsg(message: PlacementRequirementsProtoMsg): PlacementRequirements {
-    return PlacementRequirements.decode(message.value);
-  },
-  toProto(message: PlacementRequirements): Uint8Array {
-    return PlacementRequirements.encode(message).finish();
-  },
-  toProtoMsg(message: PlacementRequirements): PlacementRequirementsProtoMsg {
-    return {
-      typeUrl: "/akash.base.v1beta2.PlacementRequirements",
-      value: PlacementRequirements.encode(message).finish()
-    };
   }
 };

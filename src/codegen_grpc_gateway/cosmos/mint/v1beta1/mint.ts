@@ -1,27 +1,11 @@
-import { Long, isSet, DeepPartial } from "../../../helpers";
+import { Long, isSet } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-export const protobufPackage = "cosmos.mint.v1beta1";
 /** Minter represents the minting state. */
 export interface Minter {
   /** current annual inflation rate */
   inflation: string;
   /** current annual expected provisions */
   annualProvisions: string;
-}
-export interface MinterProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.Minter";
-  value: Uint8Array;
-}
-/** Minter represents the minting state. */
-export interface MinterAmino {
-  /** current annual inflation rate */
-  inflation: string;
-  /** current annual expected provisions */
-  annual_provisions: string;
-}
-export interface MinterAminoMsg {
-  type: "cosmos-sdk/Minter";
-  value: MinterAmino;
 }
 /** Minter represents the minting state. */
 export interface MinterSDKType {
@@ -43,29 +27,6 @@ export interface Params {
   /** expected blocks per year */
   blocksPerYear: Long;
 }
-export interface ParamsProtoMsg {
-  typeUrl: "/cosmos.mint.v1beta1.Params";
-  value: Uint8Array;
-}
-/** Params holds parameters for the mint module. */
-export interface ParamsAmino {
-  /** type of coin to mint */
-  mint_denom: string;
-  /** maximum annual change in inflation rate */
-  inflation_rate_change: string;
-  /** maximum inflation rate */
-  inflation_max: string;
-  /** minimum inflation rate */
-  inflation_min: string;
-  /** goal of percent bonded atoms */
-  goal_bonded: string;
-  /** expected blocks per year */
-  blocks_per_year: string;
-}
-export interface ParamsAminoMsg {
-  type: "cosmos-sdk/Params";
-  value: ParamsAmino;
-}
 /** Params holds parameters for the mint module. */
 export interface ParamsSDKType {
   mint_denom: string;
@@ -82,8 +43,6 @@ function createBaseMinter(): Minter {
   };
 }
 export const Minter = {
-  typeUrl: "/cosmos.mint.v1beta1.Minter",
-  aminoType: "cosmos-sdk/Minter",
   encode(message: Minter, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.inflation !== "") {
       writer.uint32(10).string(message.inflation);
@@ -125,56 +84,11 @@ export const Minter = {
     message.annualProvisions !== undefined && (obj.annualProvisions = message.annualProvisions);
     return obj;
   },
-  fromPartial(object: DeepPartial<Minter>): Minter {
+  fromPartial(object: Partial<Minter>): Minter {
     const message = createBaseMinter();
     message.inflation = object.inflation ?? "";
     message.annualProvisions = object.annualProvisions ?? "";
     return message;
-  },
-  fromSDK(object: MinterSDKType): Minter {
-    return {
-      inflation: object?.inflation,
-      annualProvisions: object?.annual_provisions
-    };
-  },
-  toSDK(message: Minter): MinterSDKType {
-    const obj: any = {};
-    obj.inflation = message.inflation;
-    obj.annual_provisions = message.annualProvisions;
-    return obj;
-  },
-  fromAmino(object: MinterAmino): Minter {
-    return {
-      inflation: object.inflation,
-      annualProvisions: object.annual_provisions
-    };
-  },
-  toAmino(message: Minter): MinterAmino {
-    const obj: any = {};
-    obj.inflation = message.inflation;
-    obj.annual_provisions = message.annualProvisions;
-    return obj;
-  },
-  fromAminoMsg(object: MinterAminoMsg): Minter {
-    return Minter.fromAmino(object.value);
-  },
-  toAminoMsg(message: Minter): MinterAminoMsg {
-    return {
-      type: "cosmos-sdk/Minter",
-      value: Minter.toAmino(message)
-    };
-  },
-  fromProtoMsg(message: MinterProtoMsg): Minter {
-    return Minter.decode(message.value);
-  },
-  toProto(message: Minter): Uint8Array {
-    return Minter.encode(message).finish();
-  },
-  toProtoMsg(message: Minter): MinterProtoMsg {
-    return {
-      typeUrl: "/cosmos.mint.v1beta1.Minter",
-      value: Minter.encode(message).finish()
-    };
   }
 };
 function createBaseParams(): Params {
@@ -188,8 +102,6 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
-  typeUrl: "/cosmos.mint.v1beta1.Params",
-  aminoType: "cosmos-sdk/Params",
   encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.mintDenom !== "") {
       writer.uint32(10).string(message.mintDenom);
@@ -263,7 +175,7 @@ export const Params = {
     message.blocksPerYear !== undefined && (obj.blocksPerYear = (message.blocksPerYear || Long.UZERO).toString());
     return obj;
   },
-  fromPartial(object: DeepPartial<Params>): Params {
+  fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
     message.mintDenom = object.mintDenom ?? "";
     message.inflationRateChange = object.inflationRateChange ?? "";
@@ -272,66 +184,5 @@ export const Params = {
     message.goalBonded = object.goalBonded ?? "";
     message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? Long.fromValue(object.blocksPerYear) : Long.UZERO;
     return message;
-  },
-  fromSDK(object: ParamsSDKType): Params {
-    return {
-      mintDenom: object?.mint_denom,
-      inflationRateChange: object?.inflation_rate_change,
-      inflationMax: object?.inflation_max,
-      inflationMin: object?.inflation_min,
-      goalBonded: object?.goal_bonded,
-      blocksPerYear: object?.blocks_per_year
-    };
-  },
-  toSDK(message: Params): ParamsSDKType {
-    const obj: any = {};
-    obj.mint_denom = message.mintDenom;
-    obj.inflation_rate_change = message.inflationRateChange;
-    obj.inflation_max = message.inflationMax;
-    obj.inflation_min = message.inflationMin;
-    obj.goal_bonded = message.goalBonded;
-    obj.blocks_per_year = message.blocksPerYear;
-    return obj;
-  },
-  fromAmino(object: ParamsAmino): Params {
-    return {
-      mintDenom: object.mint_denom,
-      inflationRateChange: object.inflation_rate_change,
-      inflationMax: object.inflation_max,
-      inflationMin: object.inflation_min,
-      goalBonded: object.goal_bonded,
-      blocksPerYear: Long.fromString(object.blocks_per_year)
-    };
-  },
-  toAmino(message: Params): ParamsAmino {
-    const obj: any = {};
-    obj.mint_denom = message.mintDenom;
-    obj.inflation_rate_change = message.inflationRateChange;
-    obj.inflation_max = message.inflationMax;
-    obj.inflation_min = message.inflationMin;
-    obj.goal_bonded = message.goalBonded;
-    obj.blocks_per_year = message.blocksPerYear ? message.blocksPerYear.toString() : undefined;
-    return obj;
-  },
-  fromAminoMsg(object: ParamsAminoMsg): Params {
-    return Params.fromAmino(object.value);
-  },
-  toAminoMsg(message: Params): ParamsAminoMsg {
-    return {
-      type: "cosmos-sdk/Params",
-      value: Params.toAmino(message)
-    };
-  },
-  fromProtoMsg(message: ParamsProtoMsg): Params {
-    return Params.decode(message.value);
-  },
-  toProto(message: Params): Uint8Array {
-    return Params.encode(message).finish();
-  },
-  toProtoMsg(message: Params): ParamsProtoMsg {
-    return {
-      typeUrl: "/cosmos.mint.v1beta1.Params",
-      value: Params.encode(message).finish()
-    };
   }
 };

@@ -62,8 +62,8 @@ export const createGrpcGateWayClient = async ({
       }
     },
     osmosis: {
-      claim: {
-        v1beta1: new (await import("./claim/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
+      downtimedetector: {
+        v1beta1: new (await import("./downtime-detector/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
       },
       epochs: {
         v1beta1: new (await import("./epochs/query.rpc.Query")).QueryClientImpl(endpoint)
@@ -83,7 +83,13 @@ export const createGrpcGateWayClient = async ({
       poolincentives: {
         v1beta1: new (await import("./pool-incentives/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
       },
+      protorev: {
+        v1beta1: new (await import("./protorev/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
+      },
       superfluid: new (await import("./superfluid/query.rpc.Query")).QueryClientImpl(endpoint),
+      swaprouter: {
+        v1beta1: new (await import("./swaprouter/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
+      },
       tokenfactory: {
         v1beta1: new (await import("./tokenfactory/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
       },
@@ -92,6 +98,9 @@ export const createGrpcGateWayClient = async ({
       },
       txfees: {
         v1beta1: new (await import("./txfees/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
+      },
+      valsetpref: {
+        v1beta1: new (await import("./valset-pref/v1beta1/query.rpc.Query")).QueryClientImpl(endpoint)
       }
     }
   };
