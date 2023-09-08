@@ -94,9 +94,10 @@
     "@cosmology/telescope": "^0.106.0",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
     "@osmonauts/lcd": "^0.10.0",
-    "chain-registry": "^1.13.0",
+    "chain-registry": "^1.19.0",
     "cosmjs-utils": "^0.1.0",
     "fm": "^0.8.0",
+    "libsodium-wrappers-sumo": "^0.7.11",
     "protobufjs": "^6.11.3"
   }
 }

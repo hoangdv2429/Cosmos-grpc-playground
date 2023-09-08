@@ -15,14 +15,13 @@ import Long from "long";
 import { Member } from "./codegen_grpc_gateway/cosmos/group/v1/types";
 import {
   MsgCreateGroupWithPolicy,
-  MsgCreateGroupWithPolicyEncoded,
   MsgSubmitProposal,
 } from "./codegen_grpc_gateway/cosmos/group/v1/tx";
 
 //transaction transition is sign => encode => broadcast
 
 const main = async () => {
-  const _address = "stars147auavf4tvghskslq2w65de0nh5dqdmlx60rax";
+  const _address = "centauri19crd4fwzm9qtf5ln5l3e2vmquhevjwprjdx5zj";
 
   //create gRPC-web client
   const client = await osmosis.ClientFactory.createGrpcGateWayClient({
@@ -35,22 +34,27 @@ const main = async () => {
     // Osmosis mainnet
     // endpoint: 'https://lcd.osmosis.zone'
     // Osmosis testnet
-    endpoint: "https://lcd-stargaze.whispernode.com:443",
+    // endpoint: "https://evmos-testnet-api.polkachu.com",
+    endpoint: "https://api-composable-ia.cosmosia.notional.ventures",
   });
 
-  console.time("node_status");
-  const nodeStatus = await client.cosmos.base.tendermint.v1beta1.getNodeInfo(
-    {}
-  );
-  console.timeEnd("node_status");
+  // console.time("node_status");
+  // const nodeStatus = await client.cosmos.base.tendermint.v1beta1.getNodeInfo(
+  //   {}
+  // );
+  // console.log(nodeStatus);
 
+  // console.timeEnd("node_status");
   // get signer data
+  let account;
   console.time("accountInfo");
-  const account = await client.cosmos.auth.v1beta1.account({
-    address: _address,
-  });
-  console.log(account);
-
+  try {
+    account = await client.cosmos.auth.v1beta1.account({
+      address: _address,
+    });
+  } catch (error) {
+    console.log(error);
+  }
   console.timeEnd("accountInfo");
   // console.log(account);
 
@@ -64,7 +68,7 @@ const main = async () => {
       sequence: Number(baseAccount.sequence),
       //chainId: 'pulsar-2',
       //chainId: 'osmosis-1'
-      chainId: "stargaze-1",
+      chainId: "centauri-1",
     };
   } catch (error) {
     console.log("error getting signer data!!:", JSON.stringify(signerData));
@@ -72,8 +76,11 @@ const main = async () => {
   }
 
   //for whomever take my 1 OSMO when I'm developing for the whole community, I pity you
-  const mnemonic = "mnemonic";
-  const chain = chains.find(({ chain_name }) => chain_name === "stargaze");
+  const mnemonic = "";
+  const chain = chains.find(({ chain_name }) => chain_name === "composable");
+  if (!chain) {
+    console.log("check chain name!");
+  }
 
   // get proto offline signer
   const signer = await getOfflineSigner({
@@ -120,24 +127,25 @@ const main = async () => {
     sourcePort: "transfer",
     sourceChannel: "channel-184",
     token: {
-      denom: "ustars",
-      amount: "1000000",
+      denom:
+        "ibc/7078D8FA8BCB50A1E7855458F1E9898A3FDA0093B703DA3B3108DD35ED99E048",
+      amount: "46500000",
     },
-    sender: "stars147auavf4tvghskslq2w65de0nh5dqdmlx60rax",
-    receiver: "centauri19crd4fwzm9qtf5ln5l3e2vmquhevjwprjdx5zj",
+    sender: "centauri19crd4fwzm9qtf5ln5l3e2vmquhevjwprjdx5zj",
+    receiver: "stars147auavf4tvghskslq2w65de0nh5dqdmlx60rax",
     timeoutHeight: {
       revisionNumber: Long.fromString("0"),
       revisionHeight: Long.fromString("0"),
     },
     timeoutTimestamp: Long.fromNumber(timeoutInNanos),
-    //@ts-ignore
-    memo: '"{"forward":{"receiver":"5vcWohemVnf29KMudZboxLgR8H79t9sDygtjCmegMu6eoFoo","port":"transfer","channel":"channel-2","timeout":6000000000000,"retries":0}}"',
+    memo: "repay",
   });
 
   const fee = {
     amount: [
       {
-        denom: "ustars",
+        denom:
+          "ibc/7078D8FA8BCB50A1E7855458F1E9898A3FDA0093B703DA3B3108DD35ED99E048",
         amount: "250000",
       },
     ],
@@ -145,7 +153,7 @@ const main = async () => {
   };
 
   const account_data = await signer.getAccounts();
-  console.log(account_data);
+  // console.log('account_data: ', account_data);
 
   const signed_tx = await signClient.sign(
     _address,
@@ -159,11 +167,15 @@ const main = async () => {
 
   // uncomment the following snippet to send transaction
   console.time("broadcastTx");
-  const res = await client.cosmos.tx.v1beta1.broadcastTx({
-    txBytes: txRawBytes,
-    mode: BroadcastMode.BROADCAST_MODE_BLOCK,
-  });
-  console.log(res);
+  try {
+    const res = await client.cosmos.tx.v1beta1.broadcastTx({
+      txBytes: txRawBytes,
+      mode: BroadcastMode.BROADCAST_MODE_BLOCK,
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 
   console.timeEnd("broadcastTx");
 
