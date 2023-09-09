@@ -13,6 +13,7 @@ import {
 } from "./codegen_grpc_gateway/cosmos/staking/v1beta1/authz";
 import Long from "long";
 import { Member } from "./codegen_grpc_gateway/cosmos/group/v1/types";
+import { Validator } from "./codegen_grpc_gateway/cosmos/staking/v1beta1/staking";
 import {
   MsgCreateGroupWithPolicy,
   MsgCreateGroupWithPolicyEncoded,
@@ -69,10 +70,10 @@ const main = async () => {
     return;
   }
 
-  const data = await client.cosmos.bank.v1beta1.allBalances({
-    address: _address,
-    pagination: null,
-  });
+  // const data = await client.cosmos.bank.v1beta1.allBalances({
+  //   address: _address,
+  //   pagination: null,
+  // });
   // console.log("Before: ", data);
 
   //for whomever take my 1 OSMO when I'm developing for the whole community, I pity you
@@ -96,26 +97,48 @@ const main = async () => {
   // example for send msg
   //--------------------------------------------
 
-  const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
-  const msg = send({
-    amount: [
-      {
-        denom: "uosmo",
-        amount: "1000",
-      },
-    ],
-    toAddress: _address,
-    fromAddress: _address,
+  // const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+  // const msg = send({
+  //   amount: [
+  //     {
+  //       denom: "uosmo",
+  //       amount: "1000",
+  //     },
+  //   ],
+  //   toAddress: _address,
+  //   fromAddress: _address,
+  // });
+
+  let valset;
+  try {
+    valset = await client.cosmos.staking.v1beta1.validators({
+      status: "",
+      pagination: null,
+    });
+
+    console.log(valset);
+  } catch (error) {
+    console.log(error);
+  }
+
+  const { delegate } = cosmos.staking.v1beta1.MessageComposer.withTypeUrl;
+  const msg = delegate({
+    amount: {
+      denom: "uosmo",
+      amount: "1000",
+    },
+    delegatorAddress: _address,
+    validatorAddress: valset.validators[0].operator_address,
   });
 
   const fee = {
     amount: [
       {
         denom: "uosmo",
-        amount: "864",
+        amount: "1000000",
       },
     ],
-    gas: "86364",
+    gas: "1000000",
   };
 
   const account_data = await signer.getAccounts();
@@ -133,13 +156,17 @@ const main = async () => {
 
   // uncomment the following snippet to send transaction
   console.time("broadcastTx");
-  const res = await client.cosmos.tx.v1beta1.broadcastTx({
-    txBytes: txRawBytes,
-    mode: BroadcastMode.BROADCAST_MODE_BLOCK,
-  });
-  console.timeEnd("broadcastTx");
+  try {
+    const res = await client.cosmos.tx.v1beta1.broadcastTx({
+      txBytes: txRawBytes,
+      mode: BroadcastMode.BROADCAST_MODE_BLOCK,
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 
-  // console.log(res);
+  console.timeEnd("broadcastTx");
 
   //--------------------------------------------
   // example for authz
