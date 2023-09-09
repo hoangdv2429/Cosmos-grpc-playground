@@ -1,6 +1,6 @@
 import { chains } from "chain-registry";
 import { getOfflineSignerProto as getOfflineSigner } from "cosmjs-utils";
-import { cosmos, osmosis, ibc } from "./codegen_grpc_gateway";
+import { evmos, osmosis, ibc } from "./codegen_grpc_gateway";
 import {
   getSigningCosmosClient,
   getSigningIbcClient,
@@ -21,10 +21,10 @@ import {
 //transaction transition is sign => encode => broadcast
 
 const main = async () => {
-  const _address = "centauri19crd4fwzm9qtf5ln5l3e2vmquhevjwprjdx5zj";
+  const _address = "evmos1yqmz73kfd0ap3g9d50uw7y82sl5k8fs0a3xfvn";
 
   //create gRPC-web client
-  const client = await osmosis.ClientFactory.createGrpcGateWayClient({
+  const client = await evmos.ClientFactory.createGrpcGateWayClient({
     // rpcEndpoint: 'https://grpc.testnet.secretsaturn.net'
     // rpcEndpoint: 'https://juno-grpc-web.polkachu.com/'
     // ✨  Done in 28.57s. This is grpc-web
@@ -34,15 +34,16 @@ const main = async () => {
     // Osmosis mainnet
     // endpoint: 'https://lcd.osmosis.zone'
     // Osmosis testnet
-    // endpoint: "https://evmos-testnet-api.polkachu.com",
-    endpoint: "https://api-composable-ia.cosmosia.notional.ventures",
+    endpoint: "https://evmos-testnet-api.polkachu.com",
   });
 
+  // this part is for testing connection
   // console.time("node_status");
   // const nodeStatus = await client.cosmos.base.tendermint.v1beta1.getNodeInfo(
   //   {}
   // );
   // console.log(nodeStatus);
+  // return;
 
   // console.timeEnd("node_status");
   // get signer data
@@ -56,7 +57,21 @@ const main = async () => {
     console.log(error);
   }
   console.timeEnd("accountInfo");
-  // console.log(account);
+  console.log(account);
+
+  let account_eth;
+  console.time("account_eth_Info");
+  try {
+    account = await client.evmos.({
+      address: _address,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  console.timeEnd("account_eth_Info");
+  console.log(account);
+
+  return;
 
   const baseAccount =
     account.account as import("./codegen_grpc_gateway/cosmos/auth/v1beta1/auth").BaseAccount;
