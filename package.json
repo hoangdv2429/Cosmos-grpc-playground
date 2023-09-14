@@ -96,6 +96,7 @@
     "@hanchon/evmos-ts-wallet": "^0.2.0",
     "@improbable-eng/grpc-web": "^0.15.0",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
+    "@injectivelabs/sdk-ts": "^1.12.1",
     "@osmonauts/lcd": "^0.10.0",
     "chain-registry": "^1.19.0",
     "cosmjs-utils": "^0.1.0",

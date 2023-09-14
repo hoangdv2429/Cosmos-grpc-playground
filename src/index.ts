@@ -1,6 +1,6 @@
 import { chains } from "chain-registry";
 import { getOfflineSignerProto as getOfflineSigner } from "cosmjs-utils";
-import { evmos, osmosis, ibc } from "./codegen_grpc_gateway";
+import { evmos, ibc } from "./codegen_grpc_gateway";
 import { Int53, Uint53, Decimal } from "@cosmjs/math";
 import { BroadcastMode } from "./codegen_grpc_gateway/cosmos/tx/v1beta1/service";
 import Long from "long";
@@ -15,9 +15,8 @@ import {
   StdFee,
   accountFromAny,
 } from "@cosmjs/stargate";
-import { PubKey } from "./codegen_grpc_gateway/cosmos/crypto/secp256k1/keys";
+import { PubKey } from "./codegen_grpc_gateway/ethermint/crypto/v1/ethsecp256k1/keys";
 import { Any } from "./codegen_grpc_gateway/google/protobuf/any";
-import { decodeEthermintAccount } from "@evmos/proto";
 import { TxRaw } from "./codegen_grpc_gateway/cosmos/tx/v1beta1/tx";
 import {
   OfflineSigner,
@@ -25,14 +24,15 @@ import {
   makeSignDoc,
 } from "@cosmjs/proto-signing";
 import { fromBase64 } from "@cosmjs/encoding";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { DirectEthSecp256k1Wallet } from "@injectivelabs/sdk-ts/dist/cjs/core/accounts/signers/DirectEthSecp256k1Wallet";
+import { PrivateKey } from "@injectivelabs/sdk-ts";
 
 //transaction transition is sign => encode => broadcast
 
 async function sign(
   telescopeClient: any,
   client: SigningStargateClient, // SigningStargateClient
-  signer: DirectSecp256k1HdWallet, // keplr OfflineSigner
+  signer: DirectEthSecp256k1Wallet, // keplr OfflineSigner
   chainId: string,
   signerAddress: string,
   messages: any[],
@@ -41,17 +41,18 @@ async function sign(
 ) {
   // Query account info, because cosmjs doesn't support Evmos account
   // GET /cosmos/auth/v1beta1/accounts/{address}
-  const { accountNumber, sequence } =
-    await telescopeClient.cosmos.auth.v1beta1.account({
-      address: signerAddress,
-    });
-  const accountFromSigner = (await signer.getAccounts()).find(
-    (account) => account.address === signerAddress
-  );
-  if (!accountFromSigner) {
-    throw new Error("Failed to retrieve account from signer");
+  const baseAccount = await telescopeClient.cosmos.auth.v1beta1.account({
+    address: signerAddress,
+  });
+
+  const accountNumber = baseAccount.account?.base_account?.account_number;
+  const sequence = baseAccount.account?.base_account?.sequence;
+  const pubkey = baseAccount.account?.base_account?.pub_key.key;
+  const pubkeyBytes = Buffer.from(pubkey, "base64");
+
+  if (!accountNumber || !sequence || !pubkeyBytes) {
+    throw new Error("accountNumber, sequence or pubkeyBytes is null");
   }
-  const pubkeyBytes = accountFromSigner.pubkey;
 
   // Custom typeUrl for EVMOS
   const pubk = Any.fromPartial({
@@ -95,6 +96,7 @@ async function sign(
 
 const main = async () => {
   const mnemonic = "";
+  const privKey = PrivateKey.fromMnemonic(mnemonic);
   const _address = "realio1edc9dwhzp9qzq58f0cslzuqlygeauntcfe4tmp";
 
   //create client
@@ -110,14 +112,6 @@ const main = async () => {
   // );
   // console.log(nodeStatus);
   // return;
-
-  const accountParser = (account: any) => {
-    try {
-      return decodeEthermintAccount(account);
-    } catch {
-      return accountFromAny(account);
-    }
-  };
 
   // get signer data
   let account;
@@ -145,30 +139,25 @@ const main = async () => {
     return;
   }
 
-  //for whomever take my 1 OSMO when I'm developing for the whole community, I pity you
-  const chain = chains.find(({ chain_name }) => chain_name === "realio");
-  if (!chain) {
-    console.log("check chain name!");
+  // ethermint signer
+  // get privKey in hex
+  const privKeyInHash = privKey.toPrivateKeyHex();
+  let signer: DirectEthSecp256k1Wallet;
+  try {
+    signer = await DirectEthSecp256k1Wallet.fromKey(
+      Buffer.from(privKeyInHash, "hex"),
+      "realio"
+    );
+  } catch (error) {
+    console.log("Error when creating signer", error);
+    return;
   }
-
-  // get proto offline signer
-  const signer = await getOfflineSigner({
-    mnemonic,
-    chain,
-  });
-
-  // Initialize the StargateClient with this registry.
-  // const options = { accountParser: accountParser };
-  const options = {
-    accountParser: accountParser,
-    gasPrice: { amount: Decimal.fromUserInput("2500000", 0), denom: "ario" },
-  };
 
   let SGClient: SigningStargateClient;
   try {
     SGClient = await SigningStargateClient.connectWithSigner(
       rpcendpoint,
-      signer,
+      signer as OfflineSigner,
       {
         gasPrice: {
           amount: Decimal.fromUserInput("2500000", 0),
@@ -222,15 +211,19 @@ const main = async () => {
   const txRawBytes = await sign(
     client,
     SGClient,
-    await DirectSecp256k1HdWallet.fromMnemonic(mnemonic),
+    signer,
     signerData.chainId,
     _address,
     [msg],
     fee,
     "repay"
-  );
+  ).catch((error) => {
+    console.log("error when signing transaction: ", error);
+  });
+
   if (!txRawBytes) {
-    console.log("error signing transaction");
+    console.log("error: txRawBytes is null");
+    return;
   }
 
   // uncomment the following snippet to send transaction
