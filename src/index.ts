@@ -11,6 +11,7 @@ import {
   signTransaction,
 } from "@hanchon/evmos-ts-wallet";
 import {
+  GasPrice,
   SigningStargateClient,
   StdFee,
   accountFromAny,
@@ -70,6 +71,13 @@ async function sign(
     },
   };
   const txBodyBytes = client.registry.encode(txBodyEncodeObject);
+  // console.log(
+  //   "txBodyDecode: ",
+  //   client.registry.decode({
+  //     typeUrl: "/cosmos.tx.v1beta1.TxBody",
+  //     value: txBodyBytes,
+  //   })
+  // );
   const gasLimit = Int53.fromString(fee.gas).toNumber();
   const authInfoBytes = makeAuthInfoBytes(
     [{ pubkey: pubk, sequence }],
@@ -95,7 +103,7 @@ async function sign(
 }
 
 const main = async () => {
-  const mnemonic = "";
+  const mnemonic = "your mnemonic here";
   const privKey = PrivateKey.fromMnemonic(mnemonic);
   const _address = "realio1edc9dwhzp9qzq58f0cslzuqlygeauntcfe4tmp";
 
@@ -145,7 +153,7 @@ const main = async () => {
   let signer: DirectEthSecp256k1Wallet;
   try {
     signer = await DirectEthSecp256k1Wallet.fromKey(
-      Buffer.from(privKeyInHash, "hex"),
+      Buffer.from(privKeyInHash.substring(2), "hex"),
       "realio"
     );
   } catch (error) {
@@ -159,10 +167,7 @@ const main = async () => {
       rpcendpoint,
       signer as OfflineSigner,
       {
-        gasPrice: {
-          amount: Decimal.fromUserInput("2500000", 0),
-          denom: "ario",
-        },
+        gasPrice: GasPrice.fromString("5000000000ario"),
         prefix: "realio",
       }
     );
@@ -202,10 +207,10 @@ const main = async () => {
     amount: [
       {
         denom: "ario",
-        amount: "2500000",
+        amount: "5000000000",
       },
     ],
-    gas: "2500000",
+    gas: "5000000000",
   };
 
   const txRawBytes = await sign(
@@ -221,6 +226,15 @@ const main = async () => {
     console.log("error when signing transaction: ", error);
   });
 
+  // const raw = TxRaw.decode(txRawBytes as Uint8Array);
+  // console.log(
+  //   "body:",
+  //   SGClient.registry.decode({
+  //     typeUrl: "/cosmos.tx.v1beta1.TxBody",
+  //     value: raw.bodyBytes,
+  //   })
+  // );
+
   if (!txRawBytes) {
     console.log("error: txRawBytes is null");
     return;
@@ -230,12 +244,15 @@ const main = async () => {
   console.time("broadcastTx");
   try {
     const res = await client.cosmos.tx.v1beta1.broadcastTx({
-      txBytes: txRawBytes,
+      txBytes: Uint8Array.from(txRawBytes),
       mode: BroadcastMode.BROADCAST_MODE_BLOCK,
+      // simulate
+      // txBytes: Uint8Array.from(txRawBytes),
+      // tx: null,
     });
     console.log(res);
   } catch (error) {
-    console.log(error);
+    console.log("tx failed:", error);
   }
 
   console.timeEnd("broadcastTx");
