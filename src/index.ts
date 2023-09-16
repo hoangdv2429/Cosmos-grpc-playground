@@ -114,6 +114,14 @@ const main = async () => {
     endpoint: endpoint,
   });
 
+  // balance
+  // const balance = await client.cosmos.bank.v1beta1.balance({
+  //   address: _address,
+  //   denom: "ario",
+  // });
+  // console.log(balance);
+  // return;
+
   // this part is for testing connection
   // const nodeStatus = await client.cosmos.base.tendermint.v1beta1.getNodeInfo(
   //   {}
@@ -167,7 +175,7 @@ const main = async () => {
       rpcendpoint,
       signer as OfflineSigner,
       {
-        gasPrice: GasPrice.fromString("5000000000ario"),
+        gasPrice: GasPrice.fromString("50000000ario"),
         prefix: "realio",
       }
     );
@@ -191,7 +199,7 @@ const main = async () => {
     sourceChannel: "channel-1",
     token: {
       denom: "ario",
-      amount: "98551685000000000",
+      amount: "8551685000000000",
     },
     sender: _address,
     receiver: "osmo19crd4fwzm9qtf5ln5l3e2vmquhevjwpr7uccsn",
@@ -207,10 +215,10 @@ const main = async () => {
     amount: [
       {
         denom: "ario",
-        amount: "5000000000",
+        amount: "20000000",
       },
     ],
-    gas: "5000000000",
+    gas: "200000",
   };
 
   const txRawBytes = await sign(
@@ -246,8 +254,7 @@ const main = async () => {
     const res = await client.cosmos.tx.v1beta1.broadcastTx({
       txBytes: Uint8Array.from(txRawBytes),
       mode: BroadcastMode.BROADCAST_MODE_BLOCK,
-      // simulate
-      // txBytes: Uint8Array.from(txRawBytes),
+      // simulate then comment mode and uncomment tx
       // tx: null,
     });
     console.log(res);
