@@ -12,6 +12,7 @@ import {
 } from "@hanchon/evmos-ts-wallet";
 import {
   GasPrice,
+  SignerData,
   SigningStargateClient,
   StdFee,
   accountFromAny,
@@ -29,26 +30,32 @@ import { DirectEthSecp256k1Wallet } from "@injectivelabs/sdk-ts/dist/cjs/core/ac
 import { PrivateKey } from "@injectivelabs/sdk-ts";
 
 //transaction transition is sign => encode => broadcast
-
+// remove telescopeClient, signeraddress param -> evmos only support 1 signer for now
+// also add SignerData as param
+// reduce the chance of failed to sign by using telescopeClient to get account info
 async function sign(
-  telescopeClient: any,
+  // telescopeClient: any,
   client: SigningStargateClient, // SigningStargateClient
   signer: DirectEthSecp256k1Wallet, // keplr OfflineSigner
   chainId: string,
   signerAddress: string,
+  signerData: SignerData,
   messages: any[],
   fee: StdFee,
   memo: string
 ) {
   // Query account info, because cosmjs doesn't support Evmos account
   // GET /cosmos/auth/v1beta1/accounts/{address}
-  const baseAccount = await telescopeClient.cosmos.auth.v1beta1.account({
-    address: signerAddress,
-  });
+  // const baseAccount = await telescopeClient.cosmos.auth.v1beta1.account({
+  //   address: signerAddress,
+  // });
 
-  const accountNumber = baseAccount.account?.base_account?.account_number;
-  const sequence = baseAccount.account?.base_account?.sequence;
-  const pubkey = baseAccount.account?.base_account?.pub_key.key;
+  // const accountNumber = baseAccount.account?.base_account?.account_number;
+  // const sequence = baseAccount.account?.base_account?.sequence;
+  // const pubkey = baseAccount.account?.base_account?.pub_key.key;
+
+  const { accountNumber, sequence } = signerData;
+  const { pubkey } = await signer.getAccounts()[0];
   const pubkeyBytes = Buffer.from(pubkey, "base64");
 
   if (!accountNumber || !sequence || !pubkeyBytes) {
@@ -71,13 +78,6 @@ async function sign(
     },
   };
   const txBodyBytes = client.registry.encode(txBodyEncodeObject);
-  // console.log(
-  //   "txBodyDecode: ",
-  //   client.registry.decode({
-  //     typeUrl: "/cosmos.tx.v1beta1.TxBody",
-  //     value: txBodyBytes,
-  //   })
-  // );
   const gasLimit = Int53.fromString(fee.gas).toNumber();
   const authInfoBytes = makeAuthInfoBytes(
     [{ pubkey: pubk, sequence }],
@@ -222,11 +222,12 @@ const main = async () => {
   };
 
   const txRawBytes = await sign(
-    client,
+    // client,
     SGClient,
     signer,
     signerData.chainId,
     _address,
+    signerData,
     [msg],
     fee,
     "repay"
