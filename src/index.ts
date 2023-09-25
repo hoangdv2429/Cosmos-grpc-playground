@@ -55,8 +55,13 @@ async function sign(
   // const pubkey = baseAccount.account?.base_account?.pub_key.key;
 
   const { accountNumber, sequence } = signerData;
-  const { pubkey } = await signer.getAccounts()[0];
-  const pubkeyBytes = Buffer.from(pubkey, "base64");
+  const accountFromSigner = (await signer.getAccounts()).find(
+    (account) => account.address === signerAddress
+  );
+  if (!accountFromSigner) {
+    throw new Error("Failed to retrieve account from signer");
+  }
+  const pubkeyBytes = accountFromSigner.pubkey;
 
   if (!accountNumber || !sequence || !pubkeyBytes) {
     throw new Error("accountNumber, sequence or pubkeyBytes is null");
@@ -140,7 +145,6 @@ const main = async () => {
   }
 
   const baseAccount = account.account;
-  console.log(baseAccount);
 
   let signerData;
   try {
@@ -149,7 +153,6 @@ const main = async () => {
       sequence: Number(baseAccount.base_account?.sequence),
       chainId: "realionetwork_3301-1",
     };
-    console.log("signer data: ", JSON.stringify(signerData));
   } catch (error) {
     console.log("error getting signer data!!:", JSON.stringify(signerData));
     return;
