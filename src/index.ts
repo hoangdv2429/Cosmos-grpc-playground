@@ -130,7 +130,6 @@ const main = async () => {
       revisionHeight: Long.fromString("0"),
     },
     timeoutTimestamp: Long.fromNumber(timeoutInNanos),
-    //@ts-ignore
     memo: '"{"forward":{"receiver":"5vcWohemVnf29KMudZboxLgR8H79t9sDygtjCmegMu6eoFoo","port":"transfer","channel":"channel-2","timeout":6000000000000,"retries":0}}"',
   });
 

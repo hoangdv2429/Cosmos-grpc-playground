@@ -46,6 +46,7 @@ lib
 # npm package lock
 package-lock.json
 yarn.lock
+.yarn
 
 # others
 .DS_Store
